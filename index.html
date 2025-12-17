@@ -156,6 +156,119 @@
             margin-top: 6px;
         }
         
+        /* 原价推荐模块 */
+        .recommendation-panel {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 16px;
+            border: 2px solid var(--success);
+            display: none;
+        }
+        
+        .recommendation-control {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .recommendation-label {
+            min-width: 120px;
+            color: #475569;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .slider-container {
+            flex: 1;
+            position: relative;
+            padding: 8px 0;
+        }
+        
+        .slider-value {
+            min-width: 40px;
+            text-align: right;
+            font-weight: 600;
+            color: var(--success);
+            font-size: 14px;
+        }
+        
+        .recommendation-result {
+            background: white;
+            border-radius: 10px;
+            padding: 16px;
+            margin-top: 12px;
+            border-left: 4px solid var(--success);
+        }
+        
+        .recommendation-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .recommendation-text {
+            font-size: 14px;
+            color: #475569;
+        }
+        
+        .recommendation-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--success);
+        }
+        
+        .recommendation-detail {
+            font-size: 13px;
+            color: #64748b;
+            line-height: 1.4;
+            margin-top: 8px;
+        }
+        
+        .recommendation-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 16px;
+        }
+        
+        .recommend-btn {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        
+        .recommend-btn-primary {
+            background: linear-gradient(135deg, var(--success) 0%, #34d399 100%);
+            color: white;
+        }
+        
+        .recommend-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+        }
+        
+        .recommend-btn-secondary {
+            background: white;
+            color: var(--dark);
+            border: 2px solid var(--border);
+        }
+        
+        .recommend-btn-secondary:hover {
+            background: var(--light);
+            border-color: var(--success);
+        }
+        
         /* 优惠分配策略卡片 */
         .strategy-section {
             border-top: 2px solid var(--border);
@@ -483,6 +596,109 @@
             color: white;
         }
         
+        /* 滑块样式 */
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: #cbd5e1;
+            outline: none;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--success);
+            cursor: pointer;
+            border: 3px solid white;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .parameters-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .price-grid,
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .profit-details {
+                grid-template-columns: 1fr;
+            }
+            
+            .recommendation-buttons {
+                grid-template-columns: 1fr;
+            }
+            
+            .strategy-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .price-grid,
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .strategy-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* 动画效果 */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        /* 工具提示 */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+        }
+        
+        .tooltip .tooltip-text {
+            visibility: hidden;
+            width: 200px;
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 12px;
+            font-weight: normal;
+        }
+        
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+        
         /* 占位符样式 */
         .placeholder {
             color: #94a3b8;
@@ -577,6 +793,36 @@
                                     <span class="currency">元</span>
                                 </div>
                                 <div class="input-tip">优惠后的最终售价</div>
+                            </div>
+                            
+                            <!-- 原价推荐模块 -->
+                            <div class="recommendation-panel" id="priceRecommendation">
+                                <div class="recommendation-control">
+                                    <div class="recommendation-label">期望折扣率：</div>
+                                    <div class="slider-container">
+                                        <input type="range" id="recommendDiscount" min="10" max="70" value="30" step="1">
+                                    </div>
+                                    <div class="slider-value" id="recommendDiscountValue">30%</div>
+                                </div>
+                                
+                                <div class="recommendation-result fade-in">
+                                    <div class="recommendation-info">
+                                        <div class="recommendation-text">推荐产品原价</div>
+                                        <div class="recommendation-price" id="recommendedOriginalPrice">0元</div>
+                                    </div>
+                                    <div class="recommendation-detail">
+                                        基于目标售价 <span id="currentTargetPrice">0元</span> 和 <span id="currentDiscount">30%</span> 折扣率计算
+                                    </div>
+                                    
+                                    <div class="recommendation-buttons">
+                                        <button class="recommend-btn recommend-btn-secondary" id="applyRecommended">
+                                            ✅ 应用推荐
+                                        </button>
+                                        <button class="recommend-btn recommend-btn-primary" id="applyAndCalculate">
+                                            🧮 应用并计算
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                             
                             <div class="input-group">
@@ -762,7 +1008,11 @@
             // 绑定输入事件
             const inputs = ['targetPrice', 'originalPrice', 'costPrice', 'platformFee', 'kolFee', 'returnRate'];
             inputs.forEach(id => {
-                document.getElementById(id).addEventListener('input', calculateAll);
+                document.getElementById(id).addEventListener('input', function() {
+                    calculateAll();
+                    // 如果目标售价有值且产品原价为空，显示推荐面板
+                    checkAndShowRecommendation();
+                });
             });
             
             // 绑定优惠分配策略按钮事件
@@ -784,6 +1034,21 @@
                 });
             });
             
+            // 绑定推荐折扣率滑块事件
+            document.getElementById('recommendDiscount').addEventListener('input', function() {
+                const discountValue = this.value;
+                document.getElementById('recommendDiscountValue').textContent = discountValue + '%';
+                document.getElementById('currentDiscount').textContent = discountValue + '%';
+                updatePriceRecommendation();
+            });
+            
+            // 绑定推荐按钮事件
+            document.getElementById('applyRecommended').addEventListener('click', applyRecommendedPrice);
+            document.getElementById('applyAndCalculate').addEventListener('click', function() {
+                applyRecommendedPrice();
+                calculateAll();
+            });
+            
             // 绑定按钮事件
             document.getElementById('quickCalculate').addEventListener('click', calculateAll);
             document.getElementById('resetAll').addEventListener('click', resetAll);
@@ -798,6 +1063,50 @@
             currentPrice = parseFloat(document.getElementById('targetPrice').value);
             currentOriginal = parseFloat(document.getElementById('originalPrice').value);
             currentCost = parseFloat(document.getElementById('costPrice').value);
+        }
+        
+        // 检查并显示推荐面板
+        function checkAndShowRecommendation() {
+            const targetPrice = parseFloat(document.getElementById('targetPrice').value) || 0;
+            const originalPrice = parseFloat(document.getElementById('originalPrice').value) || 0;
+            const recommendationPanel = document.getElementById('priceRecommendation');
+            
+            // 如果目标售价有值且产品原价为空或为0，显示推荐面板
+            if (targetPrice > 0 && originalPrice === 0) {
+                recommendationPanel.style.display = 'block';
+                updatePriceRecommendation();
+            } else {
+                recommendationPanel.style.display = 'none';
+            }
+        }
+        
+        // 更新价格推荐
+        function updatePriceRecommendation() {
+            const targetPrice = parseFloat(document.getElementById('targetPrice').value) || 0;
+            const discountRate = parseFloat(document.getElementById('recommendDiscount').value) / 100;
+            
+            if (targetPrice > 0) {
+                // 计算推荐原价：原价 = 目标售价 / (1 - 折扣率)
+                const recommendedOriginal = targetPrice / (1 - discountRate);
+                const roundedOriginal = Math.round(recommendedOriginal);
+                
+                // 更新显示
+                document.getElementById('recommendedOriginalPrice').textContent = roundedOriginal + '元';
+                document.getElementById('currentTargetPrice').textContent = targetPrice + '元';
+            }
+        }
+        
+        // 应用推荐价格
+        function applyRecommendedPrice() {
+            const recommendedPrice = document.getElementById('recommendedOriginalPrice').textContent;
+            const priceValue = parseFloat(recommendedPrice);
+            
+            if (priceValue > 0) {
+                document.getElementById('originalPrice').value = priceValue;
+                // 隐藏推荐面板
+                document.getElementById('priceRecommendation').style.display = 'none';
+                showSuccess('已应用推荐原价：' + priceValue + '元');
+            }
         }
         
         // 计算所有数据
@@ -862,72 +1171,38 @@
             
             // 计算利润
             const grossProfit = targetPrice - costPrice;
-            const grossMargin = (grossProfit / targetPrice) * 100;
             const netProfit = targetPrice - totalCost;
             const netMargin = (netProfit / targetPrice) * 100;
             const roi = (netProfit / totalCost) * 100;
             
             // 更新价格信息显示
-            document.getElementById('displayOriginalPrice').textContent = originalPrice + '元';
-            document.getElementById('displayOriginalPrice').classList.remove('placeholder');
-            
-            document.getElementById('displayDirectDiscount').textContent = directDiscount + '元';
-            document.getElementById('displayDirectDiscount').classList.remove('placeholder');
-            
-            document.getElementById('displayCoupon').textContent = couponAmount + '元';
-            document.getElementById('displayCoupon').classList.remove('placeholder');
-            
-            document.getElementById('displayFinalPrice').textContent = targetPrice + '元';
-            document.getElementById('displayFinalPrice').classList.remove('placeholder');
-            
-            document.getElementById('totalDiscount').textContent = totalDiscount + '元';
-            document.getElementById('totalDiscount').classList.remove('placeholder');
+            updateElement('displayOriginalPrice', originalPrice + '元');
+            updateElement('displayDirectDiscount', directDiscount + '元');
+            updateElement('displayCoupon', couponAmount + '元');
+            updateElement('displayFinalPrice', targetPrice + '元');
+            updateElement('totalDiscount', totalDiscount + '元');
             
             const discountPercent = originalPrice !== 0 ? Math.round((totalDiscount / originalPrice) * 100) : 0;
-            document.getElementById('discountPercent').textContent = discountPercent + '%';
-            document.getElementById('discountPercent').classList.remove('placeholder');
+            updateElement('discountPercent', discountPercent + '%');
             
             // 更新核心指标
-            document.getElementById('grossProfit').textContent = grossProfit.toFixed(1) + '元';
-            document.getElementById('grossProfit').classList.remove('placeholder');
-            
-            document.getElementById('netProfit').textContent = netProfit.toFixed(1) + '元';
-            document.getElementById('netProfit').classList.remove('placeholder');
-            
-            document.getElementById('netMargin').textContent = netMargin.toFixed(1) + '%';
-            document.getElementById('netMargin').classList.remove('placeholder');
+            updateElement('grossProfit', grossProfit.toFixed(1) + '元');
+            updateElement('netProfit', netProfit.toFixed(1) + '元');
+            updateElement('netMargin', netMargin.toFixed(1) + '%');
             
             // 更新成本分析
-            document.getElementById('costProduct').textContent = costPrice.toFixed(1) + '元';
-            document.getElementById('costProduct').classList.remove('placeholder');
-            
-            document.getElementById('costPlatform').textContent = platformFee.toFixed(1) + '元';
-            document.getElementById('costPlatform').classList.remove('placeholder');
-            
-            document.getElementById('costKol').textContent = kolFee.toFixed(1) + '元';
-            document.getElementById('costKol').classList.remove('placeholder');
-            
-            document.getElementById('costReturn').textContent = returnLoss.toFixed(1) + '元';
-            document.getElementById('costReturn').classList.remove('placeholder');
-            
-            document.getElementById('totalCost').textContent = totalCost.toFixed(1) + '元';
-            document.getElementById('totalCost').classList.remove('placeholder');
+            updateElement('costProduct', costPrice.toFixed(1) + '元');
+            updateElement('costPlatform', platformFee.toFixed(1) + '元');
+            updateElement('costKol', kolFee.toFixed(1) + '元');
+            updateElement('costReturn', returnLoss.toFixed(1) + '元');
+            updateElement('totalCost', totalCost.toFixed(1) + '元');
             
             // 更新利润分析
-            document.getElementById('revenue').textContent = targetPrice.toFixed(1) + '元';
-            document.getElementById('revenue').classList.remove('placeholder');
-            
-            document.getElementById('costTotal').textContent = totalCost.toFixed(1) + '元';
-            document.getElementById('costTotal').classList.remove('placeholder');
-            
-            document.getElementById('profitNet').textContent = netProfit.toFixed(1) + '元';
-            document.getElementById('profitNet').classList.remove('placeholder');
-            
-            document.getElementById('marginNet').textContent = netMargin.toFixed(1) + '%';
-            document.getElementById('marginNet').classList.remove('placeholder');
-            
-            document.getElementById('roi').textContent = roi.toFixed(1) + '%';
-            document.getElementById('roi').classList.remove('placeholder');
+            updateElement('revenue', targetPrice.toFixed(1) + '元');
+            updateElement('costTotal', totalCost.toFixed(1) + '元');
+            updateElement('profitNet', netProfit.toFixed(1) + '元');
+            updateElement('marginNet', netMargin.toFixed(1) + '%');
+            updateElement('roi', roi.toFixed(1) + '%');
             
             // 添加动画效果
             addFadeAnimation();
@@ -938,11 +1213,24 @@
             currentCost = costPrice;
         }
         
+        // 更新元素内容并移除占位符样式
+        function updateElement(id, value) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.textContent = value;
+                element.classList.remove('placeholder');
+            }
+        }
+        
         // 更新为等待输入状态
         function updatePlaceholderUI() {
             const placeholderElements = document.querySelectorAll('.placeholder');
             placeholderElements.forEach(el => {
-                el.textContent = '等待输入';
+                if (el.id === 'recommendedOriginalPrice' || el.id === 'currentTargetPrice' || el.id === 'currentDiscount') {
+                    // 这些元素保持原样
+                } else {
+                    el.textContent = '等待输入';
+                }
             });
         }
         
@@ -965,6 +1253,12 @@
             document.getElementById('platformFee').value = 5;
             document.getElementById('kolFee').value = 20;
             document.getElementById('returnRate').value = 5;
+            document.getElementById('recommendDiscount').value = 30;
+            document.getElementById('recommendDiscountValue').textContent = '30%';
+            document.getElementById('currentDiscount').textContent = '30%';
+            
+            // 隐藏推荐面板
+            document.getElementById('priceRecommendation').style.display = 'none';
             
             // 重置策略按钮选中状态
             document.querySelectorAll('.strategy-card').forEach((btn, index) => {
