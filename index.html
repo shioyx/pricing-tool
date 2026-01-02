@@ -118,17 +118,6 @@
             justify-content: space-between;
         }
         
-        .input-label .mode-switch {
-            font-size: 12px;
-            color: var(--primary);
-            cursor: pointer;
-            font-weight: normal;
-        }
-        
-        .input-label .mode-switch:hover {
-            text-decoration: underline;
-        }
-        
         .input-wrapper {
             position: relative;
         }
@@ -163,26 +152,18 @@
             margin-top: 6px;
         }
         
-        /* 定价模式切换区域 */
-        .pricing-mode {
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 24px;
-            background: #f8fafc;
-        }
-        
-        .mode-tabs {
+        /* 模式切换 */
+        .mode-switcher {
             display: flex;
             border-bottom: 2px solid var(--border);
-            margin-bottom: 16px;
+            margin-bottom: 24px;
             border-radius: 8px;
             overflow: hidden;
         }
         
-        .mode-tab {
+        .mode-switch {
             flex: 1;
-            padding: 12px 20px;
+            padding: 14px 20px;
             background: #e2e8f0;
             border: none;
             font-weight: 600;
@@ -190,9 +171,10 @@
             cursor: pointer;
             transition: all 0.2s;
             text-align: center;
+            font-size: 15px;
         }
         
-        .mode-tab.active {
+        .mode-switch.active {
             background: var(--primary);
             color: white;
         }
@@ -203,41 +185,6 @@
         
         .mode-content.active {
             display: block;
-        }
-        
-        .quick-pricing-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-        }
-        
-        /* 折扣/金额切换按钮 */
-        .toggle-group {
-            display: flex;
-            background: #f1f5f9;
-            border-radius: 8px;
-            padding: 4px;
-            margin-bottom: 12px;
-        }
-        
-        .toggle-btn {
-            flex: 1;
-            padding: 8px 12px;
-            text-align: center;
-            font-size: 13px;
-            font-weight: 500;
-            color: #64748b;
-            background: transparent;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .toggle-btn.active {
-            background: white;
-            color: var(--primary);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
         
         /* 定价提示条 */
@@ -277,8 +224,14 @@
             gap: 16px;
         }
         
+        @media (max-width: 768px) {
+            .price-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
         .price-card {
-            padding: 24px;
+            padding: 20px;
             border-radius: 12px;
             text-align: center;
             border: 2px solid var(--border);
@@ -317,7 +270,7 @@
         }
         
         .price-value {
-            font-size: 28px;
+            font-size: 24px;
             font-weight: 700;
             color: var(--dark);
         }
@@ -372,8 +325,20 @@
         
         .metrics-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 16px;
+        }
+        
+        @media (max-width: 1200px) {
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
         }
         
         .metric-card {
@@ -448,6 +413,12 @@
             gap: 24px;
         }
         
+        @media (max-width: 768px) {
+            .profit-details {
+                grid-template-columns: 1fr;
+            }
+        }
+        
         .cost-breakdown, .profit-breakdown {
             padding: 20px;
             border-radius: 12px;
@@ -479,63 +450,6 @@
             font-weight: 700;
             color: var(--primary);
             font-size: 16px;
-        }
-        
-        /* 快速定价结果展示 */
-        .quick-result {
-            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-            border-radius: 12px;
-            padding: 20px;
-            margin-top: 16px;
-            border: 2px solid var(--success);
-        }
-        
-        .quick-result-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--dark);
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .quick-result-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-        }
-        
-        .quick-result-item {
-            text-align: center;
-            padding: 12px;
-            background: white;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-        }
-        
-        .quick-result-label {
-            font-size: 12px;
-            color: #64748b;
-            margin-bottom: 4px;
-        }
-        
-        .quick-result-value {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--dark);
-        }
-        
-        .quick-result-value.good {
-            color: var(--success);
-        }
-        
-        .quick-result-value.warning {
-            color: var(--warning);
-        }
-        
-        .quick-result-value.danger {
-            color: var(--danger);
         }
         
         /* 按钮 */
@@ -586,70 +500,46 @@
             color: white;
         }
         
-        .btn-sm {
-            padding: 8px 16px;
-            font-size: 14px;
-        }
-        
-        /* 销量预估 */
-        .sales-estimation {
-            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
-            border-radius: 12px;
-            padding: 16px;
-            margin-top: 16px;
-            border: 2px solid var(--warning);
-        }
-        
-        .sales-header {
+        /* 折扣/金额切换按钮 */
+        .toggle-group {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            background: #f1f5f9;
+            border-radius: 8px;
+            padding: 4px;
             margin-bottom: 12px;
         }
         
-        .sales-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--dark);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .sales-input {
-            width: 100px;
+        .toggle-btn {
+            flex: 1;
             padding: 8px 12px;
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            font-size: 16px;
             text-align: center;
-        }
-        
-        .sales-results {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-top: 12px;
-        }
-        
-        .sales-item {
-            padding: 12px;
-            background: white;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            text-align: center;
-        }
-        
-        .sales-label {
-            font-size: 12px;
+            font-size: 13px;
+            font-weight: 500;
             color: #64748b;
-            margin-bottom: 4px;
+            background: transparent;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
         }
         
-        .sales-value {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--success);
+        .toggle-btn.active {
+            background: white;
+            color: var(--primary);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* 参数网格 */
+        .params-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        
+        @media (max-width: 768px) {
+            .params-grid {
+                grid-template-columns: 1fr;
+            }
         }
         
         /* 占位符样式 */
@@ -667,59 +557,6 @@
         .fade-in {
             animation: fadeIn 0.3s ease-out;
         }
-        
-        /* 优化建议 */
-        .optimization-suggestions {
-            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-            border-radius: 12px;
-            padding: 16px;
-            margin-top: 16px;
-            border: 2px solid #0ea5e9;
-        }
-        
-        .suggestion-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--dark);
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .suggestion-list {
-            list-style: none;
-        }
-        
-        .suggestion-item {
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(14, 165, 233, 0.2);
-            font-size: 14px;
-            color: #475569;
-        }
-        
-        .suggestion-item:last-child {
-            border-bottom: none;
-        }
-        
-        .suggestion-item .highlight {
-            font-weight: 600;
-            color: #0ea5e9;
-        }
-        
-        /* 模式切换提示 */
-        .mode-switch-info {
-            background: linear-gradient(135deg, #fdf4ff 0%, #fae8ff 100%);
-            border-radius: 12px;
-            padding: 12px 16px;
-            margin-top: 12px;
-            border: 2px solid #d946ef;
-            font-size: 14px;
-            color: #7c3aed;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
     </style>
 </head>
 <body>
@@ -730,315 +567,258 @@
                 <div class="logo">💰</div>
                 <div>
                     <h1 class="title">灵枢定价工具</h1>
-                    <p class="subtitle">电商产品定价计算与利润优化系统</p>
+                    <p class="subtitle">电商产品定价与利润分析系统</p>
                 </div>
             </div>
             <div style="font-size: 14px; color: #64748b; text-align: right;">
-                <div>快速定价 · 利润分析 · 销量预估</div>
-                <div>折扣/金额双模式 · 一键转换</div>
+                <div>货源定价 · 目标定价 · 利润分析</div>
+                <div>倍率上架 · 同行反推 · 一键切换</div>
             </div>
         </div>
         
         <div class="main-content">
             <!-- 左侧面板 -->
-            <div>
-                <!-- 定价模式选择 -->
-                <div class="pricing-mode">
-                    <div class="mode-tabs">
-                        <button class="mode-tab active" data-mode="quick">🚀 快速定价模式</button>
-                        <button class="mode-tab" data-mode="advanced">📊 详细分析模式</button>
+            <div class="input-panel">
+                <div class="mode-switcher">
+                    <button class="mode-switch active" data-mode="cost">💰 货源定价模式</button>
+                    <button class="mode-switch" data-mode="target">🎯 目标定价模式</button>
+                </div>
+                
+                <!-- 货源定价模式 -->
+                <div class="mode-content active" id="cost-mode">
+                    <div class="section-title">📦 货源定价参数</div>
+                    
+                    <div class="price-hint">
+                        💡 模式说明：输入产品成本，通过倍率或加价计算原价，再设置折扣得到最终售价
                     </div>
                     
-                    <!-- 快速定价模式 -->
-                    <div class="mode-content active" id="quick-mode">
-                        <div class="section-title">💡 快速定价配置</div>
-                        
-                        <div class="quick-pricing-grid">
-                            <div class="input-group">
-                                <label class="input-label">
-                                    产品成本
-                                </label>
-                                <div class="input-wrapper">
-                                    <input type="number" id="quickCost" value="50" min="0" step="0.01" placeholder="产品成本">
-                                    <span class="currency">元</span>
-                                </div>
-                                <div class="input-tip">每件产品的制造成本</div>
-                            </div>
-                            
-                            <div class="input-group">
-                                <label class="input-label">定价方式</label>
-                                <div class="input-wrapper">
-                                    <select id="pricingMethod">
-                                        <option value="multiply">按倍率定价</option>
-                                        <option value="amount">按加价金额</option>
-                                    </select>
-                                </div>
-                                <div class="input-tip">选择定价计算方式</div>
-                            </div>
-                        </div>
-                        
-                        <div class="quick-pricing-grid">
-                            <div class="input-group" id="multiplyGroup">
-                                <label class="input-label">
-                                    加价倍率
-                                </label>
-                                <div class="input-wrapper">
-                                    <input type="number" id="priceMultiplier" value="3" min="1" step="0.1" placeholder="加价倍率">
-                                    <span class="currency">倍</span>
-                                </div>
-                                <div class="input-tip">例：成本50元×3倍=150元原价</div>
-                            </div>
-                            
-                            <div class="input-group" id="amountGroup" style="display: none;">
-                                <label class="input-label">
-                                    加价金额
-                                </label>
-                                <div class="input-wrapper">
-                                    <input type="number" id="priceAddAmount" value="100" min="0" step="0.01" placeholder="加价金额">
-                                    <span class="currency">元</span>
-                                </div>
-                                <div class="input-tip">例：成本50元+100元=150元原价</div>
-                            </div>
-                            
-                            <div class="input-group">
-                                <label class="input-label">
-                                    单品直降
-                                    <span class="mode-switch" id="quickDirectModeSwitch">切换为金额</span>
-                                </label>
-                                <div class="toggle-group" id="quickDirectToggle">
-                                    <button class="toggle-btn active" data-type="percent">折扣百分比</button>
-                                    <button class="toggle-btn" data-type="amount">固定金额</button>
-                                </div>
-                                <div class="input-wrapper">
-                                    <input type="number" id="quickDirectDiscount" value="20" min="0" max="100" step="0.1">
-                                    <span class="currency" id="quickDirectUnit">%</span>
-                                </div>
-                                <div class="input-tip" id="quickDirectTip">在原价基础上直接降价的比例</div>
-                            </div>
-                            
-                            <div class="input-group">
-                                <label class="input-label">
-                                    优惠券
-                                    <span class="mode-switch" id="quickCouponModeSwitch">切换为金额</span>
-                                </label>
-                                <div class="toggle-group" id="quickCouponToggle">
-                                    <button class="toggle-btn active" data-type="percent">折扣百分比</button>
-                                    <button class="toggle-btn" data-type="amount">固定金额</button>
-                                </div>
-                                <div class="input-wrapper">
-                                    <input type="number" id="quickCouponDiscount" value="10" min="0" max="100" step="0.1">
-                                    <span class="currency" id="quickCouponUnit">%</span>
-                                </div>
-                                <div class="input-tip" id="quickCouponTip">领券后额外优惠的比例</div>
-                            </div>
-                        </div>
-                        
-                        <div class="price-hint">
-                            💡 计算原理：原价 = 成本 × 倍率（或 + 加价） → 直降后价格 = 原价 × (1-直降折扣) → 最终售价 = 直降后价格 × (1-优惠券折扣)
-                        </div>
-                        
-                        <div class="quick-result">
-                            <div class="quick-result-title">📊 快速定价结果预览</div>
-                            <div class="quick-result-grid">
-                                <div class="quick-result-item">
-                                    <div class="quick-result-label">原价</div>
-                                    <div class="quick-result-value" id="quickOriginalPrice">150.00元</div>
-                                </div>
-                                <div class="quick-result-item">
-                                    <div class="quick-result-label">直降后</div>
-                                    <div class="quick-result-value" id="quickAfterDirect">120.00元</div>
-                                </div>
-                                <div class="quick-result-item">
-                                    <div class="quick-result-label">最终售价</div>
-                                    <div class="quick-result-value good" id="quickFinalPrice">108.00元</div>
-                                </div>
-                                <div class="quick-result-item">
-                                    <div class="quick-result-label">单件利润</div>
-                                    <div class="quick-result-value good" id="quickProfit">58.00元</div>
-                                </div>
-                                <div class="quick-result-item">
-                                    <div class="quick-result-label">利润率</div>
-                                    <div class="quick-result-value good" id="quickProfitMargin">53.7%</div>
-                                </div>
-                                <div class="quick-result-item">
-                                    <div class="quick-result-label">毛利率</div>
-                                    <div class="quick-result-value good" id="quickGrossMargin">116.0%</div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="sales-estimation">
-                            <div class="sales-header">
-                                <div class="sales-title">📈 销量预估收益</div>
-                                <div>
-                                    <span style="font-size: 14px; color: #64748b;">预估销量：</span>
-                                    <input type="number" class="sales-input" id="estimatedSales" value="100" min="1" step="1">
-                                    <span style="font-size: 14px; color: #64748b;">件</span>
-                                </div>
-                            </div>
-                            <div class="sales-results">
-                                <div class="sales-item">
-                                    <div class="sales-label">预估总收入</div>
-                                    <div class="sales-value" id="estimatedRevenue">10800元</div>
-                                </div>
-                                <div class="sales-item">
-                                    <div class="sales-label">预估总利润</div>
-                                    <div class="sales-value" id="estimatedProfit">5800元</div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="button-group">
-                            <button class="btn btn-success" id="applyQuickPricing">
-                                💰 应用此定价
-                            </button>
-                            <button class="btn btn-secondary" id="calculateQuick">
-                                🔄 重新计算
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- 详细分析模式 -->
-                    <div class="mode-content" id="advanced-mode">
-                        <div class="section-title">📊 详细利润分析配置</div>
-                        
-                        <div class="price-hint">
-                            💡 提示：此模式用于详细分析各项成本对利润的影响，支持折扣百分比和固定金额两种方式
-                        </div>
-                        
-                        <div class="quick-pricing-grid">
-                            <div class="input-group">
-                                <label class="input-label">
-                                    产品成本
-                                    <span class="mode-switch" id="switchToQuick">🚀 使用快速定价</span>
-                                </label>
-                                <div class="input-wrapper">
-                                    <input type="number" id="costPrice" value="50" min="0" step="0.01" placeholder="产品成本">
-                                    <span class="currency">元</span>
-                                </div>
-                                <div class="input-tip">每件产品的制造成本</div>
-                            </div>
-                            
-                            <div class="input-group">
-                                <label class="input-label">
-                                    产品原价
-                                </label>
-                                <div class="input-wrapper">
-                                    <input type="number" id="originalPrice" value="150" min="0" step="0.01" placeholder="产品原价">
-                                    <span class="currency">元</span>
-                                </div>
-                                <div class="input-tip">页面显示的原价（价格锚点）</div>
-                            </div>
-                        </div>
-                        
-                        <!-- 直降设置 -->
+                    <div class="params-grid">
                         <div class="input-group">
                             <label class="input-label">
-                                单品直降设置
+                                产品成本
+                            </label>
+                            <div class="input-wrapper">
+                                <input type="number" id="costPrice" value="50" min="0" step="0.01" placeholder="产品成本">
+                                <span class="currency">元</span>
+                            </div>
+                            <div class="input-tip">产品的进货或制造成本</div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label class="input-label">
+                                定价方式
+                            </label>
+                            <div class="input-wrapper">
+                                <select id="pricingMethod">
+                                    <option value="multiply">按倍率定价</option>
+                                    <option value="amount">按加价金额</option>
+                                </select>
+                            </div>
+                            <div class="input-tip">选择定价计算方式</div>
+                        </div>
+                    </div>
+                    
+                    <div class="params-grid">
+                        <div class="input-group" id="multiplyGroup">
+                            <label class="input-label">
+                                加价倍率
+                            </label>
+                            <div class="input-wrapper">
+                                <input type="number" id="priceMultiplier" value="3" min="1" step="0.1" placeholder="加价倍率">
+                                <span class="currency">倍</span>
+                            </div>
+                            <div class="input-tip">例：成本50元×3倍=150元原价</div>
+                        </div>
+                        
+                        <div class="input-group" id="amountGroup" style="display: none;">
+                            <label class="input-label">
+                                加价金额
+                            </label>
+                            <div class="input-wrapper">
+                                <input type="number" id="priceAddAmount" value="100" min="0" step="0.01" placeholder="加价金额">
+                                <span class="currency">元</span>
+                            </div>
+                            <div class="input-tip">例：成本50元+100元=150元原价</div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label class="input-label">
+                                单品直降
                             </label>
                             <div class="toggle-group" id="directToggle">
-                                <button class="toggle-btn active" data-type="amount">固定金额</button>
-                                <button class="toggle-btn" data-type="percent">折扣百分比</button>
+                                <button class="toggle-btn active" data-type="percent">折扣百分比</button>
+                                <button class="toggle-btn" data-type="amount">固定金额</button>
                             </div>
                             <div class="input-wrapper">
-                                <input type="number" id="directDiscount" value="30" min="0" step="0.01" placeholder="直降金额">
-                                <span class="currency" id="directUnit">元</span>
+                                <input type="number" id="directDiscount" value="20" min="0" step="0.1" placeholder="直降折扣">
+                                <span class="currency" id="directUnit">%</span>
                             </div>
-                            <div class="input-tip" id="directTip">在原价基础上直接减去的金额</div>
+                            <div class="input-tip" id="directTip">在原价基础上直接降价的比例</div>
                         </div>
                         
-                        <!-- 优惠券设置 -->
                         <div class="input-group">
                             <label class="input-label">
-                                优惠券设置
+                                优惠券
                             </label>
                             <div class="toggle-group" id="couponToggle">
-                                <button class="toggle-btn active" data-type="amount">固定金额</button>
-                                <button class="toggle-btn" data-type="percent">折扣百分比</button>
+                                <button class="toggle-btn active" data-type="percent">折扣百分比</button>
+                                <button class="toggle-btn" data-type="amount">固定金额</button>
                             </div>
                             <div class="input-wrapper">
-                                <input type="number" id="couponDiscount" value="12" min="0" step="0.01" placeholder="优惠券金额">
-                                <span class="currency" id="couponUnit">元</span>
+                                <input type="number" id="couponDiscount" value="10" min="0" step="0.1" placeholder="优惠券折扣">
+                                <span class="currency" id="couponUnit">%</span>
                             </div>
-                            <div class="input-tip" id="couponTip">领券后额外减去的金额</div>
-                        </div>
-                        
-                        <div class="price-hint">
-                            💡 最终售价 = 原价 - 直降金额/折扣 - 优惠券金额/折扣
-                        </div>
-                        
-                        <div class="section-title" style="margin-top: 32px;">📈 成本参数配置</div>
-                        
-                        <div class="quick-pricing-grid">
-                            <div class="input-group">
-                                <label class="input-label">
-                                    平台佣金比例
-                                </label>
-                                <div class="input-wrapper">
-                                    <input type="number" id="platformFee" value="5" min="0" max="50" step="0.1">
-                                    <span class="currency">%</span>
-                                </div>
-                                <div class="input-tip">通常5-10%，根据类目不同</div>
-                            </div>
-                            
-                            <div class="input-group">
-                                <label class="input-label">
-                                    达人佣金比例
-                                </label>
-                                <div class="input-wrapper">
-                                    <input type="number" id="kolFee" value="20" min="0" max="50" step="0.1">
-                                    <span class="currency">%</span>
-                                </div>
-                                <div class="input-tip">达人带货佣金比例</div>
-                            </div>
-                        </div>
-                        
-                        <div class="quick-pricing-grid">
-                            <div class="input-group">
-                                <label class="input-label">
-                                    退货率预估
-                                </label>
-                                <div class="input-wrapper">
-                                    <input type="number" id="returnRate" value="5" min="0" max="50" step="0.1">
-                                    <span class="currency">%</span>
-                                </div>
-                                <div class="input-tip">行业平均5-15%</div>
-                            </div>
-                            
-                            <div class="input-group">
-                                <label class="input-label">
-                                    其他成本
-                                </label>
-                                <div class="input-wrapper">
-                                    <input type="number" id="otherCost" value="0" min="0" step="0.01" placeholder="其他成本">
-                                    <span class="currency">元</span>
-                                </div>
-                                <div class="input-tip">包装、运费等额外成本</div>
-                            </div>
-                        </div>
-                        
-                        <div class="mode-switch-info">
-                            💡 提示：您可以自由切换折扣百分比和固定金额模式，系统会自动换算
-                        </div>
-                        
-                        <div class="optimization-suggestions">
-                            <div class="suggestion-title">💡 优化建议</div>
-                            <ul class="suggestion-list">
-                                <li class="suggestion-item">当前利润率：<span class="highlight" id="suggestionMargin">23.7%</span></li>
-                                <li class="suggestion-item">建议：保持平台佣金在<span class="highlight">5-10%</span>，达人佣金根据ROI调整</li>
-                                <li class="suggestion-item">如果利润率低于15%，建议调整直降或优惠券金额</li>
-                            </ul>
-                        </div>
-                        
-                        <div class="button-group">
-                            <button class="btn btn-primary" id="calculateAdvanced">
-                                📊 计算详细利润
-                            </button>
-                            <button class="btn btn-secondary" id="resetAdvanced">
-                                🔄 重置参数
-                            </button>
+                            <div class="input-tip" id="couponTip">领券后额外优惠的比例</div>
                         </div>
                     </div>
+                </div>
+                
+                <!-- 目标定价模式 -->
+                <div class="mode-content" id="target-mode">
+                    <div class="section-title">🎯 目标定价参数</div>
+                    
+                    <div class="price-hint">
+                        💡 模式说明：输入目标售价（同行价格），反推原价和成本，用于分析竞品定价策略
+                    </div>
+                    
+                    <div class="params-grid">
+                        <div class="input-group">
+                            <label class="input-label">
+                                目标售价
+                            </label>
+                            <div class="input-wrapper">
+                                <input type="number" id="targetPrice" value="108" min="0" step="0.01" placeholder="目标售价">
+                                <span class="currency">元</span>
+                            </div>
+                            <div class="input-tip">最终售价（抄同行的价格）</div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label class="input-label">
+                                定价方式
+                            </label>
+                            <div class="input-wrapper">
+                                <select id="targetPricingMethod">
+                                    <option value="multiply">按倍率反推</option>
+                                    <option value="amount">按加价反推</option>
+                                </select>
+                            </div>
+                            <div class="input-tip">选择反推计算方式</div>
+                        </div>
+                    </div>
+                    
+                    <div class="params-grid">
+                        <div class="input-group" id="targetMultiplyGroup">
+                            <label class="input-label">
+                                加价倍率
+                            </label>
+                            <div class="input-wrapper">
+                                <input type="number" id="targetMultiplier" value="3" min="1" step="0.1" placeholder="加价倍率">
+                                <span class="currency">倍</span>
+                            </div>
+                            <div class="input-tip">假设竞品使用的加价倍率</div>
+                        </div>
+                        
+                        <div class="input-group" id="targetAmountGroup" style="display: none;">
+                            <label class="input-label">
+                                加价金额
+                            </label>
+                            <div class="input-wrapper">
+                                <input type="number" id="targetAddAmount" value="100" min="0" step="0.01" placeholder="加价金额">
+                                <span class="currency">元</span>
+                            </div>
+                            <div class="input-tip">假设竞品使用的加价金额</div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label class="input-label">
+                                单品直降
+                            </label>
+                            <div class="toggle-group" id="targetDirectToggle">
+                                <button class="toggle-btn active" data-type="percent">折扣百分比</button>
+                                <button class="toggle-btn" data-type="amount">固定金额</button>
+                            </div>
+                            <div class="input-wrapper">
+                                <input type="number" id="targetDirectDiscount" value="20" min="0" step="0.1" placeholder="直降折扣">
+                                <span class="currency" id="targetDirectUnit">%</span>
+                            </div>
+                            <div class="input-tip" id="targetDirectTip">假设竞品使用的直降比例</div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label class="input-label">
+                                优惠券
+                            </label>
+                            <div class="toggle-group" id="targetCouponToggle">
+                                <button class="toggle-btn active" data-type="percent">折扣百分比</button>
+                                <button class="toggle-btn" data-type="amount">固定金额</button>
+                            </div>
+                            <div class="input-wrapper">
+                                <input type="number" id="targetCouponDiscount" value="10" min="0" step="0.1" placeholder="优惠券折扣">
+                                <span class="currency" id="targetCouponUnit">%</span>
+                            </div>
+                            <div class="input-tip" id="targetCouponTip">假设竞品使用的优惠券比例</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section-title" style="margin-top: 32px;">📊 成本参数配置</div>
+                
+                <div class="params-grid">
+                    <div class="input-group">
+                        <label class="input-label">
+                            平台佣金比例
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="number" id="platformFee" value="5" min="0" max="50" step="0.1">
+                            <span class="currency">%</span>
+                        </div>
+                        <div class="input-tip">通常5-10%，根据类目不同</div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">
+                            达人佣金比例
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="number" id="kolFee" value="20" min="0" max="50" step="0.1">
+                            <span class="currency">%</span>
+                        </div>
+                        <div class="input-tip">达人带货佣金比例</div>
+                    </div>
+                </div>
+                
+                <div class="params-grid">
+                    <div class="input-group">
+                        <label class="input-label">
+                            退货率预估
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="number" id="returnRate" value="5" min="0" max="50" step="0.1">
+                            <span class="currency">%</span>
+                        </div>
+                        <div class="input-tip">行业平均5-15%</div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">
+                            其他成本
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="number" id="otherCost" value="0" min="0" step="0.01" placeholder="其他成本">
+                            <span class="currency">元</span>
+                        </div>
+                        <div class="input-tip">包装、运费等额外成本</div>
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn btn-primary" id="calculateAll">
+                        🚀 开始计算
+                    </button>
+                    <button class="btn btn-secondary" id="resetAll">
+                        🔄 重置参数
+                    </button>
                 </div>
             </div>
             
@@ -1082,17 +862,22 @@
                     
                     <div class="metrics-grid">
                         <div class="metric-card primary">
-                            <div class="metric-label">单件毛利润</div>
+                            <div class="metric-label">单件毛利</div>
                             <div class="metric-value" id="grossProfit">58.00元</div>
                         </div>
                         
                         <div class="metric-card success">
-                            <div class="metric-label">单件净利润</div>
+                            <div class="metric-label">单件净利</div>
                             <div class="metric-value success" id="netProfit">25.60元</div>
                         </div>
                         
                         <div class="metric-card warning">
-                            <div class="metric-label">净利润率</div>
+                            <div class="metric-label">毛利率</div>
+                            <div class="metric-value warning" id="grossMargin">53.7%</div>
+                        </div>
+                        
+                        <div class="metric-card danger">
+                            <div class="metric-label">净利率</div>
                             <div class="metric-value" id="netMargin">23.7%</div>
                         </div>
                     </div>
@@ -1101,8 +886,8 @@
                         <button class="btn btn-success" id="exportData">
                             📤 导出数据
                         </button>
-                        <button class="btn btn-secondary" id="resetAll">
-                            🔄 重置所有
+                        <button class="btn btn-secondary" id="copyResults">
+                            📋 复制结果
                         </button>
                     </div>
                 </div>
@@ -1147,20 +932,28 @@
                                 <span class="breakdown-value" id="revenue">108.00元</span>
                             </div>
                             <div class="breakdown-item">
-                                <span class="breakdown-label">－ 总成本</span>
-                                <span class="breakdown-value" id="costTotal">82.40元</span>
+                                <span class="breakdown-label">－ 产品成本</span>
+                                <span class="breakdown-value" id="costProductOnly">50.00元</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span class="breakdown-label">＝ 毛利润</span>
+                                <span class="breakdown-value" id="grossProfitOnly">58.00元</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span class="breakdown-label">－ 其他成本</span>
+                                <span class="breakdown-value" id="costTotalOther">32.40元</span>
                             </div>
                             <div class="breakdown-item" style="border-top: 1px solid var(--border); padding-top: 16px;">
                                 <span class="breakdown-label breakdown-total">＝ 净利润</span>
                                 <span class="breakdown-value breakdown-total" id="profitNet">25.60元</span>
                             </div>
                             <div class="breakdown-item">
-                                <span class="breakdown-label">净利润率</span>
-                                <span class="breakdown-value" id="marginNet">23.7%</span>
-                            </div>
-                            <div class="breakdown-item">
                                 <span class="breakdown-label">毛利率</span>
                                 <span class="breakdown-value" id="marginGross">53.7%</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span class="breakdown-label">净利率</span>
+                                <span class="breakdown-value" id="marginNet">23.7%</span>
                             </div>
                             <div class="breakdown-item">
                                 <span class="breakdown-label">投资回报率</span>
@@ -1175,27 +968,20 @@
 
     <script>
         // 全局变量
-        let currentPrice = 108;
-        let currentOriginal = 150;
-        let currentCost = 50;
-        let currentPricingMethod = 'multiply'; // 默认按倍率定价
-        let currentMode = 'quick'; // 默认快速定价模式
-        
-        // 折扣模式变量
-        let quickDirectMode = 'percent'; // 快速模式直降：percent百分比, amount金额
-        let quickCouponMode = 'percent'; // 快速模式优惠券：percent百分比, amount金额
-        let advancedDirectMode = 'amount'; // 详细模式直降：percent百分比, amount金额
-        let advancedCouponMode = 'amount'; // 详细模式优惠券：percent百分比, amount金额
+        let currentMode = 'cost'; // 当前模式：cost货源定价, target目标定价
+        let currentPricingMethod = 'multiply'; // 定价方式：multiply倍率, amount加价
+        let currentDirectMode = 'percent'; // 直降模式：percent百分比, amount金额
+        let currentCouponMode = 'percent'; // 优惠券模式：percent百分比, amount金额
         
         // 初始化页面
         document.addEventListener('DOMContentLoaded', function() {
             initializePage();
             
-            // 绑定定价模式切换
-            document.querySelectorAll('.mode-tab').forEach(tab => {
-                tab.addEventListener('click', function() {
+            // 绑定模式切换
+            document.querySelectorAll('.mode-switch').forEach(switchBtn => {
+                switchBtn.addEventListener('click', function() {
                     const mode = this.getAttribute('data-mode');
-                    switchPricingMode(mode);
+                    switchMode(mode);
                 });
             });
             
@@ -1203,196 +989,127 @@
             document.getElementById('pricingMethod').addEventListener('change', function() {
                 currentPricingMethod = this.value;
                 updatePricingMethodUI();
-                calculateQuickPricing();
+                calculateAll();
             });
             
-            // 绑定快速定价输入事件
-            const quickInputs = ['quickCost', 'priceMultiplier', 'priceAddAmount', 'quickDirectDiscount', 'quickCouponDiscount', 'estimatedSales'];
-            quickInputs.forEach(id => {
-                document.getElementById(id).addEventListener('input', calculateQuickPricing);
+            document.getElementById('targetPricingMethod').addEventListener('change', function() {
+                currentPricingMethod = this.value;
+                updateTargetPricingMethodUI();
+                calculateAll();
             });
             
-            // 绑定详细分析模式输入事件
-            const advancedInputs = ['costPrice', 'originalPrice', 'directDiscount', 'couponDiscount', 'platformFee', 'kolFee', 'returnRate', 'otherCost'];
-            advancedInputs.forEach(id => {
-                document.getElementById(id).addEventListener('input', calculateAdvancedPricing);
+            // 绑定折扣/金额切换
+            setupToggle('directToggle', 'directUnit', 'directTip', 'directDiscount', 'direct');
+            setupToggle('couponToggle', 'couponUnit', 'couponTip', 'couponDiscount', 'coupon');
+            setupToggle('targetDirectToggle', 'targetDirectUnit', 'targetDirectTip', 'targetDirectDiscount', 'targetDirect');
+            setupToggle('targetCouponToggle', 'targetCouponUnit', 'targetCouponTip', 'targetCouponDiscount', 'targetCoupon');
+            
+            // 绑定所有输入事件
+            const allInputs = [
+                'costPrice', 'priceMultiplier', 'priceAddAmount', 'directDiscount', 'couponDiscount',
+                'targetPrice', 'targetMultiplier', 'targetAddAmount', 'targetDirectDiscount', 'targetCouponDiscount',
+                'platformFee', 'kolFee', 'returnRate', 'otherCost'
+            ];
+            
+            allInputs.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.addEventListener('input', calculateAll);
+                }
             });
-            
-            // 绑定快速模式折扣/金额切换
-            setupQuickModeToggle('quickDirectToggle', 'quickDirectModeSwitch', 'quickDirectUnit', 'quickDirectTip', 'quickDirectDiscount', 'direct');
-            setupQuickModeToggle('quickCouponToggle', 'quickCouponModeSwitch', 'quickCouponUnit', 'quickCouponTip', 'quickCouponDiscount', 'coupon');
-            
-            // 绑定详细模式折扣/金额切换
-            setupAdvancedModeToggle('directToggle', 'directUnit', 'directTip', 'directDiscount', 'direct');
-            setupAdvancedModeToggle('couponToggle', 'couponUnit', 'couponTip', 'couponDiscount', 'coupon');
             
             // 绑定按钮事件
-            document.getElementById('calculateQuick').addEventListener('click', calculateQuickPricing);
-            document.getElementById('applyQuickPricing').addEventListener('click', applyQuickPricing);
-            document.getElementById('calculateAdvanced').addEventListener('click', calculateAdvancedPricing);
-            document.getElementById('resetAdvanced').addEventListener('click', resetAdvanced);
+            document.getElementById('calculateAll').addEventListener('click', calculateAll);
             document.getElementById('resetAll').addEventListener('click', resetAll);
             document.getElementById('exportData').addEventListener('click', exportData);
-            document.getElementById('switchToQuick').addEventListener('click', function() {
-                switchPricingMode('quick');
-            });
+            document.getElementById('copyResults').addEventListener('click', copyResults);
             
             // 初始计算
-            calculateQuickPricing();
-            calculateAdvancedPricing();
+            calculateAll();
         });
         
         // 初始化页面
         function initializePage() {
-            currentPrice = parseFloat(document.getElementById('originalPrice').value) - 
-                          parseFloat(document.getElementById('directDiscount').value) - 
-                          parseFloat(document.getElementById('couponDiscount').value);
-            currentOriginal = parseFloat(document.getElementById('originalPrice').value);
-            currentCost = parseFloat(document.getElementById('costPrice').value);
+            updatePricingMethodUI();
+            updateTargetPricingMethodUI();
         }
         
-        // 设置快速模式切换
-        function setupQuickModeToggle(toggleId, switchId, unitId, tipId, inputId, type) {
-            const toggle = document.getElementById(toggleId);
-            const switchBtn = document.getElementById(switchId);
-            const unit = document.getElementById(unitId);
-            const tip = document.getElementById(tipId);
-            const input = document.getElementById(inputId);
-            
-            // 切换按钮点击事件
-            toggle.querySelectorAll('.toggle-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const newMode = this.getAttribute('data-type');
-                    
-                    // 更新UI
-                    toggle.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    // 更新切换链接文字
-                    switchBtn.textContent = newMode === 'percent' ? '切换为金额' : '切换为折扣';
-                    
-                    // 更新单位和提示
-                    if (newMode === 'percent') {
-                        unit.textContent = '%';
-                        tip.textContent = type === 'direct' 
-                            ? '在原价基础上直接降价的比例' 
-                            : '领券后额外优惠的比例';
-                    } else {
-                        unit.textContent = '元';
-                        tip.textContent = type === 'direct' 
-                            ? '在原价基础上直接减去的金额' 
-                            : '领券后额外减去的金额';
-                    }
-                    
-                    // 更新模式变量
-                    if (type === 'direct') {
-                        quickDirectMode = newMode;
-                    } else {
-                        quickCouponMode = newMode;
-                    }
-                    
-                    // 重新计算
-                    calculateQuickPricing();
-                });
-            });
-            
-            // 切换链接点击事件
-            switchBtn.addEventListener('click', function() {
-                const currentMode = type === 'direct' ? quickDirectMode : quickCouponMode;
-                const newMode = currentMode === 'percent' ? 'amount' : 'percent';
-                
-                // 模拟点击对应的切换按钮
-                const targetBtn = toggle.querySelector(`[data-type="${newMode}"]`);
-                if (targetBtn) {
-                    targetBtn.click();
-                }
-            });
-        }
-        
-        // 设置详细模式切换
-        function setupAdvancedModeToggle(toggleId, unitId, tipId, inputId, type) {
-            const toggle = document.getElementById(toggleId);
-            const unit = document.getElementById(unitId);
-            const tip = document.getElementById(tipId);
-            const input = document.getElementById(inputId);
-            
-            // 切换按钮点击事件
-            toggle.querySelectorAll('.toggle-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const newMode = this.getAttribute('data-type');
-                    const originalPrice = parseFloat(document.getElementById('originalPrice').value) || 0;
-                    const currentValue = parseFloat(input.value) || 0;
-                    
-                    // 更新UI
-                    toggle.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    // 转换数值
-                    let newValue = currentValue;
-                    if (type === 'direct') {
-                        if (advancedDirectMode === 'percent' && newMode === 'amount') {
-                            // 百分比转金额
-                            newValue = originalPrice * (currentValue / 100);
-                        } else if (advancedDirectMode === 'amount' && newMode === 'percent') {
-                            // 金额转百分比
-                            newValue = originalPrice > 0 ? (currentValue / originalPrice) * 100 : 0;
-                        }
-                        advancedDirectMode = newMode;
-                    } else {
-                        if (advancedCouponMode === 'percent' && newMode === 'amount') {
-                            // 百分比转金额
-                            newValue = originalPrice * (currentValue / 100);
-                        } else if (advancedCouponMode === 'amount' && newMode === 'percent') {
-                            // 金额转百分比
-                            newValue = originalPrice > 0 ? (currentValue / originalPrice) * 100 : 0;
-                        }
-                        advancedCouponMode = newMode;
-                    }
-                    
-                    // 更新输入框值
-                    input.value = newValue.toFixed(2);
-                    
-                    // 更新单位和提示
-                    if (newMode === 'percent') {
-                        unit.textContent = '%';
-                        tip.textContent = type === 'direct' 
-                            ? '在原价基础上直接降价的比例' 
-                            : '领券后额外优惠的比例';
-                    } else {
-                        unit.textContent = '元';
-                        tip.textContent = type === 'direct' 
-                            ? '在原价基础上直接减去的金额' 
-                            : '领券后额外减去的金额';
-                    }
-                    
-                    // 重新计算
-                    calculateAdvancedPricing();
-                });
-            });
-        }
-        
-        // 切换定价模式
-        function switchPricingMode(mode) {
+        // 切换模式
+        function switchMode(mode) {
             currentMode = mode;
             
-            // 更新标签页
-            document.querySelectorAll('.mode-tab').forEach(tab => {
-                tab.classList.remove('active');
-                if (tab.getAttribute('data-mode') === mode) {
-                    tab.classList.add('active');
+            // 更新模式切换按钮
+            document.querySelectorAll('.mode-switch').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-mode') === mode) {
+                    btn.classList.add('active');
                 }
             });
             
-            // 更新内容区域
+            // 更新模式内容
             document.querySelectorAll('.mode-content').forEach(content => {
                 content.classList.remove('active');
             });
             document.getElementById(`${mode}-mode`).classList.add('active');
             
-            // 如果是切换到详细模式，自动计算一次
-            if (mode === 'advanced') {
-                calculateAdvancedPricing();
-            }
+            // 重新计算
+            calculateAll();
+        }
+        
+        // 设置折扣/金额切换
+        function setupToggle(toggleId, unitId, tipId, inputId, type) {
+            const toggle = document.getElementById(toggleId);
+            const unit = document.getElementById(unitId);
+            const tip = document.getElementById(tipId);
+            const input = document.getElementById(inputId);
+            
+            // 切换按钮点击事件
+            toggle.querySelectorAll('.toggle-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const newMode = this.getAttribute('data-type');
+                    
+                    // 更新UI
+                    toggle.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // 更新单位和提示
+                    if (newMode === 'percent') {
+                        unit.textContent = '%';
+                        if (type === 'direct') {
+                            tip.textContent = '在原价基础上直接降价的比例';
+                        } else {
+                            tip.textContent = '领券后额外优惠的比例';
+                        }
+                    } else {
+                        unit.textContent = '元';
+                        if (type === 'direct') {
+                            tip.textContent = '在原价基础上直接减去的金额';
+                        } else {
+                            tip.textContent = '领券后额外减去的金额';
+                        }
+                    }
+                    
+                    // 更新模式变量
+                    if (toggleId.includes('target')) {
+                        // 目标模式
+                        if (type === 'direct') {
+                            // 目标模式直降
+                        } else {
+                            // 目标模式优惠券
+                        }
+                    } else {
+                        // 货源模式
+                        if (type === 'direct') {
+                            currentDirectMode = newMode;
+                        } else {
+                            currentCouponMode = newMode;
+                        }
+                    }
+                    
+                    // 重新计算
+                    calculateAll();
+                });
+            });
         }
         
         // 更新定价方式UI
@@ -1406,16 +1123,39 @@
             }
         }
         
-        // 计算快速定价模式
-        function calculateQuickPricing() {
+        // 更新目标定价方式UI
+        function updateTargetPricingMethodUI() {
+            if (currentPricingMethod === 'multiply') {
+                document.getElementById('targetMultiplyGroup').style.display = 'block';
+                document.getElementById('targetAmountGroup').style.display = 'none';
+            } else {
+                document.getElementById('targetMultiplyGroup').style.display = 'none';
+                document.getElementById('targetAmountGroup').style.display = 'block';
+            }
+        }
+        
+        // 计算所有
+        function calculateAll() {
+            if (currentMode === 'cost') {
+                calculateCostMode();
+            } else {
+                calculateTargetMode();
+            }
+        }
+        
+        // 计算货源定价模式
+        function calculateCostMode() {
             // 获取输入值
-            const cost = parseFloat(document.getElementById('quickCost').value) || 0;
-            const directValue = parseFloat(document.getElementById('quickDirectDiscount').value) || 0;
-            const couponValue = parseFloat(document.getElementById('quickCouponDiscount').value) || 0;
-            const estimatedSales = parseInt(document.getElementById('estimatedSales').value) || 100;
+            const cost = parseFloat(document.getElementById('costPrice').value) || 0;
+            const directValue = parseFloat(document.getElementById('directDiscount').value) || 0;
+            const couponValue = parseFloat(document.getElementById('couponDiscount').value) || 0;
+            const platformFeePercent = parseFloat(document.getElementById('platformFee').value) / 100 || 0;
+            const kolFeePercent = parseFloat(document.getElementById('kolFee').value) / 100 || 0;
+            const returnRatePercent = parseFloat(document.getElementById('returnRate').value) / 100 || 0;
+            const otherCost = parseFloat(document.getElementById('otherCost').value) || 0;
             
+            // 计算原价
             let originalPrice;
-            
             if (currentPricingMethod === 'multiply') {
                 const multiplier = parseFloat(document.getElementById('priceMultiplier').value) || 1;
                 originalPrice = cost * multiplier;
@@ -1439,7 +1179,7 @@
             let directDiscountAmount, couponAmount;
             
             // 计算直降金额
-            if (quickDirectMode === 'percent') {
+            if (currentDirectMode === 'percent') {
                 directDiscountAmount = originalPrice * (directValue / 100);
             } else {
                 directDiscountAmount = directValue;
@@ -1449,7 +1189,7 @@
             const priceAfterDirect = originalPrice - directDiscountAmount;
             
             // 计算优惠券金额
-            if (quickCouponMode === 'percent') {
+            if (currentCouponMode === 'percent') {
                 couponAmount = priceAfterDirect * (couponValue / 100);
             } else {
                 couponAmount = couponValue;
@@ -1458,131 +1198,88 @@
             // 计算最终售价
             const finalPrice = priceAfterDirect - couponAmount;
             
-            // 更新快速定价结果预览
-            document.getElementById('quickOriginalPrice').textContent = originalPrice.toFixed(2) + '元';
-            document.getElementById('quickAfterDirect').textContent = priceAfterDirect.toFixed(2) + '元';
-            document.getElementById('quickFinalPrice').textContent = finalPrice.toFixed(2) + '元';
-            
-            // 计算单件利润（简单计算，不考虑佣金和退货）
-            const simpleProfit = finalPrice - cost;
-            const simpleProfitMargin = (simpleProfit / finalPrice) * 100;
-            const grossMargin = ((finalPrice - cost) / cost) * 100;
-            
-            document.getElementById('quickProfit').textContent = simpleProfit.toFixed(2) + '元';
-            document.getElementById('quickProfitMargin').textContent = simpleProfitMargin.toFixed(1) + '%';
-            document.getElementById('quickGrossMargin').textContent = grossMargin.toFixed(1) + '%';
-            
-            // 更新利润显示颜色
-            updateProfitColor(simpleProfitMargin, 'quickProfitMargin');
-            updateProfitColor(simpleProfit, 'quickProfit');
-            
-            // 计算预估总利润
-            const totalProfit = simpleProfit * estimatedSales;
-            const totalRevenue = finalPrice * estimatedSales;
-            
-            document.getElementById('estimatedRevenue').textContent = totalRevenue.toFixed(0) + '元';
-            document.getElementById('estimatedProfit').textContent = totalProfit.toFixed(0) + '元';
-            
-            // 保存当前值
-            currentCost = cost;
-            currentOriginal = originalPrice;
-            currentPrice = finalPrice;
+            // 更新UI
+            updateResults(cost, originalPrice, directDiscountAmount, couponAmount, finalPrice, 
+                         platformFeePercent, kolFeePercent, returnRatePercent, otherCost);
         }
         
-        // 应用快速定价到详细分析模式
-        function applyQuickPricing() {
-            // 获取快速定价的值
-            const cost = parseFloat(document.getElementById('quickCost').value) || 0;
-            const directValue = parseFloat(document.getElementById('quickDirectDiscount').value) || 0;
-            const couponValue = parseFloat(document.getElementById('quickCouponDiscount').value) || 0;
-            
-            let originalPrice;
-            
-            if (currentPricingMethod === 'multiply') {
-                const multiplier = parseFloat(document.getElementById('priceMultiplier').value) || 1;
-                originalPrice = cost * multiplier;
-            } else {
-                const addAmount = parseFloat(document.getElementById('priceAddAmount').value) || 0;
-                originalPrice = cost + addAmount;
-            }
-            
-            // 计算优惠金额
-            let directDiscountAmount, couponAmount;
-            
-            // 计算直降金额
-            if (quickDirectMode === 'percent') {
-                directDiscountAmount = originalPrice * (directValue / 100);
-            } else {
-                directDiscountAmount = directValue;
-            }
-            
-            // 计算直降后价格
-            const priceAfterDirect = originalPrice - directDiscountAmount;
-            
-            // 计算优惠券金额
-            if (quickCouponMode === 'percent') {
-                couponAmount = priceAfterDirect * (couponValue / 100);
-            } else {
-                couponAmount = couponValue;
-            }
-            
-            // 更新详细分析模式的输入值
-            document.getElementById('costPrice').value = cost;
-            document.getElementById('originalPrice').value = originalPrice.toFixed(2);
-            document.getElementById('directDiscount').value = directDiscountAmount.toFixed(2);
-            document.getElementById('couponDiscount').value = couponAmount.toFixed(2);
-            
-            // 切换到详细分析模式
-            switchPricingMode('advanced');
-            
-            // 重新计算详细利润
-            calculateAdvancedPricing();
-            
-            showSuccess('快速定价已应用到详细分析模式');
-        }
-        
-        // 计算详细分析模式
-        function calculateAdvancedPricing() {
+        // 计算目标定价模式
+        function calculateTargetMode() {
             // 获取输入值
-            const cost = parseFloat(document.getElementById('costPrice').value) || 0;
-            const originalPrice = parseFloat(document.getElementById('originalPrice').value) || 0;
-            const directValue = parseFloat(document.getElementById('directDiscount').value) || 0;
-            const couponValue = parseFloat(document.getElementById('couponDiscount').value) || 0;
+            const targetPrice = parseFloat(document.getElementById('targetPrice').value) || 0;
+            const directValue = parseFloat(document.getElementById('targetDirectDiscount').value) || 0;
+            const couponValue = parseFloat(document.getElementById('targetCouponDiscount').value) || 0;
             const platformFeePercent = parseFloat(document.getElementById('platformFee').value) / 100 || 0;
             const kolFeePercent = parseFloat(document.getElementById('kolFee').value) / 100 || 0;
             const returnRatePercent = parseFloat(document.getElementById('returnRate').value) / 100 || 0;
             const otherCost = parseFloat(document.getElementById('otherCost').value) || 0;
             
             // 验证输入
-            if (isNaN(cost) || isNaN(originalPrice)) {
-                updatePlaceholderUI();
+            if (isNaN(targetPrice) || targetPrice <= 0) {
+                showWarning('请输入有效的目标售价');
                 return;
             }
             
+            // 反推原价和成本
+            // 首先，我们需要知道直降和优惠券的模式（百分比还是金额）
+            // 这里我们假设目标模式下的直降和优惠券都是百分比模式
+            
+            // 从最终售价反推直降后价格和原价
+            // 最终售价 = 直降后价格 × (1 - 优惠券折扣)
+            // 直降后价格 = 最终售价 / (1 - 优惠券折扣)
+            // 原价 = 直降后价格 / (1 - 直降折扣)
+            
+            const couponDiscountPercent = couponValue / 100; // 假设是百分比
+            const directDiscountPercent = directValue / 100; // 假设是百分比
+            
+            let priceAfterDirect, originalPrice;
+            
+            if (couponDiscountPercent >= 1) {
+                showWarning('优惠券折扣不能超过100%');
+                return;
+            }
+            
+            priceAfterDirect = targetPrice / (1 - couponDiscountPercent);
+            
+            if (directDiscountPercent >= 1) {
+                showWarning('直降折扣不能超过100%');
+                return;
+            }
+            
+            originalPrice = priceAfterDirect / (1 - directDiscountPercent);
+            
             // 计算优惠金额
-            let directDiscountAmount, couponAmount;
+            const directDiscountAmount = originalPrice * directDiscountPercent;
+            const couponAmount = priceAfterDirect * couponDiscountPercent;
             
-            // 计算直降金额
-            if (advancedDirectMode === 'percent') {
-                directDiscountAmount = originalPrice * (directValue / 100);
+            // 反推成本
+            let cost;
+            if (currentPricingMethod === 'multiply') {
+                const multiplier = parseFloat(document.getElementById('targetMultiplier').value) || 1;
+                cost = originalPrice / multiplier;
             } else {
-                directDiscountAmount = directValue;
+                const addAmount = parseFloat(document.getElementById('targetAddAmount').value) || 0;
+                cost = originalPrice - addAmount;
             }
             
-            // 计算直降后价格
-            const priceAfterDirect = originalPrice - directDiscountAmount;
-            
-            // 计算优惠券金额
-            if (advancedCouponMode === 'percent') {
-                couponAmount = priceAfterDirect * (couponValue / 100);
-            } else {
-                couponAmount = couponValue;
+            // 验证成本是否合理
+            if (cost <= 0) {
+                showWarning('反推的成本价不合理，请调整参数');
+                return;
             }
             
-            // 计算最终售价
-            const finalPrice = priceAfterDirect - couponAmount;
+            // 更新货源模式下的成本输入框，便于切换模式时保持数据
+            document.getElementById('costPrice').value = cost.toFixed(2);
             
-            // 检查目标售价是否小于产品成本
+            // 更新UI
+            updateResults(cost, originalPrice, directDiscountAmount, couponAmount, targetPrice, 
+                         platformFeePercent, kolFeePercent, returnRatePercent, otherCost);
+        }
+        
+        // 更新结果
+        function updateResults(cost, originalPrice, directDiscountAmount, couponAmount, finalPrice,
+                              platformFeePercent, kolFeePercent, returnRatePercent, otherCost) {
+            // 检查最终售价是否小于产品成本
             if (finalPrice < cost) {
                 showWarning('最终售价低于产品成本，将导致亏损');
             }
@@ -1594,111 +1291,72 @@
             const totalCost = cost + platformFee + kolFee + returnLoss + otherCost;
             
             // 计算利润
-            const grossProfit = finalPrice - cost;
-            const grossMargin = (grossProfit / finalPrice) * 100;
-            const grossMarginRatio = ((finalPrice - cost) / cost) * 100;
-            const netProfit = finalPrice - totalCost;
-            const netMargin = (netProfit / finalPrice) * 100;
+            const grossProfit = finalPrice - cost; // 毛利
+            const grossMargin = (grossProfit / finalPrice) * 100; // 毛利率
+            const otherCostsTotal = platformFee + kolFee + returnLoss + otherCost; // 其他成本总和
+            const netProfit = grossProfit - otherCostsTotal; // 净利润
+            const netMargin = (netProfit / finalPrice) * 100; // 净利率
             const roi = totalCost > 0 ? (netProfit / totalCost) * 100 : 0;
             
             // 更新价格信息显示
             document.getElementById('displayOriginalPrice').textContent = originalPrice.toFixed(2) + '元';
-            document.getElementById('displayOriginalPrice').classList.remove('placeholder');
-            
             document.getElementById('displayDirectDiscount').textContent = directDiscountAmount.toFixed(2) + '元';
-            document.getElementById('displayDirectDiscount').classList.remove('placeholder');
-            
             document.getElementById('displayCoupon').textContent = couponAmount.toFixed(2) + '元';
-            document.getElementById('displayCoupon').classList.remove('placeholder');
-            
             document.getElementById('displayFinalPrice').textContent = finalPrice.toFixed(2) + '元';
-            document.getElementById('displayFinalPrice').classList.remove('placeholder');
             
             const totalDiscount = directDiscountAmount + couponAmount;
             document.getElementById('totalDiscount').textContent = totalDiscount.toFixed(2) + '元';
-            document.getElementById('totalDiscount').classList.remove('placeholder');
             
             const discountPercent = originalPrice !== 0 ? Math.round((totalDiscount / originalPrice) * 100) : 0;
             document.getElementById('discountPercent').textContent = discountPercent + '%';
-            document.getElementById('discountPercent').classList.remove('placeholder');
             
             // 更新核心指标
             document.getElementById('grossProfit').textContent = grossProfit.toFixed(2) + '元';
-            document.getElementById('grossProfit').classList.remove('placeholder');
-            
             document.getElementById('netProfit').textContent = netProfit.toFixed(2) + '元';
-            document.getElementById('netProfit').classList.remove('placeholder');
-            
+            document.getElementById('grossMargin').textContent = grossMargin.toFixed(1) + '%';
             document.getElementById('netMargin').textContent = netMargin.toFixed(1) + '%';
-            document.getElementById('netMargin').classList.remove('placeholder');
             
             // 更新利润显示颜色
             updateProfitColor(netMargin, 'netMargin');
             updateProfitColor(netProfit, 'netProfit');
+            updateProfitColor(grossMargin, 'grossMargin');
+            updateProfitColor(grossProfit, 'grossProfit');
             
             // 更新成本分析
             document.getElementById('costProduct').textContent = cost.toFixed(2) + '元';
-            document.getElementById('costProduct').classList.remove('placeholder');
-            
             document.getElementById('costPlatform').textContent = platformFee.toFixed(2) + '元';
-            document.getElementById('costPlatform').classList.remove('placeholder');
-            
             document.getElementById('costKol').textContent = kolFee.toFixed(2) + '元';
-            document.getElementById('costKol').classList.remove('placeholder');
-            
             document.getElementById('costReturn').textContent = returnLoss.toFixed(2) + '元';
-            document.getElementById('costReturn').classList.remove('placeholder');
-            
             document.getElementById('costOther').textContent = otherCost.toFixed(2) + '元';
-            document.getElementById('costOther').classList.remove('placeholder');
-            
             document.getElementById('totalCost').textContent = totalCost.toFixed(2) + '元';
-            document.getElementById('totalCost').classList.remove('placeholder');
             
             // 更新利润分析
             document.getElementById('revenue').textContent = finalPrice.toFixed(2) + '元';
-            document.getElementById('revenue').classList.remove('placeholder');
-            
-            document.getElementById('costTotal').textContent = totalCost.toFixed(2) + '元';
-            document.getElementById('costTotal').classList.remove('placeholder');
-            
+            document.getElementById('costProductOnly').textContent = cost.toFixed(2) + '元';
+            document.getElementById('grossProfitOnly').textContent = grossProfit.toFixed(2) + '元';
+            document.getElementById('costTotalOther').textContent = otherCostsTotal.toFixed(2) + '元';
             document.getElementById('profitNet').textContent = netProfit.toFixed(2) + '元';
-            document.getElementById('profitNet').classList.remove('placeholder');
-            
-            document.getElementById('marginNet').textContent = netMargin.toFixed(1) + '%';
-            document.getElementById('marginNet').classList.remove('placeholder');
-            
             document.getElementById('marginGross').textContent = grossMargin.toFixed(1) + '%';
-            document.getElementById('marginGross').classList.remove('placeholder');
-            
+            document.getElementById('marginNet').textContent = netMargin.toFixed(1) + '%';
             document.getElementById('roi').textContent = roi.toFixed(1) + '%';
-            document.getElementById('roi').classList.remove('placeholder');
-            
-            // 更新优化建议
-            document.getElementById('suggestionMargin').textContent = netMargin.toFixed(1) + '%';
             
             // 添加动画效果
             addFadeAnimation();
-            
-            // 更新当前价格
-            currentPrice = finalPrice;
-            currentOriginal = originalPrice;
-            currentCost = cost;
         }
         
         // 更新利润显示颜色
         function updateProfitColor(value, elementId) {
             const element = document.getElementById(elementId);
-            const parent = element.closest('.metric-value, .quick-result-value');
+            const parent = element.closest('.metric-value');
             
             if (parent) {
-                parent.classList.remove('good', 'warning', 'danger');
+                parent.classList.remove('success', 'warning', 'danger');
                 
                 if (typeof value === 'number') {
                     if (elementId.includes('Margin') || elementId.includes('Margin')) {
                         // 利润率
                         if (value > 30) {
-                            parent.classList.add('good');
+                            parent.classList.add('success');
                         } else if (value > 15) {
                             parent.classList.add('warning');
                         } else if (value > 0) {
@@ -1709,7 +1367,7 @@
                     } else {
                         // 利润金额
                         if (value > 0) {
-                            parent.classList.add('good');
+                            parent.classList.add('success');
                         } else {
                             parent.classList.add('danger');
                         }
@@ -1718,79 +1376,59 @@
             }
         }
         
-        // 更新为等待输入状态
-        function updatePlaceholderUI() {
-            const placeholderElements = document.querySelectorAll('.placeholder');
-            placeholderElements.forEach(el => {
-                el.textContent = '等待输入';
-            });
-        }
-        
-        // 重置详细分析模式参数
-        function resetAdvanced() {
+        // 重置所有参数
+        function resetAll() {
+            // 货源模式参数
             document.getElementById('costPrice').value = 50;
-            document.getElementById('originalPrice').value = 150;
-            document.getElementById('directDiscount').value = 30;
-            document.getElementById('couponDiscount').value = 12;
+            document.getElementById('priceMultiplier').value = 3;
+            document.getElementById('priceAddAmount').value = 100;
+            document.getElementById('directDiscount').value = 20;
+            document.getElementById('couponDiscount').value = 10;
+            document.getElementById('pricingMethod').value = 'multiply';
+            
+            // 目标模式参数
+            document.getElementById('targetPrice').value = 108;
+            document.getElementById('targetMultiplier').value = 3;
+            document.getElementById('targetAddAmount').value = 100;
+            document.getElementById('targetDirectDiscount').value = 20;
+            document.getElementById('targetCouponDiscount').value = 10;
+            document.getElementById('targetPricingMethod').value = 'multiply';
+            
+            // 通用参数
             document.getElementById('platformFee').value = 5;
             document.getElementById('kolFee').value = 20;
             document.getElementById('returnRate').value = 5;
             document.getElementById('otherCost').value = 0;
             
             // 重置切换按钮
-            document.querySelectorAll('.toggle-group').forEach(group => {
-                const firstBtn = group.querySelector('.toggle-btn');
-                const lastBtn = group.querySelector('.toggle-btn:last-child');
-                
-                if (group.id === 'directToggle' || group.id === 'couponToggle') {
-                    // 详细模式：默认金额模式
-                    group.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
-                    firstBtn.classList.add('active');
-                } else {
-                    // 快速模式：默认百分比模式
-                    group.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
-                    firstBtn.classList.add('active');
+            document.querySelectorAll('.toggle-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-type') === 'percent') {
+                    btn.classList.add('active');
                 }
             });
             
-            // 更新模式变量
-            advancedDirectMode = 'amount';
-            advancedCouponMode = 'amount';
-            quickDirectMode = 'percent';
-            quickCouponMode = 'percent';
+            // 重置单位和提示
+            document.getElementById('directUnit').textContent = '%';
+            document.getElementById('directTip').textContent = '在原价基础上直接降价的比例';
+            document.getElementById('couponUnit').textContent = '%';
+            document.getElementById('couponTip').textContent = '领券后额外优惠的比例';
+            document.getElementById('targetDirectUnit').textContent = '%';
+            document.getElementById('targetDirectTip').textContent = '假设竞品使用的直降比例';
+            document.getElementById('targetCouponUnit').textContent = '%';
+            document.getElementById('targetCouponTip').textContent = '假设竞品使用的优惠券比例';
             
-            calculateAdvancedPricing();
+            // 重置模式变量
+            currentDirectMode = 'percent';
+            currentCouponMode = 'percent';
+            currentPricingMethod = 'multiply';
             
-            showSuccess('详细分析参数已重置');
-        }
-        
-        // 重置所有参数
-        function resetAll() {
-            if (currentMode === 'quick') {
-                document.getElementById('quickCost').value = 50;
-                document.getElementById('priceMultiplier').value = 3;
-                document.getElementById('priceAddAmount').value = 100;
-                document.getElementById('quickDirectDiscount').value = 20;
-                document.getElementById('quickCouponDiscount').value = 10;
-                document.getElementById('estimatedSales').value = 100;
-                document.getElementById('pricingMethod').value = 'multiply';
-                
-                // 重置快速模式切换按钮
-                document.querySelectorAll('#quickDirectToggle .toggle-btn, #quickCouponToggle .toggle-btn').forEach(btn => {
-                    btn.classList.remove('active');
-                    if (btn.getAttribute('data-type') === 'percent') {
-                        btn.classList.add('active');
-                    }
-                });
-                
-                quickDirectMode = 'percent';
-                quickCouponMode = 'percent';
-                
-                updatePricingMethodUI();
-                calculateQuickPricing();
-            } else {
-                resetAdvanced();
-            }
+            // 更新UI
+            updatePricingMethodUI();
+            updateTargetPricingMethodUI();
+            
+            // 重新计算
+            calculateAll();
             
             showSuccess('所有参数已重置');
         }
@@ -1798,18 +1436,15 @@
         // 导出数据
         function exportData() {
             const data = {
-                模式: currentMode === 'quick' ? '快速定价模式' : '详细分析模式',
-                产品成本: document.getElementById('costPrice').value + '元',
-                产品原价: document.getElementById('originalPrice').value + '元',
+                模式: currentMode === 'cost' ? '货源定价模式' : '目标定价模式',
+                产品成本: document.getElementById('costProductOnly').textContent,
+                产品原价: document.getElementById('displayOriginalPrice').textContent,
                 最终售价: document.getElementById('displayFinalPrice').textContent,
-                单件净利润: document.getElementById('netProfit').textContent,
-                净利润率: document.getElementById('netMargin').textContent,
-                预估总利润: document.getElementById('estimatedProfit')?.textContent || 'N/A',
-                计算时间: new Date().toLocaleString(),
-                折扣模式: {
-                    直降模式: currentMode === 'quick' ? (quickDirectMode === 'percent' ? '折扣百分比' : '固定金额') : (advancedDirectMode === 'percent' ? '折扣百分比' : '固定金额'),
-                    优惠券模式: currentMode === 'quick' ? (quickCouponMode === 'percent' ? '折扣百分比' : '固定金额') : (advancedCouponMode === 'percent' ? '折扣百分比' : '固定金额')
-                }
+                单件毛利: document.getElementById('grossProfit').textContent,
+                单件净利: document.getElementById('netProfit').textContent,
+                毛利率: document.getElementById('grossMargin').textContent,
+                净利率: document.getElementById('netMargin').textContent,
+                计算时间: new Date().toLocaleString()
             };
             
             const dataStr = JSON.stringify(data, null, 2);
@@ -1824,6 +1459,30 @@
             document.body.removeChild(a);
             
             showSuccess('数据已导出为JSON文件');
+        }
+        
+        // 复制结果
+        function copyResults() {
+            const results = `
+灵枢定价工具分析结果
+====================
+计算模式：${currentMode === 'cost' ? '货源定价模式' : '目标定价模式'}
+产品原价：${document.getElementById('displayOriginalPrice').textContent}
+单品直降：${document.getElementById('displayDirectDiscount').textContent}
+优惠券：${document.getElementById('displayCoupon').textContent}
+最终售价：${document.getElementById('displayFinalPrice').textContent}
+单件毛利：${document.getElementById('grossProfit').textContent}
+单件净利：${document.getElementById('netProfit').textContent}
+毛利率：${document.getElementById('grossMargin').textContent}
+净利率：${document.getElementById('netMargin').textContent}
+计算时间：${new Date().toLocaleString()}
+            `.trim();
+            
+            navigator.clipboard.writeText(results).then(() => {
+                showSuccess('分析结果已复制到剪贴板');
+            }).catch(err => {
+                showError('复制失败，请手动复制');
+            });
         }
         
         // 添加淡入动画
