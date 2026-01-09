@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>灵枢定价工具</title>
+    <title>灵枢定价分析工具</title>
     <style>
         :root {
             --primary: #2563eb;
@@ -30,7 +30,7 @@
         }
         
         .container {
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 0 auto;
         }
         
@@ -42,15 +42,13 @@
             margin-bottom: 24px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
             border: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
         
         .logo-area {
             display: flex;
             align-items: center;
             gap: 16px;
+            margin-bottom: 8px;
         }
         
         .logo {
@@ -69,34 +67,22 @@
             font-size: 14px;
         }
         
-        /* 主内容区 */
-        .main-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-        }
-        
-        @media (max-width: 1200px) {
-            .main-content {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        /* 左侧面板 */
-        .input-panel {
+        /* 成本参数面板 */
+        .cost-panel {
             background: white;
             border-radius: 16px;
-            padding: 28px;
+            padding: 24px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
             border: 1px solid var(--border);
+            margin-bottom: 24px;
         }
         
         .section-title {
             color: var(--dark);
             font-size: 18px;
             font-weight: 600;
-            margin-bottom: 20px;
-            padding-bottom: 12px;
+            margin-bottom: 16px;
+            padding-bottom: 10px;
             border-bottom: 2px solid var(--primary);
             display: flex;
             align-items: center;
@@ -104,7 +90,7 @@
         }
         
         .input-group {
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
         
         .input-label {
@@ -113,25 +99,23 @@
             font-weight: 500;
             margin-bottom: 8px;
             font-size: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
         }
         
         .input-wrapper {
             position: relative;
         }
         
-        .input-wrapper input, .input-wrapper select {
+        .input-wrapper input {
             width: 100%;
-            padding: 12px 40px 12px 16px;
+            padding: 10px 36px 10px 12px;
             border: 2px solid var(--border);
-            border-radius: 10px;
-            font-size: 16px;
+            border-radius: 8px;
+            font-size: 14px;
             transition: all 0.2s;
+            background: white;
         }
         
-        .input-wrapper input:focus, .input-wrapper select:focus {
+        .input-wrapper input:focus {
             outline: none;
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
@@ -139,7 +123,7 @@
         
         .currency {
             position: absolute;
-            right: 16px;
+            right: 12px;
             top: 50%;
             transform: translateY(-50%);
             color: #94a3b8;
@@ -152,253 +136,153 @@
             margin-top: 6px;
         }
         
-        /* 模式切换 */
-        .mode-switcher {
-            display: flex;
-            border-bottom: 2px solid var(--border);
-            margin-bottom: 24px;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        
-        .mode-switch {
-            flex: 1;
-            padding: 14px 20px;
-            background: #e2e8f0;
-            border: none;
-            font-weight: 600;
-            color: #64748b;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-align: center;
-            font-size: 15px;
-        }
-        
-        .mode-switch.active {
-            background: var(--primary);
-            color: white;
-        }
-        
-        .mode-content {
-            display: none;
-        }
-        
-        .mode-content.active {
-            display: block;
-        }
-        
-        /* 定价提示条 */
-        .price-hint {
-            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-            border-radius: 10px;
-            padding: 12px 16px;
-            margin: 16px 0;
-            border-left: 4px solid var(--primary);
-            font-size: 14px;
-        }
-        
-        .price-hint .highlight {
-            font-weight: 700;
-            color: var(--primary);
-        }
-        
-        /* 右侧面板 */
-        .result-panel {
-            display: grid;
-            grid-template-rows: auto auto auto;
-            gap: 24px;
-        }
-        
-        /* 价格信息卡片 */
-        .price-info {
-            background: white;
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            border: 1px solid var(--border);
-        }
-        
-        .price-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-        }
-        
-        @media (max-width: 768px) {
-            .price-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        
-        .price-card {
-            padding: 20px;
-            border-radius: 12px;
-            text-align: center;
-            border: 2px solid var(--border);
-            transition: all 0.2s;
-        }
-        
-        .price-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-        }
-        
-        .price-card.original {
-            border-color: var(--primary);
-            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-        }
-        
-        .price-card.direct {
-            border-color: var(--warning);
-            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
-        }
-        
-        .price-card.coupon {
-            border-color: #8b5cf6;
-            background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
-        }
-        
-        .price-card.final {
-            border-color: var(--success);
-            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-        }
-        
-        .price-label {
-            font-size: 14px;
-            color: #64748b;
-            margin-bottom: 8px;
-        }
-        
-        .price-value {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--dark);
-        }
-        
-        .price-value.original {
-            text-decoration: line-through;
-            color: #94a3b8;
-        }
-        
-        .price-value.final {
-            color: var(--success);
-        }
-        
-        .price-value.direct {
-            color: var(--warning);
-        }
-        
-        .price-value.coupon {
-            color: #8b5cf6;
-        }
-        
-        /* 优惠总览 */
-        .discount-overview {
-            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            margin-top: 20px;
-            border: 2px solid var(--border);
-        }
-        
-        .total-discount {
-            font-size: 20px;
-            color: var(--dark);
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-        
-        .discount-detail {
-            font-size: 14px;
-            color: #64748b;
-        }
-        
-        /* 核心指标卡片 */
-        .core-metrics {
-            background: white;
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            border: 1px solid var(--border);
-        }
-        
-        .metrics-grid {
+        /* 参数网格 */
+        .params-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 16px;
         }
         
         @media (max-width: 1200px) {
-            .metrics-grid {
+            .params-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
         
         @media (max-width: 768px) {
-            .metrics-grid {
+            .params-grid {
                 grid-template-columns: 1fr;
             }
         }
         
-        .metric-card {
-            padding: 20px;
-            border-radius: 12px;
-            text-align: center;
-            border: 2px solid var(--border);
+        /* SKU管理 */
+        .sku-management {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--border);
+            margin-bottom: 24px;
+        }
+        
+        .sku-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .sku-controls {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .sku-table-container {
+            overflow-x: auto;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+        
+        .sku-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1400px;
+        }
+        
+        .sku-table th {
+            background: #f1f5f9;
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 13px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .sku-table td {
+            padding: 10px 16px;
+            border-bottom: 1px solid var(--border);
+            color: #475569;
+            font-size: 13px;
+        }
+        
+        .sku-table tr:hover {
+            background: #f8fafc;
+        }
+        
+        .sku-table input {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 13px;
+        }
+        
+        .sku-table input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .sku-actions {
+            display: flex;
+            gap: 6px;
+        }
+        
+        .sku-btn {
+            padding: 4px 8px;
+            border: none;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
             transition: all 0.2s;
         }
         
-        .metric-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        .sku-btn.add {
+            background: var(--primary);
+            color: white;
         }
         
-        .metric-card.primary {
-            border-color: var(--primary);
-            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+        .sku-btn.remove {
+            background: #fee2e2;
+            color: #991b1b;
         }
         
-        .metric-card.success {
-            border-color: var(--success);
-            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+        .sku-btn.calc {
+            background: var(--success);
+            color: white;
         }
         
-        .metric-card.warning {
-            border-color: var(--warning);
-            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
-        }
-        
-        .metric-card.danger {
-            border-color: var(--danger);
-            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
-        }
-        
-        .metric-label {
-            font-size: 14px;
-            color: #64748b;
+        /* 折扣类型切换 */
+        .discount-type {
+            display: flex;
+            background: #e2e8f0;
+            border-radius: 6px;
+            padding: 4px;
             margin-bottom: 8px;
         }
         
-        .metric-value {
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--dark);
+        .type-btn {
+            flex: 1;
+            padding: 4px 6px;
+            text-align: center;
+            font-size: 11px;
+            font-weight: 500;
+            color: #64748b;
+            background: transparent;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
         }
         
-        .metric-value.success {
-            color: var(--success);
+        .type-btn.active {
+            background: white;
+            color: var(--primary);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
         
-        .metric-value.warning {
-            color: var(--warning);
-        }
-        
-        .metric-value.danger {
-            color: var(--danger);
-        }
-        
-        /* 详细利润分析 */
+        /* 利润分析 */
         .profit-analysis {
             background: white;
             border-radius: 16px;
@@ -407,28 +291,105 @@
             border: 1px solid var(--border);
         }
         
-        .profit-details {
+        .profit-summary {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        
+        @media (max-width: 1200px) {
+            .profit-summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .profit-summary {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .profit-card {
+            padding: 16px;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid var(--border);
+            transition: all 0.2s;
+        }
+        
+        .profit-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .profit-card.primary {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+        }
+        
+        .profit-card.success {
+            border-color: var(--success);
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+        }
+        
+        .profit-card.warning {
+            border-color: var(--warning);
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+        }
+        
+        .profit-card.danger {
+            border-color: var(--danger);
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+        }
+        
+        .profit-label {
+            font-size: 12px;
+            color: #64748b;
+            margin-bottom: 8px;
+        }
+        
+        .profit-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+        
+        .profit-value.success {
+            color: var(--success);
+        }
+        
+        .profit-value.warning {
+            color: var(--warning);
+        }
+        
+        .profit-value.danger {
+            color: var(--danger);
+        }
+        
+        /* 详细分析 */
+        .detail-analysis {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 24px;
         }
         
         @media (max-width: 768px) {
-            .profit-details {
+            .detail-analysis {
                 grid-template-columns: 1fr;
             }
         }
         
-        .cost-breakdown, .profit-breakdown {
-            padding: 20px;
-            border-radius: 12px;
+        .cost-breakdown, .margin-breakdown {
+            padding: 16px;
+            border-radius: 8px;
             border: 1px solid var(--border);
         }
         
         .breakdown-item {
             display: flex;
             justify-content: space-between;
-            padding: 12px 0;
+            padding: 10px 0;
             border-bottom: 1px solid var(--border);
         }
         
@@ -438,40 +399,40 @@
         
         .breakdown-label {
             color: #475569;
-            font-size: 14px;
+            font-size: 13px;
         }
         
         .breakdown-value {
             font-weight: 600;
             color: var(--dark);
+            font-size: 13px;
         }
         
         .breakdown-total {
             font-weight: 700;
             color: var(--primary);
-            font-size: 16px;
+            font-size: 14px;
         }
         
         /* 按钮 */
         .button-group {
             display: flex;
             gap: 12px;
-            margin-top: 24px;
+            margin-top: 20px;
         }
         
         .btn {
-            flex: 1;
-            padding: 14px 20px;
+            padding: 12px 16px;
             border: none;
-            border-radius: 10px;
-            font-size: 15px;
+            border-radius: 8px;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 6px;
         }
         
         .btn-primary {
@@ -500,48 +461,6 @@
             color: white;
         }
         
-        /* 折扣/金额切换按钮 */
-        .toggle-group {
-            display: flex;
-            background: #f1f5f9;
-            border-radius: 8px;
-            padding: 4px;
-            margin-bottom: 12px;
-        }
-        
-        .toggle-btn {
-            flex: 1;
-            padding: 8px 12px;
-            text-align: center;
-            font-size: 13px;
-            font-weight: 500;
-            color: #64748b;
-            background: transparent;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .toggle-btn.active {
-            background: white;
-            color: var(--primary);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-        
-        /* 参数网格 */
-        .params-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-        }
-        
-        @media (max-width: 768px) {
-            .params-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        
         /* 占位符样式 */
         .placeholder {
             color: #94a3b8;
@@ -557,6 +476,44 @@
         .fade-in {
             animation: fadeIn 0.3s ease-out;
         }
+        
+        /* 错误提示 */
+        .error-message {
+            background: #fef2f2;
+            border: 2px solid #fee2e2;
+            color: #dc2626;
+            padding: 10px 16px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        /* 通知 */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease-out;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            background: var(--success);
+            color: white;
+        }
+        
+        .notification.error {
+            background: #ef4444;
+        }
+        
+        .notification.warning {
+            background: #f59e0b;
+        }
     </style>
 </head>
 <body>
@@ -566,400 +523,198 @@
             <div class="logo-area">
                 <div class="logo">💰</div>
                 <div>
-                    <h1 class="title">灵枢定价工具</h1>
-                    <p class="subtitle">电商产品定价与利润分析系统</p>
+                    <h1 class="title">灵枢定价分析工具</h1>
+                    <p class="subtitle">多SKU成本核对 · 同行对标 · 利润分析</p>
                 </div>
-            </div>
-            <div style="font-size: 14px; color: #64748b; text-align: right;">
-                <div>货源定价 · 目标定价 · 利润分析</div>
-                <div>倍率上架 · 同行反推 · 一键切换</div>
             </div>
         </div>
         
-        <div class="main-content">
-            <!-- 左侧面板 -->
-            <div class="input-panel">
-                <div class="mode-switcher">
-                    <button class="mode-switch active" data-mode="cost">💰 货源定价模式</button>
-                    <button class="mode-switch" data-mode="target">🎯 目标定价模式</button>
+        <!-- 成本参数面板 -->
+        <div class="cost-panel">
+            <div class="section-title">📊 成本参数配置（可选）</div>
+            
+            <div class="params-grid">
+                <div class="input-group">
+                    <label class="input-label">
+                        平台佣金比例
+                    </label>
+                    <div class="input-wrapper">
+                        <input type="number" id="platformFee" value="" min="0" max="50" step="0.1" placeholder="例如：5">
+                        <span class="currency">%</span>
+                    </div>
+                    <div class="input-tip">通常5-10%</div>
                 </div>
                 
-                <!-- 货源定价模式 -->
-                <div class="mode-content active" id="cost-mode">
-                    <div class="section-title">📦 货源定价参数</div>
-                    
-                    <div class="price-hint">
-                        💡 模式说明：输入产品成本，通过倍率或加价计算原价，再设置折扣得到最终售价
+                <div class="input-group">
+                    <label class="input-label">
+                        达人佣金比例
+                    </label>
+                    <div class="input-wrapper">
+                        <input type="number" id="kolFee" value="" min="0" max="50" step="0.1" placeholder="例如：20">
+                        <span class="currency">%</span>
                     </div>
-                    
-                    <div class="params-grid">
-                        <div class="input-group">
-                            <label class="input-label">
-                                产品成本
-                            </label>
-                            <div class="input-wrapper">
-                                <input type="number" id="costPrice" value="50" min="0" step="0.01" placeholder="产品成本">
-                                <span class="currency">元</span>
-                            </div>
-                            <div class="input-tip">产品的进货或制造成本</div>
-                        </div>
-                        
-                        <div class="input-group">
-                            <label class="input-label">
-                                定价方式
-                            </label>
-                            <div class="input-wrapper">
-                                <select id="pricingMethod">
-                                    <option value="multiply">按倍率定价</option>
-                                    <option value="amount">按加价金额</option>
-                                </select>
-                            </div>
-                            <div class="input-tip">选择定价计算方式</div>
-                        </div>
-                    </div>
-                    
-                    <div class="params-grid">
-                        <div class="input-group" id="multiplyGroup">
-                            <label class="input-label">
-                                加价倍率
-                            </label>
-                            <div class="input-wrapper">
-                                <input type="number" id="priceMultiplier" value="3" min="1" step="0.1" placeholder="加价倍率">
-                                <span class="currency">倍</span>
-                            </div>
-                            <div class="input-tip">例：成本50元×3倍=150元原价</div>
-                        </div>
-                        
-                        <div class="input-group" id="amountGroup" style="display: none;">
-                            <label class="input-label">
-                                加价金额
-                            </label>
-                            <div class="input-wrapper">
-                                <input type="number" id="priceAddAmount" value="100" min="0" step="0.01" placeholder="加价金额">
-                                <span class="currency">元</span>
-                            </div>
-                            <div class="input-tip">例：成本50元+100元=150元原价</div>
-                        </div>
-                        
-                        <div class="input-group">
-                            <label class="input-label">
-                                单品直降
-                            </label>
-                            <div class="toggle-group" id="directToggle">
-                                <button class="toggle-btn active" data-type="percent">折扣百分比</button>
-                                <button class="toggle-btn" data-type="amount">固定金额</button>
-                            </div>
-                            <div class="input-wrapper">
-                                <input type="number" id="directDiscount" value="20" min="0" step="0.1" placeholder="直降折扣">
-                                <span class="currency" id="directUnit">%</span>
-                            </div>
-                            <div class="input-tip" id="directTip">在原价基础上直接降价的比例</div>
-                        </div>
-                        
-                        <div class="input-group">
-                            <label class="input-label">
-                                优惠券
-                            </label>
-                            <div class="toggle-group" id="couponToggle">
-                                <button class="toggle-btn active" data-type="percent">折扣百分比</button>
-                                <button class="toggle-btn" data-type="amount">固定金额</button>
-                            </div>
-                            <div class="input-wrapper">
-                                <input type="number" id="couponDiscount" value="10" min="0" step="0.1" placeholder="优惠券折扣">
-                                <span class="currency" id="couponUnit">%</span>
-                            </div>
-                            <div class="input-tip" id="couponTip">领券后额外优惠的比例</div>
-                        </div>
-                    </div>
+                    <div class="input-tip">达人带货佣金</div>
                 </div>
                 
-                <!-- 目标定价模式 -->
-                <div class="mode-content" id="target-mode">
-                    <div class="section-title">🎯 目标定价参数</div>
-                    
-                    <div class="price-hint">
-                        💡 模式说明：输入目标售价（同行价格），反推原价和成本，用于分析竞品定价策略
+                <div class="input-group">
+                    <label class="input-label">
+                        退货率预估
+                    </label>
+                    <div class="input-wrapper">
+                        <input type="number" id="returnRate" value="" min="0" max="50" step="0.1" placeholder="例如：5">
+                        <span class="currency">%</span>
                     </div>
-                    
-                    <div class="params-grid">
-                        <div class="input-group">
-                            <label class="input-label">
-                                目标售价
-                            </label>
-                            <div class="input-wrapper">
-                                <input type="number" id="targetPrice" value="108" min="0" step="0.01" placeholder="目标售价">
-                                <span class="currency">元</span>
-                            </div>
-                            <div class="input-tip">最终售价（抄同行的价格）</div>
-                        </div>
-                        
-                        <div class="input-group">
-                            <label class="input-label">
-                                定价方式
-                            </label>
-                            <div class="input-wrapper">
-                                <select id="targetPricingMethod">
-                                    <option value="multiply">按倍率反推</option>
-                                    <option value="amount">按加价反推</option>
-                                </select>
-                            </div>
-                            <div class="input-tip">选择反推计算方式</div>
-                        </div>
-                    </div>
-                    
-                    <div class="params-grid">
-                        <div class="input-group" id="targetMultiplyGroup">
-                            <label class="input-label">
-                                加价倍率
-                            </label>
-                            <div class="input-wrapper">
-                                <input type="number" id="targetMultiplier" value="3" min="1" step="0.1" placeholder="加价倍率">
-                                <span class="currency">倍</span>
-                            </div>
-                            <div class="input-tip">假设竞品使用的加价倍率</div>
-                        </div>
-                        
-                        <div class="input-group" id="targetAmountGroup" style="display: none;">
-                            <label class="input-label">
-                                加价金额
-                            </label>
-                            <div class="input-wrapper">
-                                <input type="number" id="targetAddAmount" value="100" min="0" step="0.01" placeholder="加价金额">
-                                <span class="currency">元</span>
-                            </div>
-                            <div class="input-tip">假设竞品使用的加价金额</div>
-                        </div>
-                        
-                        <div class="input-group">
-                            <label class="input-label">
-                                单品直降
-                            </label>
-                            <div class="toggle-group" id="targetDirectToggle">
-                                <button class="toggle-btn active" data-type="percent">折扣百分比</button>
-                                <button class="toggle-btn" data-type="amount">固定金额</button>
-                            </div>
-                            <div class="input-wrapper">
-                                <input type="number" id="targetDirectDiscount" value="20" min="0" step="0.1" placeholder="直降折扣">
-                                <span class="currency" id="targetDirectUnit">%</span>
-                            </div>
-                            <div class="input-tip" id="targetDirectTip">假设竞品使用的直降比例</div>
-                        </div>
-                        
-                        <div class="input-group">
-                            <label class="input-label">
-                                优惠券
-                            </label>
-                            <div class="toggle-group" id="targetCouponToggle">
-                                <button class="toggle-btn active" data-type="percent">折扣百分比</button>
-                                <button class="toggle-btn" data-type="amount">固定金额</button>
-                            </div>
-                            <div class="input-wrapper">
-                                <input type="number" id="targetCouponDiscount" value="10" min="0" step="0.1" placeholder="优惠券折扣">
-                                <span class="currency" id="targetCouponUnit">%</span>
-                            </div>
-                            <div class="input-tip" id="targetCouponTip">假设竞品使用的优惠券比例</div>
-                        </div>
-                    </div>
+                    <div class="input-tip">行业平均5-15%</div>
                 </div>
                 
-                <div class="section-title" style="margin-top: 32px;">📊 成本参数配置</div>
-                
-                <div class="params-grid">
-                    <div class="input-group">
-                        <label class="input-label">
-                            平台佣金比例
-                        </label>
-                        <div class="input-wrapper">
-                            <input type="number" id="platformFee" value="5" min="0" max="50" step="0.1">
-                            <span class="currency">%</span>
-                        </div>
-                        <div class="input-tip">通常5-10%，根据类目不同</div>
+                <div class="input-group">
+                    <label class="input-label">
+                        其他成本
+                    </label>
+                    <div class="input-wrapper">
+                        <input type="number" id="otherCost" value="" min="0" step="0.01" placeholder="包装、运费等">
+                        <span class="currency">元</span>
                     </div>
-                    
-                    <div class="input-group">
-                        <label class="input-label">
-                            达人佣金比例
-                        </label>
-                        <div class="input-wrapper">
-                            <input type="number" id="kolFee" value="20" min="0" max="50" step="0.1">
-                            <span class="currency">%</span>
-                        </div>
-                        <div class="input-tip">达人带货佣金比例</div>
-                    </div>
+                    <div class="input-tip">每件商品额外成本</div>
                 </div>
-                
-                <div class="params-grid">
-                    <div class="input-group">
-                        <label class="input-label">
-                            退货率预估
-                        </label>
-                        <div class="input-wrapper">
-                            <input type="number" id="returnRate" value="5" min="0" max="50" step="0.1">
-                            <span class="currency">%</span>
-                        </div>
-                        <div class="input-tip">行业平均5-15%</div>
-                    </div>
-                    
-                    <div class="input-group">
-                        <label class="input-label">
-                            其他成本
-                        </label>
-                        <div class="input-wrapper">
-                            <input type="number" id="otherCost" value="0" min="0" step="0.01" placeholder="其他成本">
-                            <span class="currency">元</span>
-                        </div>
-                        <div class="input-tip">包装、运费等额外成本</div>
-                    </div>
-                </div>
-                
-                <div class="button-group">
-                    <button class="btn btn-primary" id="calculateAll">
-                        🚀 开始计算
+            </div>
+            
+            <div class="button-group">
+                <button class="btn btn-primary" id="applyToAll">
+                    🔄 应用到所有SKU
+                </button>
+                <button class="btn btn-secondary" id="resetConfig">
+                    🔄 重置配置
+                </button>
+            </div>
+        </div>
+        
+        <!-- SKU管理 -->
+        <div class="sku-management fade-in">
+            <div class="sku-header">
+                <div class="section-title">📦 SKU定价管理</div>
+                <div class="sku-controls">
+                    <button class="btn sku-btn add" id="addSKU">
+                        ➕ 添加SKU
                     </button>
-                    <button class="btn btn-secondary" id="resetAll">
-                        🔄 重置参数
+                    <button class="btn btn-primary" id="calculateAll">
+                        🚀 批量计算
                     </button>
                 </div>
             </div>
             
-            <!-- 右侧面板 -->
-            <div class="result-panel">
-                <!-- 价格信息 -->
-                <div class="price-info fade-in">
-                    <div class="section-title">💰 价格信息总览</div>
-                    
-                    <div class="price-grid">
-                        <div class="price-card original">
-                            <div class="price-label">产品原价</div>
-                            <div class="price-value original" id="displayOriginalPrice">150.00元</div>
-                        </div>
-                        
-                        <div class="price-card direct">
-                            <div class="price-label">单品直降</div>
-                            <div class="price-value direct" id="displayDirectDiscount">30.00元</div>
-                        </div>
-                        
-                        <div class="price-card coupon">
-                            <div class="price-label">优惠券</div>
-                            <div class="price-value coupon" id="displayCoupon">12.00元</div>
-                        </div>
-                        
-                        <div class="price-card final">
-                            <div class="price-label">最终售价</div>
-                            <div class="price-value final" id="displayFinalPrice">108.00元</div>
-                        </div>
+            <div class="sku-table-container">
+                <table class="sku-table">
+                    <thead>
+                        <tr>
+                            <th width="120">SKU名称</th>
+                            <th width="100">成本价(元)</th>
+                            <th width="120">定价倍率</th>
+                            <th width="100">建议售价(元)</th>
+                            <th width="100">目标售价(元)</th>
+                            <th width="180">单品直降</th>
+                            <th width="180">优惠券</th>
+                            <th width="100">最终售价(元)</th>
+                            <th width="90">毛利(元)</th>
+                            <th width="80">毛利率</th>
+                            <th width="90">净利(元)</th>
+                            <th width="80">净利率</th>
+                            <th width="70">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="skuTableBody">
+                        <!-- SKU行将通过JavaScript动态添加 -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="font-size: 14px; color: #64748b;">
+                    总计 <span id="skuCount" style="font-weight: 700; color: var(--primary);">0</span> 个SKU
+                </div>
+                <div>
+                    <button class="btn btn-secondary" id="addSampleSKUs">
+                        📋 添加示例
+                    </button>
+                    <button class="btn btn-success" id="exportData">
+                        📤 导出数据
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 利润分析 -->
+        <div class="profit-analysis fade-in">
+            <div class="section-title">📈 总体利润分析</div>
+            
+            <div class="profit-summary">
+                <div class="profit-card primary">
+                    <div class="profit-label">总销售额</div>
+                    <div class="profit-value placeholder" id="totalRevenue">0元</div>
+                </div>
+                
+                <div class="profit-card success">
+                    <div class="profit-label">总毛利润</div>
+                    <div class="profit-value placeholder" id="totalGrossProfit">0元</div>
+                </div>
+                
+                <div class="profit-card warning">
+                    <div class="profit-label">平均毛利率</div>
+                    <div class="profit-value placeholder" id="avgGrossMargin">0%</div>
+                </div>
+                
+                <div class="profit-card danger">
+                    <div class="profit-label">平均净利率</div>
+                    <div class="profit-value placeholder" id="avgNetMargin">0%</div>
+                </div>
+            </div>
+            
+            <div class="detail-analysis">
+                <div class="cost-breakdown">
+                    <h4 style="margin-bottom: 12px; color: var(--dark); font-size: 15px;">成本构成分析</h4>
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">总成本</span>
+                        <span class="breakdown-value placeholder" id="totalCost">0元</span>
                     </div>
-                    
-                    <div class="discount-overview">
-                        <div class="total-discount">总优惠金额：<span id="totalDiscount">42.00元</span></div>
-                        <div class="discount-detail">相当于原价<span id="discountPercent">28%</span>的折扣</div>
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">平台佣金</span>
+                        <span class="breakdown-value placeholder" id="costPlatform">0元</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">达人佣金</span>
+                        <span class="breakdown-value placeholder" id="costKol">0元</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">退货损失</span>
+                        <span class="breakdown-value placeholder" id="costReturn">0元</span>
+                    </div>
+                    <div class="breakdown-item" style="border-top: 1px solid var(--border); padding-top: 12px;">
+                        <span class="breakdown-label breakdown-total">其他成本</span>
+                        <span class="breakdown-value breakdown-total placeholder" id="costOther">0元</span>
                     </div>
                 </div>
                 
-                <!-- 核心指标 -->
-                <div class="core-metrics fade-in">
-                    <div class="section-title">📈 核心利润指标</div>
-                    
-                    <div class="metrics-grid">
-                        <div class="metric-card primary">
-                            <div class="metric-label">单件毛利</div>
-                            <div class="metric-value" id="grossProfit">58.00元</div>
-                        </div>
-                        
-                        <div class="metric-card success">
-                            <div class="metric-label">单件净利</div>
-                            <div class="metric-value success" id="netProfit">25.60元</div>
-                        </div>
-                        
-                        <div class="metric-card warning">
-                            <div class="metric-label">毛利率</div>
-                            <div class="metric-value warning" id="grossMargin">53.7%</div>
-                        </div>
-                        
-                        <div class="metric-card danger">
-                            <div class="metric-label">净利率</div>
-                            <div class="metric-value" id="netMargin">23.7%</div>
-                        </div>
+                <div class="margin-breakdown">
+                    <h4 style="margin-bottom: 12px; color: var(--dark); font-size: 15px;">利润分布分析</h4>
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">最高毛利率SKU</span>
+                        <span class="breakdown-value placeholder" id="maxMarginSKU">-</span>
                     </div>
-                    
-                    <div class="button-group">
-                        <button class="btn btn-success" id="exportData">
-                            📤 导出数据
-                        </button>
-                        <button class="btn btn-secondary" id="copyResults">
-                            📋 复制结果
-                        </button>
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">最高毛利率</span>
+                        <span class="breakdown-value placeholder" id="maxMarginValue">0%</span>
                     </div>
-                </div>
-                
-                <!-- 详细利润分析 -->
-                <div class="profit-analysis fade-in">
-                    <div class="section-title">📋 详细利润分析</div>
-                    
-                    <div class="profit-details">
-                        <div class="cost-breakdown">
-                            <h4 style="margin-bottom: 16px; color: var(--dark);">成本构成分析</h4>
-                            <div class="breakdown-item">
-                                <span class="breakdown-label">产品成本</span>
-                                <span class="breakdown-value" id="costProduct">50.00元</span>
-                            </div>
-                            <div class="breakdown-item">
-                                <span class="breakdown-label">平台佣金</span>
-                                <span class="breakdown-value" id="costPlatform">5.40元</span>
-                            </div>
-                            <div class="breakdown-item">
-                                <span class="breakdown-label">达人佣金</span>
-                                <span class="breakdown-value" id="costKol">21.60元</span>
-                            </div>
-                            <div class="breakdown-item">
-                                <span class="breakdown-label">退货损失</span>
-                                <span class="breakdown-value" id="costReturn">5.40元</span>
-                            </div>
-                            <div class="breakdown-item">
-                                <span class="breakdown-label">其他成本</span>
-                                <span class="breakdown-value" id="costOther">0.00元</span>
-                            </div>
-                            <div class="breakdown-item" style="border-top: 2px solid var(--border); padding-top: 16px; margin-top: 8px;">
-                                <span class="breakdown-label breakdown-total">总成本</span>
-                                <span class="breakdown-value breakdown-total" id="totalCost">82.40元</span>
-                            </div>
-                        </div>
-                        
-                        <div class="profit-breakdown">
-                            <h4 style="margin-bottom: 16px; color: var(--dark);">利润分配分析</h4>
-                            <div class="breakdown-item">
-                                <span class="breakdown-label">销售收入</span>
-                                <span class="breakdown-value" id="revenue">108.00元</span>
-                            </div>
-                            <div class="breakdown-item">
-                                <span class="breakdown-label">－ 产品成本</span>
-                                <span class="breakdown-value" id="costProductOnly">50.00元</span>
-                            </div>
-                            <div class="breakdown-item">
-                                <span class="breakdown-label">＝ 毛利润</span>
-                                <span class="breakdown-value" id="grossProfitOnly">58.00元</span>
-                            </div>
-                            <div class="breakdown-item">
-                                <span class="breakdown-label">－ 其他成本</span>
-                                <span class="breakdown-value" id="costTotalOther">32.40元</span>
-                            </div>
-                            <div class="breakdown-item" style="border-top: 1px solid var(--border); padding-top: 16px;">
-                                <span class="breakdown-label breakdown-total">＝ 净利润</span>
-                                <span class="breakdown-value breakdown-total" id="profitNet">25.60元</span>
-                            </div>
-                            <div class="breakdown-item">
-                                <span class="breakdown-label">毛利率</span>
-                                <span class="breakdown-value" id="marginGross">53.7%</span>
-                            </div>
-                            <div class="breakdown-item">
-                                <span class="breakdown-label">净利率</span>
-                                <span class="breakdown-value" id="marginNet">23.7%</span>
-                            </div>
-                            <div class="breakdown-item">
-                                <span class="breakdown-label">投资回报率</span>
-                                <span class="breakdown-value" id="roi">31.1%</span>
-                            </div>
-                        </div>
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">最低毛利率SKU</span>
+                        <span class="breakdown-value placeholder" id="minMarginSKU">-</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">最低毛利率</span>
+                        <span class="breakdown-value placeholder" id="minMarginValue">0%</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">建议优化SKU</span>
+                        <span class="breakdown-value placeholder" id="optimizeSKU">-</span>
                     </div>
                 </div>
             </div>
@@ -968,585 +723,687 @@
 
     <script>
         // 全局变量
-        let currentMode = 'cost'; // 当前模式：cost货源定价, target目标定价
-        let currentPricingMethod = 'multiply'; // 定价方式：multiply倍率, amount加价
-        let currentDirectMode = 'percent'; // 直降模式：percent百分比, amount金额
-        let currentCouponMode = 'percent'; // 优惠券模式：percent百分比, amount金额
+        let skuList = [];
         
         // 初始化页面
         document.addEventListener('DOMContentLoaded', function() {
-            initializePage();
-            
-            // 绑定模式切换
-            document.querySelectorAll('.mode-switch').forEach(switchBtn => {
-                switchBtn.addEventListener('click', function() {
-                    const mode = this.getAttribute('data-mode');
-                    switchMode(mode);
-                });
-            });
-            
-            // 绑定定价方式切换
-            document.getElementById('pricingMethod').addEventListener('change', function() {
-                currentPricingMethod = this.value;
-                updatePricingMethodUI();
-                calculateAll();
-            });
-            
-            document.getElementById('targetPricingMethod').addEventListener('change', function() {
-                currentPricingMethod = this.value;
-                updateTargetPricingMethodUI();
-                calculateAll();
-            });
-            
-            // 绑定折扣/金额切换
-            setupToggle('directToggle', 'directUnit', 'directTip', 'directDiscount', 'direct');
-            setupToggle('couponToggle', 'couponUnit', 'couponTip', 'couponDiscount', 'coupon');
-            setupToggle('targetDirectToggle', 'targetDirectUnit', 'targetDirectTip', 'targetDirectDiscount', 'targetDirect');
-            setupToggle('targetCouponToggle', 'targetCouponUnit', 'targetCouponTip', 'targetCouponDiscount', 'targetCoupon');
-            
-            // 绑定所有输入事件
-            const allInputs = [
-                'costPrice', 'priceMultiplier', 'priceAddAmount', 'directDiscount', 'couponDiscount',
-                'targetPrice', 'targetMultiplier', 'targetAddAmount', 'targetDirectDiscount', 'targetCouponDiscount',
-                'platformFee', 'kolFee', 'returnRate', 'otherCost'
-            ];
-            
-            allInputs.forEach(id => {
-                const element = document.getElementById(id);
-                if (element) {
-                    element.addEventListener('input', calculateAll);
-                }
-            });
-            
-            // 绑定按钮事件
-            document.getElementById('calculateAll').addEventListener('click', calculateAll);
-            document.getElementById('resetAll').addEventListener('click', resetAll);
-            document.getElementById('exportData').addEventListener('click', exportData);
-            document.getElementById('copyResults').addEventListener('click', copyResults);
-            
-            // 初始计算
-            calculateAll();
+            setupEventListeners();
+            addSampleSKUs(); // 添加示例SKU数据
         });
         
-        // 初始化页面
-        function initializePage() {
-            updatePricingMethodUI();
-            updateTargetPricingMethodUI();
-        }
-        
-        // 切换模式
-        function switchMode(mode) {
-            currentMode = mode;
-            
-            // 更新模式切换按钮
-            document.querySelectorAll('.mode-switch').forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.getAttribute('data-mode') === mode) {
-                    btn.classList.add('active');
+        // 设置事件监听器
+        function setupEventListeners() {
+            // 成本参数输入事件
+            const costInputIds = ['platformFee', 'kolFee', 'returnRate', 'otherCost'];
+            costInputIds.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.addEventListener('input', updateAllCalculations);
                 }
             });
             
-            // 更新模式内容
-            document.querySelectorAll('.mode-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            document.getElementById(`${mode}-mode`).classList.add('active');
-            
-            // 重新计算
-            calculateAll();
+            // 按钮事件
+            document.getElementById('applyToAll').addEventListener('click', applyToAllSKUs);
+            document.getElementById('resetConfig').addEventListener('click', resetConfig);
+            document.getElementById('addSKU').addEventListener('click', addSKU);
+            document.getElementById('addSampleSKUs').addEventListener('click', addSampleSKUs);
+            document.getElementById('calculateAll').addEventListener('click', calculateAllSKUs);
+            document.getElementById('exportData').addEventListener('click', exportSKUData);
         }
         
-        // 设置折扣/金额切换
-        function setupToggle(toggleId, unitId, tipId, inputId, type) {
-            const toggle = document.getElementById(toggleId);
-            const unit = document.getElementById(unitId);
-            const tip = document.getElementById(tipId);
-            const input = document.getElementById(inputId);
+        // 添加示例SKU数据
+        function addSampleSKUs() {
+            const sampleSKUs = [
+                { id: 1, name: '基础款', cost: 85, multiplier: 2.5, targetPrice: 199, directDiscountType: 'percent', directDiscountValue: 10, couponDiscountType: 'percent', couponDiscountValue: 5 },
+                { id: 2, name: '升级款', cost: 120, multiplier: 2.8, targetPrice: 299, directDiscountType: 'percent', directDiscountValue: 15, couponDiscountType: 'percent', couponDiscountValue: 8 },
+                { id: 3, name: '旗舰款', cost: 200, multiplier: 3.0, targetPrice: 499, directDiscountType: 'amount', directDiscountValue: 50, couponDiscountType: 'percent', couponDiscountValue: 10 },
+                { id: 4, name: '配件A', cost: 25, multiplier: 2.2, targetPrice: 59, directDiscountType: 'percent', directDiscountValue: 5, couponDiscountType: 'amount', couponDiscountValue: 3 },
+                { id: 5, name: '配件B', cost: 35, multiplier: 2.3, targetPrice: 79, directDiscountType: 'percent', directDiscountValue: 8, couponDiscountType: 'percent', couponDiscountValue: 5 }
+            ];
             
-            // 切换按钮点击事件
-            toggle.querySelectorAll('.toggle-btn').forEach(btn => {
+            sampleSKUs.forEach(sku => {
+                if (!skuList.find(s => s.id === sku.id)) {
+                    skuList.push({
+                        id: sku.id,
+                        name: sku.name,
+                        cost: sku.cost,
+                        multiplier: sku.multiplier,
+                        targetPrice: sku.targetPrice,
+                        directDiscountType: sku.directDiscountType,
+                        directDiscountValue: sku.directDiscountValue,
+                        couponDiscountType: sku.couponDiscountType,
+                        couponDiscountValue: sku.couponDiscountValue,
+                        suggestedPrice: 0,
+                        directDiscount: 0,
+                        couponAmount: 0,
+                        finalPrice: 0,
+                        grossProfit: 0,
+                        grossMargin: 0,
+                        netProfit: 0,
+                        netMargin: 0
+                    });
+                }
+            });
+            
+            updateSKUTable();
+            calculateAllSKUs();
+            
+            showNotification('已添加示例SKU数据', 'success');
+        }
+        
+        // 添加SKU
+        function addSKU() {
+            const newId = skuList.length > 0 ? Math.max(...skuList.map(sku => sku.id)) + 1 : 1;
+            skuList.push({
+                id: newId,
+                name: `SKU-${String(newId).padStart(3, '0')}`,
+                cost: 0,
+                multiplier: 2.5,
+                targetPrice: 0,
+                directDiscountType: 'percent',
+                directDiscountValue: 0,
+                couponDiscountType: 'percent',
+                couponDiscountValue: 0,
+                suggestedPrice: 0,
+                directDiscount: 0,
+                couponAmount: 0,
+                finalPrice: 0,
+                grossProfit: 0,
+                grossMargin: 0,
+                netProfit: 0,
+                netMargin: 0
+            });
+            
+            updateSKUTable();
+        }
+        
+        // 移除SKU
+        function removeSKU(id) {
+            skuList = skuList.filter(sku => sku.id !== id);
+            updateSKUTable();
+            updateAllCalculations();
+        }
+        
+        // 更新SKU表格
+        function updateSKUTable() {
+            const tbody = document.getElementById('skuTableBody');
+            tbody.innerHTML = '';
+            
+            skuList.forEach(sku => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><input type="text" class="sku-name" value="${sku.name}" data-id="${sku.id}"></td>
+                    <td><input type="number" class="sku-cost" value="${sku.cost || ''}" min="0" step="0.01" data-id="${sku.id}" placeholder="成本价"></td>
+                    <td><input type="number" class="sku-multiplier" value="${sku.multiplier}" min="1" max="10" step="0.1" data-id="${sku.id}" placeholder="倍率"></td>
+                    <td class="sku-suggested-price">${sku.suggestedPrice > 0 ? sku.suggestedPrice.toFixed(2) : '-'}</td>
+                    <td><input type="number" class="sku-target-price" value="${sku.targetPrice || ''}" min="0" step="0.01" data-id="${sku.id}" placeholder="对标同行"></td>
+                    <td>
+                        <div class="discount-type" data-id="${sku.id}" data-type="direct">
+                            <button class="type-btn ${sku.directDiscountType === 'percent' ? 'active' : ''}" data-type="percent">%</button>
+                            <button class="type-btn ${sku.directDiscountType === 'amount' ? 'active' : ''}" data-type="amount">元</button>
+                        </div>
+                        <input type="number" class="sku-direct-discount-value" value="${sku.directDiscountValue}" min="0" step="0.1" data-id="${sku.id}" placeholder="直降值">
+                    </td>
+                    <td>
+                        <div class="discount-type" data-id="${sku.id}" data-type="coupon">
+                            <button class="type-btn ${sku.couponDiscountType === 'percent' ? 'active' : ''}" data-type="percent">%</button>
+                            <button class="type-btn ${sku.couponDiscountType === 'amount' ? 'active' : ''}" data-type="amount">元</button>
+                        </div>
+                        <input type="number" class="sku-coupon-discount-value" value="${sku.couponDiscountValue}" min="0" step="0.1" data-id="${sku.id}" placeholder="优惠券值">
+                    </td>
+                    <td class="sku-final-price ${sku.finalPrice > 0 ? 'profit-positive' : ''}">${sku.finalPrice > 0 ? sku.finalPrice.toFixed(2) : '-'}</td>
+                    <td class="sku-gross-profit ${getProfitColor(sku.grossProfit)}">${sku.grossProfit > 0 ? sku.grossProfit.toFixed(2) : '-'}</td>
+                    <td class="sku-gross-margin ${getMarginColor(sku.grossMargin)}">${sku.grossMargin > 0 ? sku.grossMargin.toFixed(1) + '%' : '-'}</td>
+                    <td class="sku-net-profit ${getProfitColor(sku.netProfit)}">${sku.netProfit > 0 ? sku.netProfit.toFixed(2) : '-'}</td>
+                    <td class="sku-net-margin ${getMarginColor(sku.netMargin)}">${sku.netMargin > 0 ? sku.netMargin.toFixed(1) + '%' : '-'}</td>
+                    <td>
+                        <div class="sku-actions">
+                            <button class="sku-btn calc" data-id="${sku.id}">计算</button>
+                            <button class="sku-btn remove" data-id="${sku.id}">删除</button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            // 更新SKU计数
+            document.getElementById('skuCount').textContent = skuList.length;
+            
+            // 绑定SKU行内事件
+            bindSKURowEvents();
+        }
+        
+        // 获取利润颜色类
+        function getProfitColor(profit) {
+            if (profit > 100) return 'profit-high';
+            if (profit > 50) return 'profit-medium';
+            if (profit > 20) return 'profit-low';
+            if (profit > 0) return 'profit-very-low';
+            return 'profit-negative';
+        }
+        
+        // 获取利润率颜色类
+        function getMarginColor(margin) {
+            if (margin > 40) return 'profit-high';
+            if (margin > 25) return 'profit-medium';
+            if (margin > 15) return 'profit-low';
+            if (margin > 0) return 'profit-very-low';
+            return 'profit-negative';
+        }
+        
+        // 绑定SKU行内事件
+        function bindSKURowEvents() {
+            // 绑定SKU名称输入事件
+            document.querySelectorAll('.sku-name').forEach(input => {
+                input.addEventListener('input', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    const sku = skuList.find(s => s.id === id);
+                    if (sku) sku.name = this.value;
+                });
+            });
+            
+            // 绑定成本输入事件
+            document.querySelectorAll('.sku-cost').forEach(input => {
+                input.addEventListener('input', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    const sku = skuList.find(s => s.id === id);
+                    if (sku) {
+                        sku.cost = parseFloat(this.value) || 0;
+                        updateSingleSKU(id);
+                    }
+                });
+            });
+            
+            // 绑定定价倍率输入事件
+            document.querySelectorAll('.sku-multiplier').forEach(input => {
+                input.addEventListener('input', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    const sku = skuList.find(s => s.id === id);
+                    if (sku) {
+                        sku.multiplier = parseFloat(this.value) || 2.5;
+                        updateSingleSKU(id);
+                    }
+                });
+            });
+            
+            // 绑定目标售价输入事件
+            document.querySelectorAll('.sku-target-price').forEach(input => {
+                input.addEventListener('input', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    const sku = skuList.find(s => s.id === id);
+                    if (sku) {
+                        sku.targetPrice = parseFloat(this.value) || 0;
+                        updateSingleSKU(id);
+                    }
+                });
+            });
+            
+            // 绑定单品直降值输入事件
+            document.querySelectorAll('.sku-direct-discount-value').forEach(input => {
+                input.addEventListener('input', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    const sku = skuList.find(s => s.id === id);
+                    if (sku) {
+                        sku.directDiscountValue = parseFloat(this.value) || 0;
+                        updateSingleSKU(id);
+                    }
+                });
+            });
+            
+            // 绑定优惠券值输入事件
+            document.querySelectorAll('.sku-coupon-discount-value').forEach(input => {
+                input.addEventListener('input', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    const sku = skuList.find(s => s.id === id);
+                    if (sku) {
+                        sku.couponDiscountValue = parseFloat(this.value) || 0;
+                        updateSingleSKU(id);
+                    }
+                });
+            });
+            
+            // 绑定折扣类型切换事件
+            document.querySelectorAll('.discount-type').forEach(container => {
+                const id = parseInt(container.getAttribute('data-id'));
+                const type = container.getAttribute('data-type'); // 'direct' 或 'coupon'
+                
+                container.querySelectorAll('.type-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const discountType = this.getAttribute('data-type');
+                        const sku = skuList.find(s => s.id === id);
+                        
+                        if (sku) {
+                            if (type === 'direct') {
+                                sku.directDiscountType = discountType;
+                            } else {
+                                sku.couponDiscountType = discountType;
+                            }
+                            
+                            // 更新按钮状态
+                            container.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
+                            this.classList.add('active');
+                            
+                            updateSingleSKU(id);
+                        }
+                    });
+                });
+            });
+            
+            // 绑定单个SKU计算按钮
+            document.querySelectorAll('.sku-btn.calc').forEach(btn => {
                 btn.addEventListener('click', function() {
-                    const newMode = this.getAttribute('data-type');
-                    
-                    // 更新UI
-                    toggle.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    // 更新单位和提示
-                    if (newMode === 'percent') {
-                        unit.textContent = '%';
-                        if (type === 'direct') {
-                            tip.textContent = '在原价基础上直接降价的比例';
-                        } else {
-                            tip.textContent = '领券后额外优惠的比例';
-                        }
-                    } else {
-                        unit.textContent = '元';
-                        if (type === 'direct') {
-                            tip.textContent = '在原价基础上直接减去的金额';
-                        } else {
-                            tip.textContent = '领券后额外减去的金额';
-                        }
-                    }
-                    
-                    // 更新模式变量
-                    if (toggleId.includes('target')) {
-                        // 目标模式
-                        if (type === 'direct') {
-                            // 目标模式直降
-                        } else {
-                            // 目标模式优惠券
-                        }
-                    } else {
-                        // 货源模式
-                        if (type === 'direct') {
-                            currentDirectMode = newMode;
-                        } else {
-                            currentCouponMode = newMode;
-                        }
-                    }
-                    
-                    // 重新计算
-                    calculateAll();
+                    const id = parseInt(this.getAttribute('data-id'));
+                    updateSingleSKU(id);
+                });
+            });
+            
+            // 绑定删除按钮
+            document.querySelectorAll('.sku-btn.remove').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    removeSKU(id);
                 });
             });
         }
         
-        // 更新定价方式UI
-        function updatePricingMethodUI() {
-            if (currentPricingMethod === 'multiply') {
-                document.getElementById('multiplyGroup').style.display = 'block';
-                document.getElementById('amountGroup').style.display = 'none';
-            } else {
-                document.getElementById('multiplyGroup').style.display = 'none';
-                document.getElementById('amountGroup').style.display = 'block';
-            }
+        // 更新所有计算
+        function updateAllCalculations() {
+            skuList.forEach(sku => {
+                if (sku.cost > 0) {
+                    updateSingleSKU(sku.id);
+                }
+            });
         }
         
-        // 更新目标定价方式UI
-        function updateTargetPricingMethodUI() {
-            if (currentPricingMethod === 'multiply') {
-                document.getElementById('targetMultiplyGroup').style.display = 'block';
-                document.getElementById('targetAmountGroup').style.display = 'none';
-            } else {
-                document.getElementById('targetMultiplyGroup').style.display = 'none';
-                document.getElementById('targetAmountGroup').style.display = 'block';
-            }
-        }
-        
-        // 计算所有
-        function calculateAll() {
-            if (currentMode === 'cost') {
-                calculateCostMode();
-            } else {
-                calculateTargetMode();
-            }
-        }
-        
-        // 计算货源定价模式
-        function calculateCostMode() {
-            // 获取输入值
-            const cost = parseFloat(document.getElementById('costPrice').value) || 0;
-            const directValue = parseFloat(document.getElementById('directDiscount').value) || 0;
-            const couponValue = parseFloat(document.getElementById('couponDiscount').value) || 0;
+        // 更新单个SKU
+        function updateSingleSKU(id) {
+            const sku = skuList.find(s => s.id === id);
+            if (!sku || sku.cost <= 0) return;
+            
+            // 获取成本参数
             const platformFeePercent = parseFloat(document.getElementById('platformFee').value) / 100 || 0;
             const kolFeePercent = parseFloat(document.getElementById('kolFee').value) / 100 || 0;
             const returnRatePercent = parseFloat(document.getElementById('returnRate').value) / 100 || 0;
             const otherCost = parseFloat(document.getElementById('otherCost').value) || 0;
             
-            // 计算原价
-            let originalPrice;
-            if (currentPricingMethod === 'multiply') {
-                const multiplier = parseFloat(document.getElementById('priceMultiplier').value) || 1;
-                originalPrice = cost * multiplier;
+            // 计算建议售价
+            sku.suggestedPrice = sku.cost * sku.multiplier;
+            
+            // 确定基准价：如果有目标售价则使用目标售价，否则使用建议售价
+            const basePrice = sku.targetPrice > 0 ? sku.targetPrice : sku.suggestedPrice;
+            
+            // 计算单品直降金额
+            let directDiscountAmount = 0;
+            if (sku.directDiscountType === 'percent') {
+                directDiscountAmount = basePrice * (sku.directDiscountValue / 100);
             } else {
-                const addAmount = parseFloat(document.getElementById('priceAddAmount').value) || 0;
-                originalPrice = cost + addAmount;
+                directDiscountAmount = sku.directDiscountValue;
             }
             
-            // 验证输入
-            if (isNaN(cost) || cost <= 0) {
-                showWarning('请输入有效的产品成本');
-                return;
-            }
+            // 计算优惠券金额（基于单品直降后价格）
+            const priceAfterDirect = basePrice - directDiscountAmount;
+            let couponAmount = 0;
             
-            if (originalPrice <= cost) {
-                showWarning('原价必须高于成本价');
-                return;
-            }
-            
-            // 计算优惠金额
-            let directDiscountAmount, couponAmount;
-            
-            // 计算直降金额
-            if (currentDirectMode === 'percent') {
-                directDiscountAmount = originalPrice * (directValue / 100);
+            if (sku.couponDiscountType === 'percent') {
+                couponAmount = priceAfterDirect * (sku.couponDiscountValue / 100);
             } else {
-                directDiscountAmount = directValue;
+                couponAmount = sku.couponDiscountValue;
             }
             
-            // 计算直降后价格
-            const priceAfterDirect = originalPrice - directDiscountAmount;
-            
-            // 计算优惠券金额
-            if (currentCouponMode === 'percent') {
-                couponAmount = priceAfterDirect * (couponValue / 100);
-            } else {
-                couponAmount = couponValue;
-            }
+            sku.directDiscount = directDiscountAmount;
+            sku.couponAmount = couponAmount;
             
             // 计算最终售价
-            const finalPrice = priceAfterDirect - couponAmount;
+            sku.finalPrice = basePrice - directDiscountAmount - couponAmount;
             
-            // 更新UI
-            updateResults(cost, originalPrice, directDiscountAmount, couponAmount, finalPrice, 
-                         platformFeePercent, kolFeePercent, returnRatePercent, otherCost);
+            // 计算利润
+            if (sku.finalPrice > 0 && sku.cost > 0) {
+                // 计算毛利润
+                sku.grossProfit = sku.finalPrice - sku.cost;
+                sku.grossMargin = sku.finalPrice > 0 ? (sku.grossProfit / sku.finalPrice) * 100 : 0;
+                
+                // 计算其他成本
+                const platformFee = sku.finalPrice * platformFeePercent;
+                const kolFee = sku.finalPrice * kolFeePercent;
+                const returnLoss = sku.finalPrice * returnRatePercent;
+                const totalOtherCosts = platformFee + kolFee + returnLoss + otherCost;
+                
+                // 计算净利润
+                sku.netProfit = sku.grossProfit - totalOtherCosts;
+                sku.netMargin = sku.finalPrice > 0 ? (sku.netProfit / sku.finalPrice) * 100 : 0;
+            } else {
+                sku.grossProfit = 0;
+                sku.grossMargin = 0;
+                sku.netProfit = 0;
+                sku.netMargin = 0;
+            }
+            
+            // 更新表格显示
+            updateSKUTable();
+            updateProfitSummary();
         }
         
-        // 计算目标定价模式
-        function calculateTargetMode() {
-            // 获取输入值
-            const targetPrice = parseFloat(document.getElementById('targetPrice').value) || 0;
-            const directValue = parseFloat(document.getElementById('targetDirectDiscount').value) || 0;
-            const couponValue = parseFloat(document.getElementById('targetCouponDiscount').value) || 0;
+        // 计算所有SKU
+        function calculateAllSKUs() {
+            let calculatedCount = 0;
+            
+            skuList.forEach(sku => {
+                if (sku.cost > 0) {
+                    updateSingleSKU(sku.id);
+                    calculatedCount++;
+                }
+            });
+            
+            if (calculatedCount > 0) {
+                showNotification(`成功计算 ${calculatedCount} 个SKU`, 'success');
+            } else {
+                showNotification('请先输入SKU的成本价', 'warning');
+            }
+        }
+        
+        // 应用到所有SKU
+        function applyToAllSKUs() {
+            showNotification('成本参数已应用到所有SKU', 'success');
+            calculateAllSKUs();
+        }
+        
+        // 重置配置
+        function resetConfig() {
+            if (confirm('确定要重置所有成本参数吗？')) {
+                // 重置成本参数（清空）
+                document.getElementById('platformFee').value = '';
+                document.getElementById('kolFee').value = '';
+                document.getElementById('returnRate').value = '';
+                document.getElementById('otherCost').value = '';
+                
+                showNotification('成本参数已重置', 'success');
+            }
+        }
+        
+        // 更新利润汇总
+        function updateProfitSummary() {
+            const validSKUs = skuList.filter(sku => sku.finalPrice > 0);
+            
+            if (validSKUs.length === 0) {
+                // 重置汇总数据
+                document.getElementById('totalRevenue').textContent = '0元';
+                document.getElementById('totalGrossProfit').textContent = '0元';
+                document.getElementById('avgGrossMargin').textContent = '0%';
+                document.getElementById('avgNetMargin').textContent = '0%';
+                document.getElementById('totalCost').textContent = '0元';
+                document.getElementById('costPlatform').textContent = '0元';
+                document.getElementById('costKol').textContent = '0元';
+                document.getElementById('costReturn').textContent = '0元';
+                document.getElementById('costOther').textContent = '0元';
+                
+                // 重置利润分布
+                document.getElementById('maxMarginSKU').textContent = '-';
+                document.getElementById('maxMarginValue').textContent = '0%';
+                document.getElementById('minMarginSKU').textContent = '-';
+                document.getElementById('minMarginValue').textContent = '0%';
+                document.getElementById('optimizeSKU').textContent = '-';
+                
+                return;
+            }
+            
+            // 计算总额
+            const totalRevenue = validSKUs.reduce((sum, sku) => sum + sku.finalPrice, 0);
+            const totalCost = validSKUs.reduce((sum, sku) => sum + sku.cost, 0);
+            const totalGrossProfit = validSKUs.reduce((sum, sku) => sum + sku.grossProfit, 0);
+            const totalNetProfit = validSKUs.reduce((sum, sku) => sum + sku.netProfit, 0);
+            
+            // 计算平均利润率
+            const avgGrossMargin = validSKUs.reduce((sum, sku) => sum + sku.grossMargin, 0) / validSKUs.length;
+            const avgNetMargin = validSKUs.reduce((sum, sku) => sum + sku.netMargin, 0) / validSKUs.length;
+            
+            // 计算其他成本
             const platformFeePercent = parseFloat(document.getElementById('platformFee').value) / 100 || 0;
             const kolFeePercent = parseFloat(document.getElementById('kolFee').value) / 100 || 0;
             const returnRatePercent = parseFloat(document.getElementById('returnRate').value) / 100 || 0;
             const otherCost = parseFloat(document.getElementById('otherCost').value) || 0;
             
-            // 验证输入
-            if (isNaN(targetPrice) || targetPrice <= 0) {
-                showWarning('请输入有效的目标售价');
-                return;
-            }
+            const costPlatform = totalRevenue * platformFeePercent;
+            const costKol = totalRevenue * kolFeePercent;
+            const costReturn = totalRevenue * returnRatePercent;
+            const costOther = otherCost * validSKUs.length;
             
-            // 反推原价和成本
-            // 首先，我们需要知道直降和优惠券的模式（百分比还是金额）
-            // 这里我们假设目标模式下的直降和优惠券都是百分比模式
-            
-            // 从最终售价反推直降后价格和原价
-            // 最终售价 = 直降后价格 × (1 - 优惠券折扣)
-            // 直降后价格 = 最终售价 / (1 - 优惠券折扣)
-            // 原价 = 直降后价格 / (1 - 直降折扣)
-            
-            const couponDiscountPercent = couponValue / 100; // 假设是百分比
-            const directDiscountPercent = directValue / 100; // 假设是百分比
-            
-            let priceAfterDirect, originalPrice;
-            
-            if (couponDiscountPercent >= 1) {
-                showWarning('优惠券折扣不能超过100%');
-                return;
-            }
-            
-            priceAfterDirect = targetPrice / (1 - couponDiscountPercent);
-            
-            if (directDiscountPercent >= 1) {
-                showWarning('直降折扣不能超过100%');
-                return;
-            }
-            
-            originalPrice = priceAfterDirect / (1 - directDiscountPercent);
-            
-            // 计算优惠金额
-            const directDiscountAmount = originalPrice * directDiscountPercent;
-            const couponAmount = priceAfterDirect * couponDiscountPercent;
-            
-            // 反推成本
-            let cost;
-            if (currentPricingMethod === 'multiply') {
-                const multiplier = parseFloat(document.getElementById('targetMultiplier').value) || 1;
-                cost = originalPrice / multiplier;
-            } else {
-                const addAmount = parseFloat(document.getElementById('targetAddAmount').value) || 0;
-                cost = originalPrice - addAmount;
-            }
-            
-            // 验证成本是否合理
-            if (cost <= 0) {
-                showWarning('反推的成本价不合理，请调整参数');
-                return;
-            }
-            
-            // 更新货源模式下的成本输入框，便于切换模式时保持数据
-            document.getElementById('costPrice').value = cost.toFixed(2);
-            
-            // 更新UI
-            updateResults(cost, originalPrice, directDiscountAmount, couponAmount, targetPrice, 
-                         platformFeePercent, kolFeePercent, returnRatePercent, otherCost);
-        }
-        
-        // 更新结果
-        function updateResults(cost, originalPrice, directDiscountAmount, couponAmount, finalPrice,
-                              platformFeePercent, kolFeePercent, returnRatePercent, otherCost) {
-            // 检查最终售价是否小于产品成本
-            if (finalPrice < cost) {
-                showWarning('最终售价低于产品成本，将导致亏损');
-            }
-            
-            // 计算成本
-            const platformFee = finalPrice * platformFeePercent;
-            const kolFee = finalPrice * kolFeePercent;
-            const returnLoss = finalPrice * returnRatePercent;
-            const totalCost = cost + platformFee + kolFee + returnLoss + otherCost;
-            
-            // 计算利润
-            const grossProfit = finalPrice - cost; // 毛利
-            const grossMargin = (grossProfit / finalPrice) * 100; // 毛利率
-            const otherCostsTotal = platformFee + kolFee + returnLoss + otherCost; // 其他成本总和
-            const netProfit = grossProfit - otherCostsTotal; // 净利润
-            const netMargin = (netProfit / finalPrice) * 100; // 净利率
-            const roi = totalCost > 0 ? (netProfit / totalCost) * 100 : 0;
-            
-            // 更新价格信息显示
-            document.getElementById('displayOriginalPrice').textContent = originalPrice.toFixed(2) + '元';
-            document.getElementById('displayDirectDiscount').textContent = directDiscountAmount.toFixed(2) + '元';
-            document.getElementById('displayCoupon').textContent = couponAmount.toFixed(2) + '元';
-            document.getElementById('displayFinalPrice').textContent = finalPrice.toFixed(2) + '元';
-            
-            const totalDiscount = directDiscountAmount + couponAmount;
-            document.getElementById('totalDiscount').textContent = totalDiscount.toFixed(2) + '元';
-            
-            const discountPercent = originalPrice !== 0 ? Math.round((totalDiscount / originalPrice) * 100) : 0;
-            document.getElementById('discountPercent').textContent = discountPercent + '%';
-            
-            // 更新核心指标
-            document.getElementById('grossProfit').textContent = grossProfit.toFixed(2) + '元';
-            document.getElementById('netProfit').textContent = netProfit.toFixed(2) + '元';
-            document.getElementById('grossMargin').textContent = grossMargin.toFixed(1) + '%';
-            document.getElementById('netMargin').textContent = netMargin.toFixed(1) + '%';
+            // 更新汇总显示
+            document.getElementById('totalRevenue').textContent = totalRevenue.toFixed(2) + '元';
+            document.getElementById('totalGrossProfit').textContent = totalGrossProfit.toFixed(2) + '元';
+            document.getElementById('avgGrossMargin').textContent = avgGrossMargin.toFixed(1) + '%';
+            document.getElementById('avgNetMargin').textContent = avgNetMargin.toFixed(1) + '%';
+            document.getElementById('totalCost').textContent = totalCost.toFixed(2) + '元';
+            document.getElementById('costPlatform').textContent = costPlatform.toFixed(2) + '元';
+            document.getElementById('costKol').textContent = costKol.toFixed(2) + '元';
+            document.getElementById('costReturn').textContent = costReturn.toFixed(2) + '元';
+            document.getElementById('costOther').textContent = costOther.toFixed(2) + '元';
             
             // 更新利润显示颜色
-            updateProfitColor(netMargin, 'netMargin');
-            updateProfitColor(netProfit, 'netProfit');
-            updateProfitColor(grossMargin, 'grossMargin');
-            updateProfitColor(grossProfit, 'grossProfit');
+            updateProfitColor(avgGrossMargin, 'avgGrossMargin');
+            updateProfitColor(avgNetMargin, 'avgNetMargin');
+            updateProfitColor(totalGrossProfit, 'totalGrossProfit');
             
-            // 更新成本分析
-            document.getElementById('costProduct').textContent = cost.toFixed(2) + '元';
-            document.getElementById('costPlatform').textContent = platformFee.toFixed(2) + '元';
-            document.getElementById('costKol').textContent = kolFee.toFixed(2) + '元';
-            document.getElementById('costReturn').textContent = returnLoss.toFixed(2) + '元';
-            document.getElementById('costOther').textContent = otherCost.toFixed(2) + '元';
-            document.getElementById('totalCost').textContent = totalCost.toFixed(2) + '元';
+            // 计算利润分布
+            const margins = validSKUs.map(sku => sku.grossMargin);
+            const maxMargin = Math.max(...margins);
+            const minMargin = Math.min(...margins);
+            const maxMarginSKU = validSKUs.find(sku => sku.grossMargin === maxMargin);
+            const minMarginSKU = validSKUs.find(sku => sku.grossMargin === minMargin);
             
-            // 更新利润分析
-            document.getElementById('revenue').textContent = finalPrice.toFixed(2) + '元';
-            document.getElementById('costProductOnly').textContent = cost.toFixed(2) + '元';
-            document.getElementById('grossProfitOnly').textContent = grossProfit.toFixed(2) + '元';
-            document.getElementById('costTotalOther').textContent = otherCostsTotal.toFixed(2) + '元';
-            document.getElementById('profitNet').textContent = netProfit.toFixed(2) + '元';
-            document.getElementById('marginGross').textContent = grossMargin.toFixed(1) + '%';
-            document.getElementById('marginNet').textContent = netMargin.toFixed(1) + '%';
-            document.getElementById('roi').textContent = roi.toFixed(1) + '%';
+            // 建议优化SKU（毛利率最低的）
+            const optimizeSKU = minMarginSKU;
             
-            // 添加动画效果
-            addFadeAnimation();
+            // 更新利润分布显示
+            document.getElementById('maxMarginSKU').textContent = maxMarginSKU ? maxMarginSKU.name : '-';
+            document.getElementById('maxMarginValue').textContent = maxMargin.toFixed(1) + '%';
+            document.getElementById('minMarginSKU').textContent = minMarginSKU ? minMarginSKU.name : '-';
+            document.getElementById('minMarginValue').textContent = minMargin.toFixed(1) + '%';
+            document.getElementById('optimizeSKU').textContent = optimizeSKU ? optimizeSKU.name : '-';
         }
         
         // 更新利润显示颜色
         function updateProfitColor(value, elementId) {
             const element = document.getElementById(elementId);
-            const parent = element.closest('.metric-value');
+            if (!element) return;
             
-            if (parent) {
-                parent.classList.remove('success', 'warning', 'danger');
-                
-                if (typeof value === 'number') {
-                    if (elementId.includes('Margin') || elementId.includes('Margin')) {
-                        // 利润率
-                        if (value > 30) {
-                            parent.classList.add('success');
-                        } else if (value > 15) {
-                            parent.classList.add('warning');
-                        } else if (value > 0) {
-                            parent.classList.add('danger');
-                        } else {
-                            parent.classList.add('danger');
-                        }
+            element.classList.remove('success', 'warning', 'danger');
+            
+            if (typeof value === 'number') {
+                if (elementId.includes('Margin')) {
+                    // 利润率
+                    if (value > 30) {
+                        element.classList.add('success');
+                    } else if (value > 15) {
+                        element.classList.add('warning');
+                    } else if (value > 0) {
+                        element.classList.add('danger');
                     } else {
-                        // 利润金额
-                        if (value > 0) {
-                            parent.classList.add('success');
-                        } else {
-                            parent.classList.add('danger');
-                        }
+                        element.classList.add('danger');
+                    }
+                } else {
+                    // 利润金额
+                    if (value > 0) {
+                        element.classList.add('success');
+                    } else {
+                        element.classList.add('danger');
                     }
                 }
             }
         }
         
-        // 重置所有参数
-        function resetAll() {
-            // 货源模式参数
-            document.getElementById('costPrice').value = 50;
-            document.getElementById('priceMultiplier').value = 3;
-            document.getElementById('priceAddAmount').value = 100;
-            document.getElementById('directDiscount').value = 20;
-            document.getElementById('couponDiscount').value = 10;
-            document.getElementById('pricingMethod').value = 'multiply';
+        // 导出SKU数据
+        function exportSKUData() {
+            if (skuList.length === 0) {
+                showNotification('没有SKU数据可以导出', 'error');
+                return;
+            }
             
-            // 目标模式参数
-            document.getElementById('targetPrice').value = 108;
-            document.getElementById('targetMultiplier').value = 3;
-            document.getElementById('targetAddAmount').value = 100;
-            document.getElementById('targetDirectDiscount').value = 20;
-            document.getElementById('targetCouponDiscount').value = 10;
-            document.getElementById('targetPricingMethod').value = 'multiply';
+            const validSKUs = skuList.filter(sku => sku.finalPrice > 0);
             
-            // 通用参数
-            document.getElementById('platformFee').value = 5;
-            document.getElementById('kolFee').value = 20;
-            document.getElementById('returnRate').value = 5;
-            document.getElementById('otherCost').value = 0;
-            
-            // 重置切换按钮
-            document.querySelectorAll('.toggle-btn').forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.getAttribute('data-type') === 'percent') {
-                    btn.classList.add('active');
+            const exportData = {
+                导出时间: new Date().toLocaleString(),
+                SKU总数: skuList.length,
+                有效SKU数: validSKUs.length,
+                成本参数: {
+                    平台佣金比例: document.getElementById('platformFee').value || '0' + '%',
+                    达人佣金比例: document.getElementById('kolFee').value || '0' + '%',
+                    退货率预估: document.getElementById('returnRate').value || '0' + '%',
+                    其他成本: document.getElementById('otherCost').value || '0' + '元'
+                },
+                SKU列表: validSKUs.map(sku => ({
+                    SKU名称: sku.name,
+                    实际成本: sku.cost.toFixed(2) + '元',
+                    定价倍率: sku.multiplier + '倍',
+                    建议售价: sku.suggestedPrice.toFixed(2) + '元',
+                    目标售价: sku.targetPrice > 0 ? sku.targetPrice.toFixed(2) + '元' : '-',
+                    单品直降类型: sku.directDiscountType === 'percent' ? '百分比' : '固定金额',
+                    单品直降值: sku.directDiscountValue + (sku.directDiscountType === 'percent' ? '%' : '元'),
+                    单品直降金额: sku.directDiscount.toFixed(2) + '元',
+                    优惠券类型: sku.couponDiscountType === 'percent' ? '百分比' : '固定金额',
+                    优惠券值: sku.couponDiscountValue + (sku.couponDiscountType === 'percent' ? '%' : '元'),
+                    优惠券金额: sku.couponAmount.toFixed(2) + '元',
+                    最终售价: sku.finalPrice.toFixed(2) + '元',
+                    毛利: sku.grossProfit.toFixed(2) + '元',
+                    毛利率: sku.grossMargin.toFixed(1) + '%',
+                    净利: sku.netProfit.toFixed(2) + '元',
+                    净利率: sku.netMargin.toFixed(1) + '%'
+                })),
+                汇总信息: {
+                    总销售额: document.getElementById('totalRevenue').textContent,
+                    总毛利润: document.getElementById('totalGrossProfit').textContent,
+                    平均毛利率: document.getElementById('avgGrossMargin').textContent,
+                    平均净利率: document.getElementById('avgNetMargin').textContent
                 }
-            });
-            
-            // 重置单位和提示
-            document.getElementById('directUnit').textContent = '%';
-            document.getElementById('directTip').textContent = '在原价基础上直接降价的比例';
-            document.getElementById('couponUnit').textContent = '%';
-            document.getElementById('couponTip').textContent = '领券后额外优惠的比例';
-            document.getElementById('targetDirectUnit').textContent = '%';
-            document.getElementById('targetDirectTip').textContent = '假设竞品使用的直降比例';
-            document.getElementById('targetCouponUnit').textContent = '%';
-            document.getElementById('targetCouponTip').textContent = '假设竞品使用的优惠券比例';
-            
-            // 重置模式变量
-            currentDirectMode = 'percent';
-            currentCouponMode = 'percent';
-            currentPricingMethod = 'multiply';
-            
-            // 更新UI
-            updatePricingMethodUI();
-            updateTargetPricingMethodUI();
-            
-            // 重新计算
-            calculateAll();
-            
-            showSuccess('所有参数已重置');
-        }
-        
-        // 导出数据
-        function exportData() {
-            const data = {
-                模式: currentMode === 'cost' ? '货源定价模式' : '目标定价模式',
-                产品成本: document.getElementById('costProductOnly').textContent,
-                产品原价: document.getElementById('displayOriginalPrice').textContent,
-                最终售价: document.getElementById('displayFinalPrice').textContent,
-                单件毛利: document.getElementById('grossProfit').textContent,
-                单件净利: document.getElementById('netProfit').textContent,
-                毛利率: document.getElementById('grossMargin').textContent,
-                净利率: document.getElementById('netMargin').textContent,
-                计算时间: new Date().toLocaleString()
             };
             
-            const dataStr = JSON.stringify(data, null, 2);
+            const dataStr = JSON.stringify(exportData, null, 2);
             const blob = new Blob([dataStr], {type: 'application/json'});
             const url = URL.createObjectURL(blob);
             
             const a = document.createElement('a');
             a.href = url;
-            a.download = `定价分析_${new Date().getTime()}.json`;
+            a.download = `SKU定价分析_${new Date().getTime()}.json`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
             
-            showSuccess('数据已导出为JSON文件');
-        }
-        
-        // 复制结果
-        function copyResults() {
-            const results = `
-灵枢定价工具分析结果
-====================
-计算模式：${currentMode === 'cost' ? '货源定价模式' : '目标定价模式'}
-产品原价：${document.getElementById('displayOriginalPrice').textContent}
-单品直降：${document.getElementById('displayDirectDiscount').textContent}
-优惠券：${document.getElementById('displayCoupon').textContent}
-最终售价：${document.getElementById('displayFinalPrice').textContent}
-单件毛利：${document.getElementById('grossProfit').textContent}
-单件净利：${document.getElementById('netProfit').textContent}
-毛利率：${document.getElementById('grossMargin').textContent}
-净利率：${document.getElementById('netMargin').textContent}
-计算时间：${new Date().toLocaleString()}
-            `.trim();
-            
-            navigator.clipboard.writeText(results).then(() => {
-                showSuccess('分析结果已复制到剪贴板');
-            }).catch(err => {
-                showError('复制失败，请手动复制');
-            });
-        }
-        
-        // 添加淡入动画
-        function addFadeAnimation() {
-            const elements = ['price-info', 'core-metrics', 'profit-analysis'];
-            elements.forEach(id => {
-                const element = document.querySelector('.' + id);
-                if (element) {
-                    element.classList.remove('fade-in');
-                    void element.offsetWidth; // 触发重绘
-                    element.classList.add('fade-in');
-                }
-            });
-        }
-        
-        // 显示成功提示
-        function showSuccess(message) {
-            showNotification(message, 'success');
-        }
-        
-        // 显示错误提示
-        function showError(message) {
-            showNotification(message, 'error');
-        }
-        
-        // 显示警告提示
-        function showWarning(message) {
-            showNotification(message, 'warning');
+            showNotification('SKU数据已导出为JSON文件', 'success');
         }
         
         // 显示通知
         function showNotification(message, type) {
-            const colors = {
-                success: '#10b981',
-                error: '#ef4444',
-                warning: '#f59e0b'
-            };
-            
-            const tip = document.createElement('div');
-            tip.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: ${colors[type]};
-                color: white;
-                padding: 12px 20px;
-                border-radius: 8px;
-                font-size: 14px;
-                font-weight: 500;
-                z-index: 1000;
-                animation: fadeIn 0.3s ease-out;
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            `;
-            tip.textContent = message;
-            document.body.appendChild(tip);
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
             
             setTimeout(() => {
-                tip.style.opacity = '0';
-                tip.style.transition = 'opacity 0.3s';
+                notification.style.opacity = '0';
+                notification.style.transition = 'opacity 0.3s';
                 setTimeout(() => {
-                    document.body.removeChild(tip);
+                    document.body.removeChild(notification);
                 }, 300);
             }, 3000);
         }
     </script>
+    
+    <style>
+        /* 利润颜色样式 */
+        .profit-high {
+            color: var(--success);
+            font-weight: 700;
+        }
+        
+        .profit-medium {
+            color: var(--warning);
+            font-weight: 700;
+        }
+        
+        .profit-low {
+            color: #f59e0b;
+            font-weight: 700;
+        }
+        
+        .profit-very-low {
+            color: #f97316;
+            font-weight: 700;
+        }
+        
+        .profit-negative {
+            color: var(--danger);
+            font-weight: 700;
+        }
+        
+        .profit-positive {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        /* 表格中的利润颜色 */
+        .sku-gross-profit.profit-high,
+        .sku-net-profit.profit-high {
+            color: var(--success);
+            font-weight: 600;
+        }
+        
+        .sku-gross-profit.profit-medium,
+        .sku-net-profit.profit-medium {
+            color: var(--warning);
+            font-weight: 600;
+        }
+        
+        .sku-gross-profit.profit-low,
+        .sku-net-profit.profit-low {
+            color: #f59e0b;
+            font-weight: 600;
+        }
+        
+        .sku-gross-profit.profit-very-low,
+        .sku-net-profit.profit-very-low {
+            color: #f97316;
+            font-weight: 600;
+        }
+        
+        .sku-gross-profit.profit-negative,
+        .sku-net-profit.profit-negative {
+            color: var(--danger);
+            font-weight: 600;
+        }
+        
+        .sku-gross-margin.profit-high,
+        .sku-net-margin.profit-high {
+            color: var(--success);
+            font-weight: 600;
+        }
+        
+        .sku-gross-margin.profit-medium,
+        .sku-net-margin.profit-medium {
+            color: var(--warning);
+            font-weight: 600;
+        }
+        
+        .sku-gross-margin.profit-low,
+        .sku-net-margin.profit-low {
+            color: #f59e0b;
+            font-weight: 600;
+        }
+        
+        .sku-gross-margin.profit-very-low,
+        .sku-net-margin.profit-very-low {
+            color: #f97316;
+            font-weight: 600;
+        }
+        
+        .sku-gross-margin.profit-negative,
+        .sku-net-margin.profit-negative {
+            color: var(--danger);
+            font-weight: 600;
+        }
+        
+        .sku-final-price.profit-positive {
+            color: var(--primary);
+            font-weight: 600;
+        }
+    </style>
 </body>
 </html>
