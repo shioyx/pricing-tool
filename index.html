@@ -187,7 +187,7 @@
         .sku-table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 1400px;
+            min-width: 1200px;
         }
         
         .sku-table th {
@@ -217,11 +217,17 @@
             border: 1px solid var(--border);
             border-radius: 6px;
             font-size: 13px;
+            transition: all 0.2s;
         }
         
         .sku-table input:focus {
             outline: none;
             border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+        }
+        
+        .sku-table input:focus + .enter-hint {
+            opacity: 1;
         }
         
         .sku-actions {
@@ -280,6 +286,49 @@
             background: white;
             color: var(--primary);
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* 折扣金额预览 */
+        .discount-preview {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        
+        .discount-preview-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+        }
+        
+        .discount-preview-label {
+            color: #64748b;
+        }
+        
+        .discount-preview-value {
+            font-weight: 600;
+        }
+        
+        .discount-preview-value.primary {
+            color: var(--primary);
+        }
+        
+        .discount-preview-value.warning {
+            color: var(--warning);
+        }
+        
+        .discount-preview-value.danger {
+            color: var(--danger);
+        }
+        
+        .discount-preview-total {
+            border-top: 1px solid var(--border);
+            padding-top: 4px;
+            margin-top: 2px;
+            font-weight: 600;
+            font-size: 12px;
+            color: var(--dark);
         }
         
         /* 利润分析 */
@@ -514,6 +563,41 @@
         .notification.warning {
             background: #f59e0b;
         }
+        
+        /* 加载状态 */
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+        
+        /* 回车提示 */
+        .enter-hint {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--primary);
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            opacity: 0;
+            transition: opacity 0.2s;
+            pointer-events: none;
+        }
+        
+        .input-with-hint {
+            position: relative;
+        }
+        
+        /* 表格单元格样式 */
+        .table-cell-input {
+            position: relative;
+        }
+        
+        .discount-input-group {
+            margin-bottom: 8px;
+        }
     </style>
 </head>
 <body>
@@ -609,11 +693,9 @@
                         <tr>
                             <th width="120">SKU名称</th>
                             <th width="100">成本价(元)</th>
-                            <th width="120">定价倍率</th>
-                            <th width="100">建议售价(元)</th>
                             <th width="100">目标售价(元)</th>
-                            <th width="180">单品直降</th>
-                            <th width="180">优惠券</th>
+                            <th width="200">单品直降</th>
+                            <th width="200">优惠券</th>
                             <th width="100">最终售价(元)</th>
                             <th width="90">毛利(元)</th>
                             <th width="80">毛利率</th>
@@ -724,21 +806,22 @@
     <script>
         // 全局变量
         let skuList = [];
+        let inputTimeout = null; // 防抖计时器
         
         // 初始化页面
         document.addEventListener('DOMContentLoaded', function() {
             setupEventListeners();
-            addSampleSKUs(); // 添加示例SKU数据
+            addSampleSKUs(); // 添加示例SKU数据（现在只添加3个）
         });
         
         // 设置事件监听器
         function setupEventListeners() {
-            // 成本参数输入事件
+            // 成本参数输入事件 - 使用防抖
             const costInputIds = ['platformFee', 'kolFee', 'returnRate', 'otherCost'];
             costInputIds.forEach(id => {
                 const element = document.getElementById(id);
                 if (element) {
-                    element.addEventListener('input', updateAllCalculations);
+                    element.addEventListener('input', debounce(updateAllCalculations, 1000));
                 }
             });
             
@@ -751,44 +834,54 @@
             document.getElementById('exportData').addEventListener('click', exportSKUData);
         }
         
-        // 添加示例SKU数据
+        // 防抖函数
+        function debounce(func, delay) {
+            return function() {
+                clearTimeout(inputTimeout);
+                const context = this;
+                const args = arguments;
+                inputTimeout = setTimeout(() => func.apply(context, args), delay);
+            };
+        }
+        
+        // 添加示例SKU数据 - 修改为只添加3个
         function addSampleSKUs() {
             const sampleSKUs = [
-                { id: 1, name: '基础款', cost: 85, multiplier: 2.5, targetPrice: 199, directDiscountType: 'percent', directDiscountValue: 10, couponDiscountType: 'percent', couponDiscountValue: 5 },
-                { id: 2, name: '升级款', cost: 120, multiplier: 2.8, targetPrice: 299, directDiscountType: 'percent', directDiscountValue: 15, couponDiscountType: 'percent', couponDiscountValue: 8 },
-                { id: 3, name: '旗舰款', cost: 200, multiplier: 3.0, targetPrice: 499, directDiscountType: 'amount', directDiscountValue: 50, couponDiscountType: 'percent', couponDiscountValue: 10 },
-                { id: 4, name: '配件A', cost: 25, multiplier: 2.2, targetPrice: 59, directDiscountType: 'percent', directDiscountValue: 5, couponDiscountType: 'amount', couponDiscountValue: 3 },
-                { id: 5, name: '配件B', cost: 35, multiplier: 2.3, targetPrice: 79, directDiscountType: 'percent', directDiscountValue: 8, couponDiscountType: 'percent', couponDiscountValue: 5 }
+                { id: 1, name: '基础款', cost: 85, targetPrice: 199, directDiscountType: 'percent', directDiscountValue: 10, couponDiscountType: 'percent', couponDiscountValue: 5 },
+                { id: 2, name: '升级款', cost: 120, targetPrice: 299, directDiscountType: 'percent', directDiscountValue: 15, couponDiscountType: 'percent', couponDiscountValue: 8 },
+                { id: 3, name: '旗舰款', cost: 200, targetPrice: 499, directDiscountType: 'amount', directDiscountValue: 50, couponDiscountType: 'percent', couponDiscountValue: 10 }
             ];
             
+            // 清空现有SKU
+            skuList = [];
+            
             sampleSKUs.forEach(sku => {
-                if (!skuList.find(s => s.id === sku.id)) {
-                    skuList.push({
-                        id: sku.id,
-                        name: sku.name,
-                        cost: sku.cost,
-                        multiplier: sku.multiplier,
-                        targetPrice: sku.targetPrice,
-                        directDiscountType: sku.directDiscountType,
-                        directDiscountValue: sku.directDiscountValue,
-                        couponDiscountType: sku.couponDiscountType,
-                        couponDiscountValue: sku.couponDiscountValue,
-                        suggestedPrice: 0,
-                        directDiscount: 0,
-                        couponAmount: 0,
-                        finalPrice: 0,
-                        grossProfit: 0,
-                        grossMargin: 0,
-                        netProfit: 0,
-                        netMargin: 0
-                    });
-                }
+                skuList.push({
+                    id: sku.id,
+                    name: sku.name,
+                    cost: sku.cost,
+                    targetPrice: sku.targetPrice,
+                    directDiscountType: sku.directDiscountType,
+                    directDiscountValue: sku.directDiscountValue,
+                    couponDiscountType: sku.couponDiscountType,
+                    couponDiscountValue: sku.couponDiscountValue,
+                    directDiscount: 0,
+                    couponAmount: 0,
+                    finalPrice: 0,
+                    grossProfit: 0,
+                    grossMargin: 0,
+                    netProfit: 0,
+                    netMargin: 0,
+                    // 新增字段：折扣预览
+                    directDiscountPreview: 0,
+                    couponDiscountPreview: 0,
+                    priceAfterDirect: 0,
+                    priceAfterAll: 0
+                });
             });
             
             updateSKUTable();
-            calculateAllSKUs();
-            
-            showNotification('已添加示例SKU数据', 'success');
+            showNotification('已添加3个示例SKU数据，请点击"批量计算"按钮进行计算', 'success');
         }
         
         // 添加SKU
@@ -798,20 +891,23 @@
                 id: newId,
                 name: `SKU-${String(newId).padStart(3, '0')}`,
                 cost: 0,
-                multiplier: 2.5,
                 targetPrice: 0,
                 directDiscountType: 'percent',
                 directDiscountValue: 0,
                 couponDiscountType: 'percent',
                 couponDiscountValue: 0,
-                suggestedPrice: 0,
                 directDiscount: 0,
                 couponAmount: 0,
                 finalPrice: 0,
                 grossProfit: 0,
                 grossMargin: 0,
                 netProfit: 0,
-                netMargin: 0
+                netMargin: 0,
+                // 新增字段：折扣预览
+                directDiscountPreview: 0,
+                couponDiscountPreview: 0,
+                priceAfterDirect: 0,
+                priceAfterAll: 0
             });
             
             updateSKUTable();
@@ -821,7 +917,7 @@
         function removeSKU(id) {
             skuList = skuList.filter(sku => sku.id !== id);
             updateSKUTable();
-            updateAllCalculations();
+            updateProfitSummary();
         }
         
         // 更新SKU表格
@@ -830,26 +926,66 @@
             tbody.innerHTML = '';
             
             skuList.forEach(sku => {
+                // 计算折扣预览
+                updateDiscountPreview(sku);
+                
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td><input type="text" class="sku-name" value="${sku.name}" data-id="${sku.id}"></td>
-                    <td><input type="number" class="sku-cost" value="${sku.cost || ''}" min="0" step="0.01" data-id="${sku.id}" placeholder="成本价"></td>
-                    <td><input type="number" class="sku-multiplier" value="${sku.multiplier}" min="1" max="10" step="0.1" data-id="${sku.id}" placeholder="倍率"></td>
-                    <td class="sku-suggested-price">${sku.suggestedPrice > 0 ? sku.suggestedPrice.toFixed(2) : '-'}</td>
-                    <td><input type="number" class="sku-target-price" value="${sku.targetPrice || ''}" min="0" step="0.01" data-id="${sku.id}" placeholder="对标同行"></td>
-                    <td>
-                        <div class="discount-type" data-id="${sku.id}" data-type="direct">
-                            <button class="type-btn ${sku.directDiscountType === 'percent' ? 'active' : ''}" data-type="percent">%</button>
-                            <button class="type-btn ${sku.directDiscountType === 'amount' ? 'active' : ''}" data-type="amount">元</button>
-                        </div>
-                        <input type="number" class="sku-direct-discount-value" value="${sku.directDiscountValue}" min="0" step="0.1" data-id="${sku.id}" placeholder="直降值">
+                    <td class="table-cell-input">
+                        <input type="text" class="sku-name" value="${sku.name}" data-id="${sku.id}" placeholder="SKU名称">
+                        <span class="enter-hint">Enter</span>
+                    </td>
+                    <td class="table-cell-input">
+                        <input type="number" class="sku-cost" value="${sku.cost || ''}" min="0" step="0.01" data-id="${sku.id}" placeholder="成本价">
+                        <span class="enter-hint">Enter</span>
+                    </td>
+                    <td class="table-cell-input">
+                        <input type="number" class="sku-target-price" value="${sku.targetPrice || ''}" min="0" step="0.01" data-id="${sku.id}" placeholder="对标同行">
+                        <span class="enter-hint">Enter</span>
                     </td>
                     <td>
-                        <div class="discount-type" data-id="${sku.id}" data-type="coupon">
-                            <button class="type-btn ${sku.couponDiscountType === 'percent' ? 'active' : ''}" data-type="percent">%</button>
-                            <button class="type-btn ${sku.couponDiscountType === 'amount' ? 'active' : ''}" data-type="amount">元</button>
+                        <div class="discount-input-group">
+                            <div class="discount-type" data-id="${sku.id}" data-type="direct">
+                                <button class="type-btn ${sku.directDiscountType === 'percent' ? 'active' : ''}" data-type="percent">%</button>
+                                <button class="type-btn ${sku.directDiscountType === 'amount' ? 'active' : ''}" data-type="amount">元</button>
+                            </div>
+                            <div class="table-cell-input">
+                                <input type="number" class="sku-direct-discount-value" value="${sku.directDiscountValue}" min="0" step="0.1" data-id="${sku.id}" placeholder="直降值">
+                                <span class="enter-hint">Enter</span>
+                            </div>
                         </div>
-                        <input type="number" class="sku-coupon-discount-value" value="${sku.couponDiscountValue}" min="0" step="0.1" data-id="${sku.id}" placeholder="优惠券值">
+                        <div class="discount-preview" data-id="${sku.id}" data-type="direct">
+                            <div class="discount-preview-row">
+                                <span class="discount-preview-label">单品直降：</span>
+                                <span class="discount-preview-value ${getDiscountAmountColor(sku.directDiscountPreview, sku.targetPrice, 'direct')}" id="directPreviewAmount_${sku.id}">${sku.targetPrice > 0 ? sku.directDiscountPreview.toFixed(2) + '元' : '需输入售价'}</span>
+                            </div>
+                            <div class="discount-preview-row">
+                                <span class="discount-preview-label">直降后价格：</span>
+                                <span class="discount-preview-value primary" id="priceAfterDirect_${sku.id}">${sku.targetPrice > 0 ? sku.priceAfterDirect.toFixed(2) + '元' : '-'}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="discount-input-group">
+                            <div class="discount-type" data-id="${sku.id}" data-type="coupon">
+                                <button class="type-btn ${sku.couponDiscountType === 'percent' ? 'active' : ''}" data-type="percent">%</button>
+                                <button class="type-btn ${sku.couponDiscountType === 'amount' ? 'active' : ''}" data-type="amount">元</button>
+                            </div>
+                            <div class="table-cell-input">
+                                <input type="number" class="sku-coupon-discount-value" value="${sku.couponDiscountValue}" min="0" step="0.1" data-id="${sku.id}" placeholder="优惠券值">
+                                <span class="enter-hint">Enter</span>
+                            </div>
+                        </div>
+                        <div class="discount-preview" data-id="${sku.id}" data-type="coupon">
+                            <div class="discount-preview-row">
+                                <span class="discount-preview-label">优惠券：</span>
+                                <span class="discount-preview-value ${getDiscountAmountColor(sku.couponDiscountPreview, sku.priceAfterDirect, 'coupon')}" id="couponPreviewAmount_${sku.id}">${sku.targetPrice > 0 ? sku.couponDiscountPreview.toFixed(2) + '元' : '需输入售价'}</span>
+                            </div>
+                            <div class="discount-preview-row discount-preview-total">
+                                <span class="discount-preview-label">合计优惠：</span>
+                                <span class="discount-preview-value warning" id="totalDiscount_${sku.id}">${sku.targetPrice > 0 ? (sku.directDiscountPreview + sku.couponDiscountPreview).toFixed(2) + '元' : '-'}</span>
+                            </div>
+                        </div>
                     </td>
                     <td class="sku-final-price ${sku.finalPrice > 0 ? 'profit-positive' : ''}">${sku.finalPrice > 0 ? sku.finalPrice.toFixed(2) : '-'}</td>
                     <td class="sku-gross-profit ${getProfitColor(sku.grossProfit)}">${sku.grossProfit > 0 ? sku.grossProfit.toFixed(2) : '-'}</td>
@@ -873,6 +1009,117 @@
             bindSKURowEvents();
         }
         
+        // 计算折扣预览
+        function updateDiscountPreview(sku) {
+            if (!sku.targetPrice || sku.targetPrice <= 0) {
+                sku.directDiscountPreview = 0;
+                sku.couponDiscountPreview = 0;
+                sku.priceAfterDirect = 0;
+                sku.priceAfterAll = 0;
+                return;
+            }
+            
+            // 计算单品直降金额
+            if (sku.directDiscountType === 'percent') {
+                sku.directDiscountPreview = sku.targetPrice * (sku.directDiscountValue / 100);
+            } else {
+                sku.directDiscountPreview = parseFloat(sku.directDiscountValue) || 0;
+            }
+            
+            // 计算直降后价格
+            sku.priceAfterDirect = sku.targetPrice - sku.directDiscountPreview;
+            if (sku.priceAfterDirect < 0) sku.priceAfterDirect = 0;
+            
+            // 计算优惠券金额
+            if (sku.couponDiscountType === 'percent') {
+                sku.couponDiscountPreview = sku.priceAfterDirect * (sku.couponDiscountValue / 100);
+            } else {
+                sku.couponDiscountPreview = parseFloat(sku.couponDiscountValue) || 0;
+            }
+            
+            // 计算合计后价格
+            sku.priceAfterAll = sku.priceAfterDirect - sku.couponDiscountPreview;
+            if (sku.priceAfterAll < 0) sku.priceAfterAll = 0;
+        }
+        
+        // 更新折扣预览显示
+        function updateDiscountPreviewDisplay(id) {
+            const sku = skuList.find(s => s.id === id);
+            if (!sku) return;
+            
+            // 更新折扣预览数据
+            updateDiscountPreview(sku);
+            
+            // 更新显示
+            const directPreviewElement = document.getElementById(`directPreviewAmount_${id}`);
+            const priceAfterDirectElement = document.getElementById(`priceAfterDirect_${id}`);
+            const couponPreviewElement = document.getElementById(`couponPreviewAmount_${id}`);
+            const totalDiscountElement = document.getElementById(`totalDiscount_${id}`);
+            
+            if (directPreviewElement && sku.targetPrice > 0) {
+                directPreviewElement.textContent = sku.directDiscountPreview.toFixed(2) + '元';
+                directPreviewElement.className = `discount-preview-value ${getDiscountAmountColor(sku.directDiscountPreview, sku.targetPrice, 'direct')}`;
+            } else if (directPreviewElement) {
+                directPreviewElement.textContent = '需输入售价';
+                directPreviewElement.className = 'discount-preview-value';
+            }
+            
+            if (priceAfterDirectElement && sku.targetPrice > 0) {
+                priceAfterDirectElement.textContent = sku.priceAfterDirect.toFixed(2) + '元';
+            } else if (priceAfterDirectElement) {
+                priceAfterDirectElement.textContent = '-';
+            }
+            
+            if (couponPreviewElement && sku.targetPrice > 0) {
+                couponPreviewElement.textContent = sku.couponDiscountPreview.toFixed(2) + '元';
+                couponPreviewElement.className = `discount-preview-value ${getDiscountAmountColor(sku.couponDiscountPreview, sku.priceAfterDirect, 'coupon')}`;
+            } else if (couponPreviewElement) {
+                couponPreviewElement.textContent = '需输入售价';
+                couponPreviewElement.className = 'discount-preview-value';
+            }
+            
+            if (totalDiscountElement && sku.targetPrice > 0) {
+                const totalDiscount = sku.directDiscountPreview + sku.couponDiscountPreview;
+                totalDiscountElement.textContent = totalDiscount.toFixed(2) + '元';
+                
+                // 根据总折扣比例添加颜色提示
+                const discountRate = (totalDiscount / sku.targetPrice) * 100;
+                totalDiscountElement.className = `discount-preview-value ${getTotalDiscountColor(discountRate)}`;
+            } else if (totalDiscountElement) {
+                totalDiscountElement.textContent = '-';
+                totalDiscountElement.className = 'discount-preview-value';
+            }
+        }
+        
+        // 获取折扣金额颜色
+        function getDiscountAmountColor(discountAmount, basePrice, discountType) {
+            if (!basePrice || basePrice <= 0) return '';
+            
+            const discountRate = (discountAmount / basePrice) * 100;
+            
+            if (discountType === 'direct') {
+                // 单品直降颜色判断
+                if (discountRate > 30) return 'danger'; // 超过30%风险高
+                if (discountRate > 20) return 'warning'; // 20-30%需要谨慎
+                if (discountRate > 10) return ''; // 10-20%正常
+                return 'primary'; // 10%以内比较安全
+            } else {
+                // 优惠券颜色判断
+                if (discountRate > 15) return 'danger'; // 超过15%风险高
+                if (discountRate > 10) return 'warning'; // 10-15%需要谨慎
+                if (discountRate > 5) return ''; // 5-10%正常
+                return 'primary'; // 5%以内比较安全
+            }
+        }
+        
+        // 获取总折扣颜色
+        function getTotalDiscountColor(discountRate) {
+            if (discountRate > 40) return 'danger'; // 超过40%风险极高
+            if (discountRate > 30) return 'warning'; // 30-40%风险高
+            if (discountRate > 20) return ''; // 20-30%正常促销
+            return 'primary'; // 20%以内安全
+        }
+        
         // 获取利润颜色类
         function getProfitColor(profit) {
             if (profit > 100) return 'profit-high';
@@ -891,7 +1138,7 @@
             return 'profit-negative';
         }
         
-        // 绑定SKU行内事件
+        // 绑定SKU行内事件 - 使用防抖
         function bindSKURowEvents() {
             // 绑定SKU名称输入事件
             document.querySelectorAll('.sku-name').forEach(input => {
@@ -900,66 +1147,72 @@
                     const sku = skuList.find(s => s.id === id);
                     if (sku) sku.name = this.value;
                 });
+                
+                // 添加回车键事件
+                addEnterKeyListener(input, id => updateSingleSKU(id));
             });
             
-            // 绑定成本输入事件
+            // 绑定成本输入事件 - 使用防抖
             document.querySelectorAll('.sku-cost').forEach(input => {
-                input.addEventListener('input', function() {
+                input.addEventListener('input', debounce(function() {
                     const id = parseInt(this.getAttribute('data-id'));
                     const sku = skuList.find(s => s.id === id);
                     if (sku) {
                         sku.cost = parseFloat(this.value) || 0;
-                        updateSingleSKU(id);
+                        updateDiscountPreviewDisplay(id); // 更新折扣预览
                     }
-                });
+                }, 800));
+                
+                // 添加回车键事件
+                addEnterKeyListener(input, id => updateSingleSKU(id));
             });
             
-            // 绑定定价倍率输入事件
-            document.querySelectorAll('.sku-multiplier').forEach(input => {
-                input.addEventListener('input', function() {
-                    const id = parseInt(this.getAttribute('data-id'));
-                    const sku = skuList.find(s => s.id === id);
-                    if (sku) {
-                        sku.multiplier = parseFloat(this.value) || 2.5;
-                        updateSingleSKU(id);
-                    }
-                });
-            });
-            
-            // 绑定目标售价输入事件
+            // 绑定目标售价输入事件 - 使用防抖
             document.querySelectorAll('.sku-target-price').forEach(input => {
-                input.addEventListener('input', function() {
+                input.addEventListener('input', debounce(function() {
                     const id = parseInt(this.getAttribute('data-id'));
                     const sku = skuList.find(s => s.id === id);
                     if (sku) {
                         sku.targetPrice = parseFloat(this.value) || 0;
-                        updateSingleSKU(id);
+                        // 实时更新折扣预览
+                        updateDiscountPreviewDisplay(id);
                     }
-                });
+                }, 500));
+                
+                // 添加回车键事件
+                addEnterKeyListener(input, id => updateSingleSKU(id));
             });
             
-            // 绑定单品直降值输入事件
+            // 绑定单品直降值输入事件 - 使用防抖
             document.querySelectorAll('.sku-direct-discount-value').forEach(input => {
-                input.addEventListener('input', function() {
+                input.addEventListener('input', debounce(function() {
                     const id = parseInt(this.getAttribute('data-id'));
                     const sku = skuList.find(s => s.id === id);
                     if (sku) {
                         sku.directDiscountValue = parseFloat(this.value) || 0;
-                        updateSingleSKU(id);
+                        // 实时更新折扣预览
+                        updateDiscountPreviewDisplay(id);
                     }
-                });
+                }, 500));
+                
+                // 添加回车键事件
+                addEnterKeyListener(input, id => updateSingleSKU(id));
             });
             
-            // 绑定优惠券值输入事件
+            // 绑定优惠券值输入事件 - 使用防抖
             document.querySelectorAll('.sku-coupon-discount-value').forEach(input => {
-                input.addEventListener('input', function() {
+                input.addEventListener('input', debounce(function() {
                     const id = parseInt(this.getAttribute('data-id'));
                     const sku = skuList.find(s => s.id === id);
                     if (sku) {
                         sku.couponDiscountValue = parseFloat(this.value) || 0;
-                        updateSingleSKU(id);
+                        // 实时更新折扣预览
+                        updateDiscountPreviewDisplay(id);
                     }
-                });
+                }, 500));
+                
+                // 添加回车键事件
+                addEnterKeyListener(input, id => updateSingleSKU(id));
             });
             
             // 绑定折扣类型切换事件
@@ -983,7 +1236,8 @@
                             container.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
                             this.classList.add('active');
                             
-                            updateSingleSKU(id);
+                            // 实时更新折扣预览
+                            updateDiscountPreviewDisplay(id);
                         }
                     });
                 });
@@ -1006,19 +1260,53 @@
             });
         }
         
-        // 更新所有计算
-        function updateAllCalculations() {
-            skuList.forEach(sku => {
-                if (sku.cost > 0) {
-                    updateSingleSKU(sku.id);
+        // 添加回车键监听器
+        function addEnterKeyListener(inputElement, callback) {
+            inputElement.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    const id = parseInt(this.getAttribute('data-id'));
+                    
+                    // 更新数据（立即更新，不等待防抖）
+                    const sku = skuList.find(s => s.id === id);
+                    if (sku) {
+                        const value = this.value.trim();
+                        
+                        // 根据输入框类型更新相应的字段
+                        if (this.classList.contains('sku-name')) {
+                            sku.name = value;
+                        } else if (this.classList.contains('sku-cost')) {
+                            sku.cost = parseFloat(value) || 0;
+                        } else if (this.classList.contains('sku-target-price')) {
+                            sku.targetPrice = parseFloat(value) || 0;
+                        } else if (this.classList.contains('sku-direct-discount-value')) {
+                            sku.directDiscountValue = parseFloat(value) || 0;
+                        } else if (this.classList.contains('sku-coupon-discount-value')) {
+                            sku.couponDiscountValue = parseFloat(value) || 0;
+                        }
+                        
+                        // 更新折扣预览
+                        updateDiscountPreviewDisplay(id);
+                    }
+                    
+                    // 执行计算
+                    callback(id);
+                    
+                    // 移除焦点，隐藏回车提示
+                    this.blur();
                 }
             });
+        }
+        
+        // 更新所有计算
+        function updateAllCalculations() {
+            calculateAllSKUs();
         }
         
         // 更新单个SKU
         function updateSingleSKU(id) {
             const sku = skuList.find(s => s.id === id);
-            if (!sku || sku.cost <= 0) return;
+            if (!sku) return;
             
             // 获取成本参数
             const platformFeePercent = parseFloat(document.getElementById('platformFee').value) / 100 || 0;
@@ -1026,11 +1314,26 @@
             const returnRatePercent = parseFloat(document.getElementById('returnRate').value) / 100 || 0;
             const otherCost = parseFloat(document.getElementById('otherCost').value) || 0;
             
-            // 计算建议售价
-            sku.suggestedPrice = sku.cost * sku.multiplier;
+            // 如果没有目标售价，则无法计算最终售价和利润
+            if (sku.targetPrice <= 0) {
+                // 重置数据
+                sku.finalPrice = 0;
+                sku.grossProfit = 0;
+                sku.grossMargin = 0;
+                sku.netProfit = 0;
+                sku.netMargin = 0;
+                sku.directDiscount = 0;
+                sku.couponAmount = 0;
+                
+                // 更新表格显示
+                updateSKUTable();
+                updateProfitSummary();
+                showNotification('请先填写目标售价', 'warning');
+                return;
+            }
             
-            // 确定基准价：如果有目标售价则使用目标售价，否则使用建议售价
-            const basePrice = sku.targetPrice > 0 ? sku.targetPrice : sku.suggestedPrice;
+            // 基准价为目标售价
+            const basePrice = sku.targetPrice;
             
             // 计算单品直降金额
             let directDiscountAmount = 0;
@@ -1056,7 +1359,7 @@
             // 计算最终售价
             sku.finalPrice = basePrice - directDiscountAmount - couponAmount;
             
-            // 计算利润
+            // 计算利润（必须有成本价）
             if (sku.finalPrice > 0 && sku.cost > 0) {
                 // 计算毛利润
                 sku.grossProfit = sku.finalPrice - sku.cost;
@@ -1081,30 +1384,45 @@
             // 更新表格显示
             updateSKUTable();
             updateProfitSummary();
+            
+            // 显示成功消息
+            if (sku.finalPrice > 0 && sku.cost > 0) {
+                showNotification(`${sku.name} 计算完成！最终售价：¥${sku.finalPrice.toFixed(2)}，毛利率：${sku.grossMargin.toFixed(1)}%`, 'success');
+            }
         }
         
         // 计算所有SKU
         function calculateAllSKUs() {
             let calculatedCount = 0;
+            let missingTargetPriceCount = 0;
+            let missingCostCount = 0;
             
             skuList.forEach(sku => {
-                if (sku.cost > 0) {
+                if (sku.targetPrice > 0 && sku.cost > 0) {
                     updateSingleSKU(sku.id);
                     calculatedCount++;
+                } else {
+                    if (sku.targetPrice <= 0) missingTargetPriceCount++;
+                    if (sku.cost <= 0) missingCostCount++;
                 }
             });
             
             if (calculatedCount > 0) {
                 showNotification(`成功计算 ${calculatedCount} 个SKU`, 'success');
+                if (missingTargetPriceCount > 0 || missingCostCount > 0) {
+                    const missingMsg = [];
+                    if (missingTargetPriceCount > 0) missingMsg.push(`${missingTargetPriceCount}个SKU缺少目标售价`);
+                    if (missingCostCount > 0) missingMsg.push(`${missingCostCount}个SKU缺少成本价`);
+                    showNotification(`${missingMsg.join('，')}，无法计算`, 'warning');
+                }
             } else {
-                showNotification('请先输入SKU的成本价', 'warning');
+                showNotification('请先填写SKU的成本价和目标售价', 'warning');
             }
         }
         
         // 应用到所有SKU
         function applyToAllSKUs() {
-            showNotification('成本参数已应用到所有SKU', 'success');
-            calculateAllSKUs();
+            showNotification('成本参数已保存', 'success');
         }
         
         // 重置配置
@@ -1122,7 +1440,7 @@
         
         // 更新利润汇总
         function updateProfitSummary() {
-            const validSKUs = skuList.filter(sku => sku.finalPrice > 0);
+            const validSKUs = skuList.filter(sku => sku.finalPrice > 0 && sku.cost > 0);
             
             if (validSKUs.length === 0) {
                 // 重置汇总数据
@@ -1238,12 +1556,17 @@
                 return;
             }
             
-            const validSKUs = skuList.filter(sku => sku.finalPrice > 0);
+            const validSKUs = skuList.filter(sku => sku.finalPrice > 0 && sku.cost > 0);
+            
+            if (validSKUs.length === 0) {
+                showNotification('没有已计算的SKU数据可以导出', 'warning');
+                return;
+            }
             
             const exportData = {
                 导出时间: new Date().toLocaleString(),
                 SKU总数: skuList.length,
-                有效SKU数: validSKUs.length,
+                已计算SKU数: validSKUs.length,
                 成本参数: {
                     平台佣金比例: document.getElementById('platformFee').value || '0' + '%',
                     达人佣金比例: document.getElementById('kolFee').value || '0' + '%',
@@ -1253,9 +1576,7 @@
                 SKU列表: validSKUs.map(sku => ({
                     SKU名称: sku.name,
                     实际成本: sku.cost.toFixed(2) + '元',
-                    定价倍率: sku.multiplier + '倍',
-                    建议售价: sku.suggestedPrice.toFixed(2) + '元',
-                    目标售价: sku.targetPrice > 0 ? sku.targetPrice.toFixed(2) + '元' : '-',
+                    目标售价: sku.targetPrice.toFixed(2) + '元',
                     单品直降类型: sku.directDiscountType === 'percent' ? '百分比' : '固定金额',
                     单品直降值: sku.directDiscountValue + (sku.directDiscountType === 'percent' ? '%' : '元'),
                     单品直降金额: sku.directDiscount.toFixed(2) + '元',
