@@ -30,7 +30,7 @@
         }
         
         .container {
-            max-width: 1600px;
+            max-width: 1800px;
             margin: 0 auto;
         }
         
@@ -187,7 +187,7 @@
         .sku-table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 1200px;
+            min-width: 1300px;
         }
         
         .sku-table th {
@@ -342,18 +342,24 @@
         
         .profit-summary {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(5, 1fr);
             gap: 12px;
             margin-bottom: 24px;
         }
         
-        @media (max-width: 1200px) {
+        @media (max-width: 1400px) {
+            .profit-summary {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
             .profit-summary {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
         
-        @media (max-width: 768px) {
+        @media (max-width: 480px) {
             .profit-summary {
                 grid-template-columns: 1fr;
             }
@@ -392,6 +398,11 @@
             background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
         }
         
+        .profit-card.info {
+            border-color: #8b5cf6;
+            background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+        }
+        
         .profit-label {
             font-size: 12px;
             color: #64748b;
@@ -414,6 +425,10 @@
         
         .profit-value.danger {
             color: var(--danger);
+        }
+        
+        .profit-value.info {
+            color: #8b5cf6;
         }
         
         /* 详细分析 */
@@ -461,6 +476,44 @@
             font-weight: 700;
             color: var(--primary);
             font-size: 14px;
+        }
+        
+        /* 成本利润率分析 */
+        .margin-ratio-analysis {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-top: 16px;
+        }
+        
+        .ratio-item {
+            padding: 12px;
+            border-radius: 8px;
+            background: #f8fafc;
+            text-align: center;
+        }
+        
+        .ratio-label {
+            font-size: 11px;
+            color: #64748b;
+            margin-bottom: 4px;
+        }
+        
+        .ratio-value {
+            font-size: 16px;
+            font-weight: 700;
+        }
+        
+        .ratio-value.high {
+            color: var(--success);
+        }
+        
+        .ratio-value.medium {
+            color: var(--warning);
+        }
+        
+        .ratio-value.low {
+            color: #f97316;
         }
         
         /* 按钮 */
@@ -699,6 +752,7 @@
                             <th width="100">最终售价(元)</th>
                             <th width="90">毛利(元)</th>
                             <th width="80">毛利率</th>
+                            <th width="80">成本毛利率</th>
                             <th width="90">净利(元)</th>
                             <th width="80">净利率</th>
                             <th width="70">操作</th>
@@ -745,6 +799,11 @@
                     <div class="profit-value placeholder" id="avgGrossMargin">0%</div>
                 </div>
                 
+                <div class="profit-card info">
+                    <div class="profit-label">平均成本毛利率</div>
+                    <div class="profit-value placeholder" id="avgCostMargin">0%</div>
+                </div>
+                
                 <div class="profit-card danger">
                     <div class="profit-label">平均净利率</div>
                     <div class="profit-value placeholder" id="avgNetMargin">0%</div>
@@ -770,9 +829,13 @@
                         <span class="breakdown-label">退货损失</span>
                         <span class="breakdown-value placeholder" id="costReturn">0元</span>
                     </div>
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">其他成本</span>
+                        <span class="breakdown-value placeholder" id="costOther">0元</span>
+                    </div>
                     <div class="breakdown-item" style="border-top: 1px solid var(--border); padding-top: 12px;">
-                        <span class="breakdown-label breakdown-total">其他成本</span>
-                        <span class="breakdown-value breakdown-total placeholder" id="costOther">0元</span>
+                        <span class="breakdown-label breakdown-total">总费用</span>
+                        <span class="breakdown-value breakdown-total placeholder" id="totalExpenses">0元</span>
                     </div>
                 </div>
                 
@@ -797,6 +860,17 @@
                     <div class="breakdown-item">
                         <span class="breakdown-label">建议优化SKU</span>
                         <span class="breakdown-value placeholder" id="optimizeSKU">-</span>
+                    </div>
+                    
+                    <div class="margin-ratio-analysis">
+                        <div class="ratio-item">
+                            <div class="ratio-label">成本利润率</div>
+                            <div class="ratio-value placeholder" id="costProfitRatio">0%</div>
+                        </div>
+                        <div class="ratio-item">
+                            <div class="ratio-label">投资回报率(ROI)</div>
+                            <div class="ratio-value placeholder" id="roiRatio">0%</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -870,6 +944,7 @@
                     finalPrice: 0,
                     grossProfit: 0,
                     grossMargin: 0,
+                    costMargin: 0, // 新增：成本毛利率
                     netProfit: 0,
                     netMargin: 0,
                     // 新增字段：折扣预览
@@ -901,6 +976,7 @@
                 finalPrice: 0,
                 grossProfit: 0,
                 grossMargin: 0,
+                costMargin: 0, // 新增：成本毛利率
                 netProfit: 0,
                 netMargin: 0,
                 // 新增字段：折扣预览
@@ -990,6 +1066,7 @@
                     <td class="sku-final-price ${sku.finalPrice > 0 ? 'profit-positive' : ''}">${sku.finalPrice > 0 ? sku.finalPrice.toFixed(2) : '-'}</td>
                     <td class="sku-gross-profit ${getProfitColor(sku.grossProfit)}">${sku.grossProfit > 0 ? sku.grossProfit.toFixed(2) : '-'}</td>
                     <td class="sku-gross-margin ${getMarginColor(sku.grossMargin)}">${sku.grossMargin > 0 ? sku.grossMargin.toFixed(1) + '%' : '-'}</td>
+                    <td class="sku-cost-margin ${getCostMarginColor(sku.costMargin)}">${sku.costMargin > 0 ? sku.costMargin.toFixed(1) + '%' : '-'}</td>
                     <td class="sku-net-profit ${getProfitColor(sku.netProfit)}">${sku.netProfit > 0 ? sku.netProfit.toFixed(2) : '-'}</td>
                     <td class="sku-net-margin ${getMarginColor(sku.netMargin)}">${sku.netMargin > 0 ? sku.netMargin.toFixed(1) + '%' : '-'}</td>
                     <td>
@@ -1129,13 +1206,23 @@
             return 'profit-negative';
         }
         
-        // 获取利润率颜色类
+        // 获取利润率颜色类（售价毛利率）
         function getMarginColor(margin) {
             if (margin > 40) return 'profit-high';
             if (margin > 25) return 'profit-medium';
             if (margin > 15) return 'profit-low';
             if (margin > 0) return 'profit-very-low';
             return 'profit-negative';
+        }
+        
+        // 获取成本毛利率颜色类
+        function getCostMarginColor(costMargin) {
+            if (costMargin > 150) return 'profit-high'; // 超过150%超高利润
+            if (costMargin > 80) return 'profit-medium'; // 80-150%高利润
+            if (costMargin > 40) return 'profit-low'; // 40-80%中等利润
+            if (costMargin > 20) return 'profit-very-low'; // 20-40%低利润
+            if (costMargin > 0) return 'profit-negative'; // 0-20%微利
+            return 'profit-negative'; // 亏损
         }
         
         // 绑定SKU行内事件 - 使用防抖
@@ -1320,6 +1407,7 @@
                 sku.finalPrice = 0;
                 sku.grossProfit = 0;
                 sku.grossMargin = 0;
+                sku.costMargin = 0;
                 sku.netProfit = 0;
                 sku.netMargin = 0;
                 sku.directDiscount = 0;
@@ -1363,7 +1451,12 @@
             if (sku.finalPrice > 0 && sku.cost > 0) {
                 // 计算毛利润
                 sku.grossProfit = sku.finalPrice - sku.cost;
+                
+                // 计算售价毛利率：(售价-成本)/售价×100%
                 sku.grossMargin = sku.finalPrice > 0 ? (sku.grossProfit / sku.finalPrice) * 100 : 0;
+                
+                // 计算成本毛利率：(售价-成本)/成本×100%
+                sku.costMargin = sku.cost > 0 ? (sku.grossProfit / sku.cost) * 100 : 0;
                 
                 // 计算其他成本
                 const platformFee = sku.finalPrice * platformFeePercent;
@@ -1377,6 +1470,7 @@
             } else {
                 sku.grossProfit = 0;
                 sku.grossMargin = 0;
+                sku.costMargin = 0;
                 sku.netProfit = 0;
                 sku.netMargin = 0;
             }
@@ -1387,7 +1481,7 @@
             
             // 显示成功消息
             if (sku.finalPrice > 0 && sku.cost > 0) {
-                showNotification(`${sku.name} 计算完成！最终售价：¥${sku.finalPrice.toFixed(2)}，毛利率：${sku.grossMargin.toFixed(1)}%`, 'success');
+                showNotification(`${sku.name} 计算完成！最终售价：¥${sku.finalPrice.toFixed(2)}，售价毛利率：${sku.grossMargin.toFixed(1)}%，成本毛利率：${sku.costMargin.toFixed(1)}%`, 'success');
             }
         }
         
@@ -1447,12 +1541,16 @@
                 document.getElementById('totalRevenue').textContent = '0元';
                 document.getElementById('totalGrossProfit').textContent = '0元';
                 document.getElementById('avgGrossMargin').textContent = '0%';
+                document.getElementById('avgCostMargin').textContent = '0%';
                 document.getElementById('avgNetMargin').textContent = '0%';
                 document.getElementById('totalCost').textContent = '0元';
                 document.getElementById('costPlatform').textContent = '0元';
                 document.getElementById('costKol').textContent = '0元';
                 document.getElementById('costReturn').textContent = '0元';
                 document.getElementById('costOther').textContent = '0元';
+                document.getElementById('totalExpenses').textContent = '0元';
+                document.getElementById('costProfitRatio').textContent = '0%';
+                document.getElementById('roiRatio').textContent = '0%';
                 
                 // 重置利润分布
                 document.getElementById('maxMarginSKU').textContent = '-';
@@ -1472,6 +1570,7 @@
             
             // 计算平均利润率
             const avgGrossMargin = validSKUs.reduce((sum, sku) => sum + sku.grossMargin, 0) / validSKUs.length;
+            const avgCostMargin = validSKUs.reduce((sum, sku) => sum + sku.costMargin, 0) / validSKUs.length;
             const avgNetMargin = validSKUs.reduce((sum, sku) => sum + sku.netMargin, 0) / validSKUs.length;
             
             // 计算其他成本
@@ -1484,22 +1583,41 @@
             const costKol = totalRevenue * kolFeePercent;
             const costReturn = totalRevenue * returnRatePercent;
             const costOther = otherCost * validSKUs.length;
+            const totalExpenses = costPlatform + costKol + costReturn + costOther;
+            
+            // 计算成本利润率（总利润/总成本×100%）
+            const costProfitRatio = totalCost > 0 ? (totalGrossProfit / totalCost) * 100 : 0;
+            
+            // 计算投资回报率ROI（净利润/总成本×100%）
+            const roiRatio = totalCost > 0 ? (totalNetProfit / totalCost) * 100 : 0;
             
             // 更新汇总显示
             document.getElementById('totalRevenue').textContent = totalRevenue.toFixed(2) + '元';
             document.getElementById('totalGrossProfit').textContent = totalGrossProfit.toFixed(2) + '元';
             document.getElementById('avgGrossMargin').textContent = avgGrossMargin.toFixed(1) + '%';
+            document.getElementById('avgCostMargin').textContent = avgCostMargin.toFixed(1) + '%';
             document.getElementById('avgNetMargin').textContent = avgNetMargin.toFixed(1) + '%';
             document.getElementById('totalCost').textContent = totalCost.toFixed(2) + '元';
             document.getElementById('costPlatform').textContent = costPlatform.toFixed(2) + '元';
             document.getElementById('costKol').textContent = costKol.toFixed(2) + '元';
             document.getElementById('costReturn').textContent = costReturn.toFixed(2) + '元';
             document.getElementById('costOther').textContent = costOther.toFixed(2) + '元';
+            document.getElementById('totalExpenses').textContent = totalExpenses.toFixed(2) + '元';
+            document.getElementById('costProfitRatio').textContent = costProfitRatio.toFixed(1) + '%';
+            document.getElementById('roiRatio').textContent = roiRatio.toFixed(1) + '%';
             
             // 更新利润显示颜色
             updateProfitColor(avgGrossMargin, 'avgGrossMargin');
+            updateProfitColor(avgCostMargin, 'avgCostMargin');
             updateProfitColor(avgNetMargin, 'avgNetMargin');
             updateProfitColor(totalGrossProfit, 'totalGrossProfit');
+            
+            // 更新成本利润率颜色
+            updateCostMarginColor(avgCostMargin, 'avgCostMargin');
+            
+            // 更新成本利润率分析颜色
+            updateRatioColor(costProfitRatio, 'costProfitRatio');
+            updateRatioColor(roiRatio, 'roiRatio');
             
             // 计算利润分布
             const margins = validSKUs.map(sku => sku.grossMargin);
@@ -1524,16 +1642,27 @@
             const element = document.getElementById(elementId);
             if (!element) return;
             
-            element.classList.remove('success', 'warning', 'danger');
+            element.classList.remove('success', 'warning', 'danger', 'info');
             
             if (typeof value === 'number') {
-                if (elementId.includes('Margin')) {
-                    // 利润率
+                if (elementId.includes('GrossMargin') || elementId.includes('NetMargin')) {
+                    // 售价毛利率或净利率
                     if (value > 30) {
                         element.classList.add('success');
                     } else if (value > 15) {
                         element.classList.add('warning');
                     } else if (value > 0) {
+                        element.classList.add('danger');
+                    } else {
+                        element.classList.add('danger');
+                    }
+                } else if (elementId.includes('CostMargin')) {
+                    // 成本毛利率用不同标准
+                    if (value > 80) {
+                        element.classList.add('success');
+                    } else if (value > 40) {
+                        element.classList.add('warning');
+                    } else if (value > 20) {
                         element.classList.add('danger');
                     } else {
                         element.classList.add('danger');
@@ -1546,6 +1675,42 @@
                         element.classList.add('danger');
                     }
                 }
+            }
+        }
+        
+        // 更新成本毛利率颜色
+        function updateCostMarginColor(value, elementId) {
+            const element = document.getElementById(elementId);
+            if (!element) return;
+            
+            element.classList.remove('success', 'warning', 'danger', 'info');
+            
+            if (value > 80) {
+                element.classList.add('info'); // 紫色表示高利润
+            } else if (value > 40) {
+                element.classList.add('success');
+            } else if (value > 20) {
+                element.classList.add('warning');
+            } else if (value > 0) {
+                element.classList.add('danger');
+            } else {
+                element.classList.add('danger');
+            }
+        }
+        
+        // 更新比率颜色
+        function updateRatioColor(value, elementId) {
+            const element = document.getElementById(elementId);
+            if (!element) return;
+            
+            element.classList.remove('high', 'medium', 'low');
+            
+            if (value > 100) {
+                element.classList.add('high');
+            } else if (value > 50) {
+                element.classList.add('medium');
+            } else if (value > 20) {
+                element.classList.add('low');
             }
         }
         
@@ -1586,6 +1751,7 @@
                     最终售价: sku.finalPrice.toFixed(2) + '元',
                     毛利: sku.grossProfit.toFixed(2) + '元',
                     毛利率: sku.grossMargin.toFixed(1) + '%',
+                    成本毛利率: sku.costMargin.toFixed(1) + '%',
                     净利: sku.netProfit.toFixed(2) + '元',
                     净利率: sku.netMargin.toFixed(1) + '%'
                 })),
@@ -1593,7 +1759,10 @@
                     总销售额: document.getElementById('totalRevenue').textContent,
                     总毛利润: document.getElementById('totalGrossProfit').textContent,
                     平均毛利率: document.getElementById('avgGrossMargin').textContent,
-                    平均净利率: document.getElementById('avgNetMargin').textContent
+                    平均成本毛利率: document.getElementById('avgCostMargin').textContent,
+                    平均净利率: document.getElementById('avgNetMargin').textContent,
+                    成本利润率: document.getElementById('costProfitRatio').textContent,
+                    投资回报率: document.getElementById('roiRatio').textContent
                 }
             };
             
@@ -1721,9 +1890,47 @@
             font-weight: 600;
         }
         
+        .sku-cost-margin.profit-high {
+            color: #8b5cf6;
+            font-weight: 600;
+        }
+        
+        .sku-cost-margin.profit-medium {
+            color: var(--success);
+            font-weight: 600;
+        }
+        
+        .sku-cost-margin.profit-low {
+            color: var(--warning);
+            font-weight: 600;
+        }
+        
+        .sku-cost-margin.profit-very-low {
+            color: #f97316;
+            font-weight: 600;
+        }
+        
+        .sku-cost-margin.profit-negative {
+            color: var(--danger);
+            font-weight: 600;
+        }
+        
         .sku-final-price.profit-positive {
             color: var(--primary);
             font-weight: 600;
+        }
+        
+        /* 比率颜色 */
+        .ratio-value.high {
+            color: #8b5cf6;
+        }
+        
+        .ratio-value.medium {
+            color: var(--success);
+        }
+        
+        .ratio-value.low {
+            color: var(--warning);
         }
     </style>
 </body>
