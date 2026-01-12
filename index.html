@@ -651,6 +651,29 @@
         .discount-input-group {
             margin-bottom: 8px;
         }
+        
+        /* 空状态提示 */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #94a3b8;
+        }
+        
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+        
+        .empty-state-text {
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        
+        .empty-state-subtext {
+            font-size: 12px;
+            color: #cbd5e1;
+        }
     </style>
 </head>
 <body>
@@ -759,9 +782,15 @@
                         </tr>
                     </thead>
                     <tbody id="skuTableBody">
-                        <!-- SKU行将通过JavaScript动态添加 -->
+                        <!-- 初始为空 -->
                     </tbody>
                 </table>
+                <!-- 空状态提示 -->
+                <div id="emptyState" class="empty-state" style="display: block;">
+                    <div class="empty-state-icon">📦</div>
+                    <div class="empty-state-text">暂无SKU数据</div>
+                    <div class="empty-state-subtext">点击"添加SKU"按钮开始添加，或点击"添加示例"查看示例数据</div>
+                </div>
             </div>
             
             <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -882,10 +911,11 @@
         let skuList = [];
         let inputTimeout = null; // 防抖计时器
         
-        // 初始化页面
+        // 初始化页面 - 现在不自动添加示例数据
         document.addEventListener('DOMContentLoaded', function() {
             setupEventListeners();
-            addSampleSKUs(); // 添加示例SKU数据（现在只添加3个）
+            // 添加一个空的SKU，让用户可以立即开始填写
+            addEmptySKU();
         });
         
         // 设置事件监听器
@@ -918,7 +948,39 @@
             };
         }
         
-        // 添加示例SKU数据 - 修改为只添加3个
+        // 添加一个空的SKU
+        function addEmptySKU() {
+            const newId = skuList.length > 0 ? Math.max(...skuList.map(sku => sku.id)) + 1 : 1;
+            skuList.push({
+                id: newId,
+                name: `SKU-${String(newId).padStart(3, '0')}`,
+                cost: 0,
+                targetPrice: 0,
+                directDiscountType: 'percent',
+                directDiscountValue: 0,
+                couponDiscountType: 'percent',
+                couponDiscountValue: 0,
+                directDiscount: 0,
+                couponAmount: 0,
+                finalPrice: 0,
+                grossProfit: 0,
+                grossMargin: 0,
+                costMargin: 0,
+                netProfit: 0,
+                netMargin: 0,
+                // 新增字段：折扣预览
+                directDiscountPreview: 0,
+                couponDiscountPreview: 0,
+                priceAfterDirect: 0,
+                priceAfterAll: 0
+            });
+            
+            updateSKUTable();
+            // 隐藏空状态提示
+            document.getElementById('emptyState').style.display = 'none';
+        }
+        
+        // 添加示例SKU数据
         function addSampleSKUs() {
             const sampleSKUs = [
                 { id: 1, name: '基础款', cost: 85, targetPrice: 199, directDiscountType: 'percent', directDiscountValue: 10, couponDiscountType: 'percent', couponDiscountValue: 5 },
@@ -926,12 +988,17 @@
                 { id: 3, name: '旗舰款', cost: 200, targetPrice: 499, directDiscountType: 'amount', directDiscountValue: 50, couponDiscountType: 'percent', couponDiscountValue: 10 }
             ];
             
-            // 清空现有SKU
-            skuList = [];
+            // 如果当前没有SKU，清空现有SKU
+            if (skuList.length === 0) {
+                skuList = [];
+            }
             
-            sampleSKUs.forEach(sku => {
+            // 获取新的起始ID
+            const startId = skuList.length > 0 ? Math.max(...skuList.map(sku => sku.id)) + 1 : 1;
+            
+            sampleSKUs.forEach((sku, index) => {
                 skuList.push({
-                    id: sku.id,
+                    id: startId + index,
                     name: sku.name,
                     cost: sku.cost,
                     targetPrice: sku.targetPrice,
@@ -944,7 +1011,7 @@
                     finalPrice: 0,
                     grossProfit: 0,
                     grossMargin: 0,
-                    costMargin: 0, // 新增：成本毛利率
+                    costMargin: 0,
                     netProfit: 0,
                     netMargin: 0,
                     // 新增字段：折扣预览
@@ -956,6 +1023,8 @@
             });
             
             updateSKUTable();
+            // 隐藏空状态提示
+            document.getElementById('emptyState').style.display = 'none';
             showNotification('已添加3个示例SKU数据，请点击"批量计算"按钮进行计算', 'success');
         }
         
@@ -976,7 +1045,7 @@
                 finalPrice: 0,
                 grossProfit: 0,
                 grossMargin: 0,
-                costMargin: 0, // 新增：成本毛利率
+                costMargin: 0,
                 netProfit: 0,
                 netMargin: 0,
                 // 新增字段：折扣预览
@@ -987,6 +1056,8 @@
             });
             
             updateSKUTable();
+            // 隐藏空状态提示
+            document.getElementById('emptyState').style.display = 'none';
         }
         
         // 移除SKU
@@ -994,6 +1065,11 @@
             skuList = skuList.filter(sku => sku.id !== id);
             updateSKUTable();
             updateProfitSummary();
+            
+            // 如果没有SKU了，显示空状态提示
+            if (skuList.length === 0) {
+                document.getElementById('emptyState').style.display = 'block';
+            }
         }
         
         // 更新SKU表格
@@ -1008,7 +1084,7 @@
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td class="table-cell-input">
-                        <input type="text" class="sku-name" value="${sku.name}" data-id="${sku.id}" placeholder="SKU名称">
+                        <input type="text" class="sku-name" value="${sku.name || ''}" data-id="${sku.id}" placeholder="SKU名称">
                         <span class="enter-hint">Enter</span>
                     </td>
                     <td class="table-cell-input">
@@ -1026,7 +1102,7 @@
                                 <button class="type-btn ${sku.directDiscountType === 'amount' ? 'active' : ''}" data-type="amount">元</button>
                             </div>
                             <div class="table-cell-input">
-                                <input type="number" class="sku-direct-discount-value" value="${sku.directDiscountValue}" min="0" step="0.1" data-id="${sku.id}" placeholder="直降值">
+                                <input type="number" class="sku-direct-discount-value" value="${sku.directDiscountValue || ''}" min="0" step="0.1" data-id="${sku.id}" placeholder="直降值">
                                 <span class="enter-hint">Enter</span>
                             </div>
                         </div>
@@ -1048,7 +1124,7 @@
                                 <button class="type-btn ${sku.couponDiscountType === 'amount' ? 'active' : ''}" data-type="amount">元</button>
                             </div>
                             <div class="table-cell-input">
-                                <input type="number" class="sku-coupon-discount-value" value="${sku.couponDiscountValue}" min="0" step="0.1" data-id="${sku.id}" placeholder="优惠券值">
+                                <input type="number" class="sku-coupon-discount-value" value="${sku.couponDiscountValue || ''}" min="0" step="0.1" data-id="${sku.id}" placeholder="优惠券值">
                                 <span class="enter-hint">Enter</span>
                             </div>
                         </div>
