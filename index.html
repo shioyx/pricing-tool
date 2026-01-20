@@ -331,8 +331,8 @@
             color: var(--dark);
         }
         
-        /* 利润分析 */
-        .profit-analysis {
+        /* 组合促销面板 - 新增 */
+        .combo-pricing-panel {
             background: white;
             border-radius: 16px;
             padding: 24px;
@@ -340,180 +340,168 @@
             border: 1px solid var(--border);
         }
         
-        .profit-summary {
+        .combo-settings {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 12px;
-            margin-bottom: 24px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
         }
         
-        @media (max-width: 1400px) {
-            .profit-summary {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .profit-summary {
+        @media (max-width: 1200px) {
+            .combo-settings {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
         
-        @media (max-width: 480px) {
-            .profit-summary {
+        @media (max-width: 768px) {
+            .combo-settings {
                 grid-template-columns: 1fr;
             }
         }
         
-        .profit-card {
+        .combo-card {
+            background: #f8fafc;
+            border-radius: 12px;
             padding: 16px;
-            border-radius: 8px;
-            text-align: center;
-            border: 2px solid var(--border);
+            border: 1px solid var(--border);
             transition: all 0.2s;
         }
         
-        .profit-card:hover {
+        .combo-card:hover {
             transform: translateY(-4px);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-        }
-        
-        .profit-card.primary {
             border-color: var(--primary);
-            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
         }
         
-        .profit-card.success {
-            border-color: var(--success);
-            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+        .combo-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
         }
         
-        .profit-card.warning {
-            border-color: var(--warning);
-            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+        .combo-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--dark);
         }
         
-        .profit-card.danger {
-            border-color: var(--danger);
-            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+        .combo-badge {
+            background: var(--primary);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
         }
         
-        .profit-card.info {
-            border-color: #8b5cf6;
-            background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+        .combo-price {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 4px;
         }
         
-        .profit-label {
-            font-size: 12px;
+        .combo-unit-price {
+            font-size: 14px;
             color: #64748b;
             margin-bottom: 8px;
         }
         
-        .profit-value {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--dark);
+        .combo-discount {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px dashed var(--border);
         }
         
-        .profit-value.success {
+        .discount-label {
+            font-size: 12px;
+            color: #64748b;
+        }
+        
+        .discount-value {
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .discount-value.primary {
+            color: var(--primary);
+        }
+        
+        .discount-value.success {
             color: var(--success);
         }
         
-        .profit-value.warning {
-            color: var(--warning);
-        }
-        
-        .profit-value.danger {
+        .discount-value.danger {
             color: var(--danger);
         }
         
-        .profit-value.info {
-            color: #8b5cf6;
-        }
-        
-        /* 详细分析 */
-        .detail-analysis {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-        }
-        
-        @media (max-width: 768px) {
-            .detail-analysis {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        .cost-breakdown, .margin-breakdown {
-            padding: 16px;
+        /* 组合促销表格 */
+        .combo-table-container {
+            overflow-x: auto;
             border-radius: 8px;
             border: 1px solid var(--border);
+            margin-bottom: 20px;
         }
         
-        .breakdown-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
+        .combo-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1100px;
+        }
+        
+        .combo-table th {
+            background: #f1f5f9;
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 13px;
             border-bottom: 1px solid var(--border);
         }
         
-        .breakdown-item:last-child {
-            border-bottom: none;
-        }
-        
-        .breakdown-label {
+        .combo-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
             color: #475569;
             font-size: 13px;
         }
         
-        .breakdown-value {
-            font-weight: 600;
-            color: var(--dark);
-            font-size: 13px;
-        }
-        
-        .breakdown-total {
-            font-weight: 700;
-            color: var(--primary);
-            font-size: 14px;
-        }
-        
-        /* 成本利润率分析 */
-        .margin-ratio-analysis {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-            margin-top: 16px;
-        }
-        
-        .ratio-item {
-            padding: 12px;
-            border-radius: 8px;
+        .combo-table tr:hover {
             background: #f8fafc;
-            text-align: center;
         }
         
-        .ratio-label {
-            font-size: 11px;
-            color: #64748b;
-            margin-bottom: 4px;
+        .combo-table input {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 13px;
+            transition: all 0.2s;
         }
         
-        .ratio-value {
-            font-size: 16px;
-            font-weight: 700;
+        .combo-table input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
         }
         
-        .ratio-value.high {
-            color: var(--success);
+        .combo-sku-selector {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
         }
         
-        .ratio-value.medium {
-            color: var(--warning);
-        }
-        
-        .ratio-value.low {
-            color: #f97316;
+        .combo-sku-select {
+            padding: 8px 12px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 14px;
+            min-width: 200px;
+            background: white;
         }
         
         /* 按钮 */
@@ -560,6 +548,11 @@
         
         .btn-success {
             background: linear-gradient(135deg, var(--success) 0%, #34d399 100%);
+            color: white;
+        }
+        
+        .btn-warning {
+            background: linear-gradient(135deg, var(--warning) 0%, #fbbf24 100%);
             color: white;
         }
         
@@ -674,6 +667,41 @@
             font-size: 12px;
             color: #cbd5e1;
         }
+        
+        /* 组合SKU操作按钮 */
+        .combo-sku-actions {
+            display: flex;
+            gap: 4px;
+        }
+        
+        .combo-sku-btn {
+            padding: 4px 8px;
+            border: none;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        
+        .combo-sku-btn.copy {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .combo-sku-btn.copy:hover {
+            background: var(--primary-light);
+        }
+        
+        .combo-sku-btn.add {
+            background: var(--success);
+            color: white;
+        }
+        
+        .combo-sku-btn.add:hover {
+            background: #34d399;
+        }
     </style>
 </head>
 <body>
@@ -684,7 +712,7 @@
                 <div class="logo">💰</div>
                 <div>
                     <h1 class="title">灵枢定价分析工具</h1>
-                    <p class="subtitle">多SKU成本核对 · 同行对标 · 利润分析</p>
+                    <p class="subtitle">多SKU成本核对 · 同行对标 · 组合促销定价</p>
                 </div>
             </div>
         </div>
@@ -804,104 +832,140 @@
                     <button class="btn btn-success" id="exportData">
                         📤 导出数据
                     </button>
+                    <button class="btn btn-warning" id="addComboSKUs" style="display: none;">
+                        📋 添加组合SKU
+                    </button>
                 </div>
             </div>
         </div>
         
-        <!-- 利润分析 -->
-        <div class="profit-analysis fade-in">
-            <div class="section-title">📈 总体利润分析</div>
+        <!-- 组合促销定价分析 -->
+        <div class="combo-pricing-panel fade-in">
+            <div class="section-title">🎯 组合促销定价分析</div>
+            <p style="color: #64748b; font-size: 14px; margin-bottom: 16px;">分析不同购买数量下的每瓶实际价格和优惠幅度，方便您制定组合促销策略</p>
             
-            <div class="profit-summary">
-                <div class="profit-card primary">
-                    <div class="profit-label">总销售额</div>
-                    <div class="profit-value placeholder" id="totalRevenue">0元</div>
-                </div>
-                
-                <div class="profit-card success">
-                    <div class="profit-label">总毛利润</div>
-                    <div class="profit-value placeholder" id="totalGrossProfit">0元</div>
-                </div>
-                
-                <div class="profit-card warning">
-                    <div class="profit-label">平均毛利率</div>
-                    <div class="profit-value placeholder" id="avgGrossMargin">0%</div>
-                </div>
-                
-                <div class="profit-card info">
-                    <div class="profit-label">平均成本毛利率</div>
-                    <div class="profit-value placeholder" id="avgCostMargin">0%</div>
-                </div>
-                
-                <div class="profit-card danger">
-                    <div class="profit-label">平均净利率</div>
-                    <div class="profit-value placeholder" id="avgNetMargin">0%</div>
+            <!-- SKU选择器 -->
+            <div class="combo-sku-selector">
+                <label for="comboSkuSelect" style="font-size: 14px; color: #475569; font-weight: 500;">选择SKU进行分析：</label>
+                <select id="comboSkuSelect" class="combo-sku-select">
+                    <option value="">请选择SKU</option>
+                </select>
+                <button class="btn btn-primary" id="analyzeCombo">
+                    🔍 分析组合定价
+                </button>
+            </div>
+            
+            <!-- 组合促销设置 -->
+            <div style="margin: 20px 0;">
+                <h4 style="color: var(--dark); font-size: 15px; margin-bottom: 12px;">促销设置</h4>
+                <div class="combo-settings">
+                    <div class="combo-card">
+                        <div class="combo-card-header">
+                            <div class="combo-title">单买价格</div>
+                            <div class="combo-badge">1瓶</div>
+                        </div>
+                        <div class="combo-price" id="singlePrice">- 元</div>
+                        <div class="combo-unit-price" id="singleUnitPrice">每瓶：- 元</div>
+                        <div class="combo-discount">
+                            <div class="discount-label">优惠幅度</div>
+                            <div class="discount-value" id="singleDiscount">-</div>
+                        </div>
+                    </div>
+                    
+                    <div class="combo-card">
+                        <div class="combo-card-header">
+                            <div class="combo-title">2瓶组合</div>
+                            <div class="combo-badge">2瓶</div>
+                        </div>
+                        <div class="combo-price" id="twoPrice">- 元</div>
+                        <div class="combo-unit-price" id="twoUnitPrice">每瓶：- 元</div>
+                        <div class="combo-discount">
+                            <div class="discount-label">每瓶节省</div>
+                            <div class="discount-value" id="twoSavePerUnit">-</div>
+                        </div>
+                        <div class="input-wrapper" style="margin-top: 8px;">
+                            <input type="number" id="twoComboDiscount" min="0" step="0.01" placeholder="2瓶总优惠(元)">
+                            <span class="currency">元</span>
+                        </div>
+                    </div>
+                    
+                    <div class="combo-card">
+                        <div class="combo-card-header">
+                            <div class="combo-title">3瓶组合</div>
+                            <div class="combo-badge">3瓶</div>
+                        </div>
+                        <div class="combo-price" id="threePrice">- 元</div>
+                        <div class="combo-unit-price" id="threeUnitPrice">每瓶：- 元</div>
+                        <div class="combo-discount">
+                            <div class="discount-label">每瓶节省</div>
+                            <div class="discount-value" id="threeSavePerUnit">-</div>
+                        </div>
+                        <div class="input-wrapper" style="margin-top: 8px;">
+                            <input type="number" id="threeComboDiscount" min="0" step="0.01" placeholder="3瓶总优惠(元)">
+                            <span class="currency">元</span>
+                        </div>
+                    </div>
+                    
+                    <div class="combo-card">
+                        <div class="combo-card-header">
+                            <div class="combo-title">4瓶组合</div>
+                            <div class="combo-badge">4瓶</div>
+                        </div>
+                        <div class="combo-price" id="fourPrice">- 元</div>
+                        <div class="combo-unit-price" id="fourUnitPrice">每瓶：- 元</div>
+                        <div class="combo-discount">
+                            <div class="discount-label">每瓶节省</div>
+                            <div class="discount-value" id="fourSavePerUnit">-</div>
+                        </div>
+                        <div class="input-wrapper" style="margin-top: 8px;">
+                            <input type="number" id="fourComboDiscount" min="0" step="0.01" placeholder="4瓶总优惠(元)">
+                            <span class="currency">元</span>
+                        </div>
+                    </div>
                 </div>
             </div>
             
-            <div class="detail-analysis">
-                <div class="cost-breakdown">
-                    <h4 style="margin-bottom: 12px; color: var(--dark); font-size: 15px;">成本构成分析</h4>
-                    <div class="breakdown-item">
-                        <span class="breakdown-label">总成本</span>
-                        <span class="breakdown-value placeholder" id="totalCost">0元</span>
-                    </div>
-                    <div class="breakdown-item">
-                        <span class="breakdown-label">平台佣金</span>
-                        <span class="breakdown-value placeholder" id="costPlatform">0元</span>
-                    </div>
-                    <div class="breakdown-item">
-                        <span class="breakdown-label">达人佣金</span>
-                        <span class="breakdown-value placeholder" id="costKol">0元</span>
-                    </div>
-                    <div class="breakdown-item">
-                        <span class="breakdown-label">退货损失</span>
-                        <span class="breakdown-value placeholder" id="costReturn">0元</span>
-                    </div>
-                    <div class="breakdown-item">
-                        <span class="breakdown-label">其他成本</span>
-                        <span class="breakdown-value placeholder" id="costOther">0元</span>
-                    </div>
-                    <div class="breakdown-item" style="border-top: 1px solid var(--border); padding-top: 12px;">
-                        <span class="breakdown-label breakdown-total">总费用</span>
-                        <span class="breakdown-value breakdown-total placeholder" id="totalExpenses">0元</span>
-                    </div>
+            <!-- 组合促销分析表格 -->
+            <div style="margin-top: 24px;">
+                <h4 style="color: var(--dark); font-size: 15px; margin-bottom: 12px;">组合促销分析表</h4>
+                <div class="combo-table-container">
+                    <table class="combo-table">
+                        <thead>
+                            <tr>
+                                <th width="120">购买数量</th>
+                                <th width="120">组合优惠(元)</th>
+                                <th width="120">实付总价(元)</th>
+                                <th width="120">每瓶价格(元)</th>
+                                <th width="120">每瓶节省(元)</th>
+                                <th width="120">折扣幅度</th>
+                                <th width="120">利润分析</th>
+                                <th width="160">组合SKU最终售价<br><span style="font-size: 11px; color: #64748b;">(实付总价)</span></th>
+                                <th width="160">组合SKU目标售价<br><span style="font-size: 11px; color: #64748b;">(根据单品折扣反推)</span></th>
+                                <th width="100">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="comboTableBody">
+                            <tr>
+                                <td colspan="10" class="placeholder" style="text-align: center;">请选择SKU并设置组合优惠</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                
-                <div class="margin-breakdown">
-                    <h4 style="margin-bottom: 12px; color: var(--dark); font-size: 15px;">利润分布分析</h4>
-                    <div class="breakdown-item">
-                        <span class="breakdown-label">最高毛利率SKU</span>
-                        <span class="breakdown-value placeholder" id="maxMarginSKU">-</span>
-                    </div>
-                    <div class="breakdown-item">
-                        <span class="breakdown-label">最高毛利率</span>
-                        <span class="breakdown-value placeholder" id="maxMarginValue">0%</span>
-                    </div>
-                    <div class="breakdown-item">
-                        <span class="breakdown-label">最低毛利率SKU</span>
-                        <span class="breakdown-value placeholder" id="minMarginSKU">-</span>
-                    </div>
-                    <div class="breakdown-item">
-                        <span class="breakdown-label">最低毛利率</span>
-                        <span class="breakdown-value placeholder" id="minMarginValue">0%</span>
-                    </div>
-                    <div class="breakdown-item">
-                        <span class="breakdown-label">建议优化SKU</span>
-                        <span class="breakdown-value placeholder" id="optimizeSKU">-</span>
-                    </div>
-                    
-                    <div class="margin-ratio-analysis">
-                        <div class="ratio-item">
-                            <div class="ratio-label">成本利润率</div>
-                            <div class="ratio-value placeholder" id="costProfitRatio">0%</div>
-                        </div>
-                        <div class="ratio-item">
-                            <div class="ratio-label">投资回报率(ROI)</div>
-                            <div class="ratio-value placeholder" id="roiRatio">0%</div>
-                        </div>
-                    </div>
-                </div>
+            </div>
+            
+            <div class="button-group" style="margin-top: 20px;">
+                <button class="btn btn-secondary" id="clearCombo">
+                    🗑️ 清空组合设置
+                </button>
+                <button class="btn btn-primary" id="saveCombo">
+                    💾 保存组合方案
+                </button>
+                <button class="btn btn-success" id="exportCombo">
+                    📤 导出组合分析
+                </button>
+                <button class="btn btn-warning" id="copyAllToSKU">
+                    📋 复制所有到SKU管理
+                </button>
             </div>
         </div>
     </div>
@@ -910,8 +974,10 @@
         // 全局变量
         let skuList = [];
         let inputTimeout = null; // 防抖计时器
+        let selectedComboSku = null; // 选中的组合促销SKU
+        let comboData = {}; // 存储组合促销数据
         
-        // 初始化页面 - 现在不自动添加示例数据
+        // 初始化页面
         document.addEventListener('DOMContentLoaded', function() {
             setupEventListeners();
             // 添加一个空的SKU，让用户可以立即开始填写
@@ -929,6 +995,19 @@
                 }
             });
             
+            // 组合促销输入事件
+            const comboInputIds = ['twoComboDiscount', 'threeComboDiscount', 'fourComboDiscount'];
+            comboInputIds.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.addEventListener('input', function() {
+                        if (selectedComboSku) {
+                            calculateComboPricing();
+                        }
+                    });
+                }
+            });
+            
             // 按钮事件
             document.getElementById('applyToAll').addEventListener('click', applyToAllSKUs);
             document.getElementById('resetConfig').addEventListener('click', resetConfig);
@@ -936,6 +1015,32 @@
             document.getElementById('addSampleSKUs').addEventListener('click', addSampleSKUs);
             document.getElementById('calculateAll').addEventListener('click', calculateAllSKUs);
             document.getElementById('exportData').addEventListener('click', exportSKUData);
+            document.getElementById('addComboSKUs').addEventListener('click', addAllComboSKUsToManagement);
+            
+            // 组合促销相关按钮
+            document.getElementById('analyzeCombo').addEventListener('click', analyzeComboPricing);
+            document.getElementById('clearCombo').addEventListener('click', clearComboSettings);
+            document.getElementById('saveCombo').addEventListener('click', saveComboScheme);
+            document.getElementById('exportCombo').addEventListener('click', exportComboAnalysis);
+            document.getElementById('copyAllToSKU').addEventListener('click', copyAllComboSKUsToManagement);
+            
+            // SKU选择器变化事件
+            document.getElementById('comboSkuSelect').addEventListener('change', function() {
+                const skuId = parseInt(this.value);
+                if (skuId) {
+                    selectedComboSku = skuList.find(sku => sku.id === skuId);
+                    if (selectedComboSku) {
+                        // 如果有保存的组合数据，加载它
+                        if (comboData[skuId]) {
+                            loadComboSettings(skuId);
+                        } else {
+                            // 否则使用默认设置
+                            resetComboSettings();
+                        }
+                        calculateComboPricing();
+                    }
+                }
+            });
         }
         
         // 防抖函数
@@ -972,12 +1077,39 @@
                 directDiscountPreview: 0,
                 couponDiscountPreview: 0,
                 priceAfterDirect: 0,
-                priceAfterAll: 0
+                priceAfterAll: 0,
+                // 组合促销字段
+                comboDiscounts: {
+                    two: 0,
+                    three: 0,
+                    four: 0
+                },
+                // 新增字段：组合目标售价（单品目标售价）
+                comboTargetPrices: {
+                    one: 0,
+                    two: 0,
+                    three: 0,
+                    four: 0
+                }
             });
             
             updateSKUTable();
+            updateSkuSelector();
             // 隐藏空状态提示
             document.getElementById('emptyState').style.display = 'none';
+        }
+        
+        // 更新SKU选择器
+        function updateSkuSelector() {
+            const select = document.getElementById('comboSkuSelect');
+            select.innerHTML = '<option value="">请选择SKU</option>';
+            
+            skuList.forEach(sku => {
+                const option = document.createElement('option');
+                option.value = sku.id;
+                option.textContent = `${sku.name} (成本: ¥${sku.cost.toFixed(2)}, 售价: ¥${sku.finalPrice > 0 ? sku.finalPrice.toFixed(2) : '未计算'})`;
+                select.appendChild(option);
+            });
         }
         
         // 添加示例SKU数据
@@ -1018,11 +1150,25 @@
                     directDiscountPreview: 0,
                     couponDiscountPreview: 0,
                     priceAfterDirect: 0,
-                    priceAfterAll: 0
+                    priceAfterAll: 0,
+                    // 组合促销字段
+                    comboDiscounts: {
+                        two: 10,
+                        three: 25,
+                        four: 40
+                    },
+                    // 新增字段：组合目标售价
+                    comboTargetPrices: {
+                        one: 0,
+                        two: 0,
+                        three: 0,
+                        four: 0
+                    }
                 });
             });
             
             updateSKUTable();
+            updateSkuSelector();
             // 隐藏空状态提示
             document.getElementById('emptyState').style.display = 'none';
             showNotification('已添加3个示例SKU数据，请点击"批量计算"按钮进行计算', 'success');
@@ -1052,10 +1198,24 @@
                 directDiscountPreview: 0,
                 couponDiscountPreview: 0,
                 priceAfterDirect: 0,
-                priceAfterAll: 0
+                priceAfterAll: 0,
+                // 组合促销字段
+                comboDiscounts: {
+                    two: 0,
+                    three: 0,
+                    four: 0
+                },
+                // 新增字段：组合目标售价
+                comboTargetPrices: {
+                    one: 0,
+                    two: 0,
+                    three: 0,
+                    four: 0
+                }
             });
             
             updateSKUTable();
+            updateSkuSelector();
             // 隐藏空状态提示
             document.getElementById('emptyState').style.display = 'none';
         }
@@ -1064,7 +1224,7 @@
         function removeSKU(id) {
             skuList = skuList.filter(sku => sku.id !== id);
             updateSKUTable();
-            updateProfitSummary();
+            updateSkuSelector();
             
             // 如果没有SKU了，显示空状态提示
             if (skuList.length === 0) {
@@ -1309,6 +1469,7 @@
                     const id = parseInt(this.getAttribute('data-id'));
                     const sku = skuList.find(s => s.id === id);
                     if (sku) sku.name = this.value;
+                    updateSkuSelector();
                 });
                 
                 // 添加回车键事件
@@ -1491,7 +1652,6 @@
                 
                 // 更新表格显示
                 updateSKUTable();
-                updateProfitSummary();
                 showNotification('请先填写目标售价', 'warning');
                 return;
             }
@@ -1553,7 +1713,7 @@
             
             // 更新表格显示
             updateSKUTable();
-            updateProfitSummary();
+            updateSkuSelector();
             
             // 显示成功消息
             if (sku.finalPrice > 0 && sku.cost > 0) {
@@ -1585,9 +1745,586 @@
                     if (missingCostCount > 0) missingMsg.push(`${missingCostCount}个SKU缺少成本价`);
                     showNotification(`${missingMsg.join('，')}，无法计算`, 'warning');
                 }
+                
+                // 更新SKU选择器
+                updateSkuSelector();
             } else {
                 showNotification('请先填写SKU的成本价和目标售价', 'warning');
             }
+        }
+        
+        // 分析组合定价
+        function analyzeComboPricing() {
+            const skuId = parseInt(document.getElementById('comboSkuSelect').value);
+            if (!skuId) {
+                showNotification('请先选择一个SKU进行分析', 'warning');
+                return;
+            }
+            
+            selectedComboSku = skuList.find(sku => sku.id === skuId);
+            if (!selectedComboSku) {
+                showNotification('选择的SKU不存在', 'error');
+                return;
+            }
+            
+            if (selectedComboSku.finalPrice <= 0) {
+                showNotification('请先计算该SKU的最终售价', 'warning');
+                return;
+            }
+            
+            // 如果有保存的组合数据，加载它
+            if (comboData[skuId]) {
+                loadComboSettings(skuId);
+            } else {
+                // 否则使用默认设置
+                resetComboSettings();
+            }
+            
+            calculateComboPricing();
+            showNotification(`开始分析 ${selectedComboSku.name} 的组合定价`, 'success');
+        }
+        
+        // 计算组合定价
+        function calculateComboPricing() {
+            if (!selectedComboSku || selectedComboSku.finalPrice <= 0) {
+                return;
+            }
+            
+            // 使用最终售价（已包含单品直降和优惠券）作为单买价格
+            const singlePrice = selectedComboSku.finalPrice;
+            
+            // 获取组合优惠设置
+            const twoDiscount = parseFloat(document.getElementById('twoComboDiscount').value) || 0;
+            const threeDiscount = parseFloat(document.getElementById('threeComboDiscount').value) || 0;
+            const fourDiscount = parseFloat(document.getElementById('fourComboDiscount').value) || 0;
+            
+            // 保存到SKU数据中
+            selectedComboSku.comboDiscounts = {
+                two: twoDiscount,
+                three: threeDiscount,
+                four: fourDiscount
+            };
+            
+            // 计算各种组合的价格
+            const combos = [
+                { count: 1, label: '单买', discount: 0 },
+                { count: 2, label: '2瓶组合', discount: twoDiscount },
+                { count: 3, label: '3瓶组合', discount: threeDiscount },
+                { count: 4, label: '4瓶组合', discount: fourDiscount }
+            ];
+            
+            // 更新卡片显示
+            combos.forEach(combo => {
+                const originalTotal = singlePrice * combo.count;
+                const finalTotal = originalTotal - combo.discount;
+                const unitPrice = finalTotal / combo.count;
+                const savePerUnit = singlePrice - unitPrice;
+                const discountRate = (combo.discount / originalTotal) * 100;
+                
+                // 更新卡片
+                if (combo.count === 1) {
+                    document.getElementById('singlePrice').textContent = `${finalTotal.toFixed(2)} 元`;
+                    document.getElementById('singleUnitPrice').textContent = `每瓶：${unitPrice.toFixed(2)} 元`;
+                    document.getElementById('singleDiscount').textContent = '原价';
+                    document.getElementById('singleDiscount').className = 'discount-value';
+                } else {
+                    document.getElementById(`${combo.count === 2 ? 'two' : combo.count === 3 ? 'three' : 'four'}Price`).textContent = `${finalTotal.toFixed(2)} 元`;
+                    document.getElementById(`${combo.count === 2 ? 'two' : combo.count === 3 ? 'three' : 'four'}UnitPrice`).textContent = `每瓶：${unitPrice.toFixed(2)} 元`;
+                    
+                    const saveElement = document.getElementById(`${combo.count === 2 ? 'two' : combo.count === 3 ? 'three' : 'four'}SavePerUnit`);
+                    saveElement.textContent = `${savePerUnit.toFixed(2)} 元`;
+                    
+                    // 根据节省金额设置颜色
+                    if (savePerUnit > singlePrice * 0.15) {
+                        saveElement.className = 'discount-value danger'; // 节省太多，可能影响利润
+                    } else if (savePerUnit > singlePrice * 0.08) {
+                        saveElement.className = 'discount-value warning'; // 适中优惠
+                    } else if (savePerUnit > 0) {
+                        saveElement.className = 'discount-value success'; // 小幅优惠
+                    } else {
+                        saveElement.className = 'discount-value'; // 无优惠
+                    }
+                }
+            });
+            
+            // 更新组合促销分析表
+            updateComboTable(combos, singlePrice);
+        }
+        
+        // 计算组合SKU目标售价（根据单品折扣反推）
+        function calculateComboTargetPrice(finalPrice, count) {
+            if (!selectedComboSku || !selectedComboSku.directDiscountType || !selectedComboSku.couponDiscountType) {
+                return finalPrice; // 如果单品SKU没有设置折扣，直接返回最终售价作为目标售价
+            }
+            
+            // 计算每瓶的最终售价
+            const unitFinalPrice = finalPrice / count;
+            
+            // 反向计算：已知最终售价，求目标售价
+            // 最终售价 = 目标售价 - 单品直降 - 优惠券
+            
+            // 先计算优惠券金额
+            let couponDiscount = 0;
+            if (selectedComboSku.couponDiscountType === 'percent') {
+                // 如果优惠券是百分比，我们需要先知道直降后的价格
+                // 优惠券金额 = (目标售价 - 单品直降) × 优惠券比例
+                // 最终售价 = (目标售价 - 单品直降) × (1 - 优惠券比例)
+                const priceAfterDirect = unitFinalPrice / (1 - selectedComboSku.couponDiscountValue / 100);
+                couponDiscount = priceAfterDirect * (selectedComboSku.couponDiscountValue / 100);
+            } else {
+                // 如果优惠券是固定金额
+                couponDiscount = selectedComboSku.couponDiscountValue;
+            }
+            
+            // 计算单品直降后的价格
+            const priceAfterDirect = unitFinalPrice + couponDiscount;
+            
+            // 再计算单品直降金额
+            let directDiscount = 0;
+            if (selectedComboSku.directDiscountType === 'percent') {
+                // 如果单品直降是百分比
+                // 单品直降金额 = 目标售价 × 单品直降比例
+                // 单品直降后价格 = 目标售价 × (1 - 单品直降比例)
+                const targetPrice = priceAfterDirect / (1 - selectedComboSku.directDiscountValue / 100);
+                directDiscount = targetPrice * (selectedComboSku.directDiscountValue / 100);
+                return targetPrice * count; // 返回组合目标售价
+            } else {
+                // 如果单品直降是固定金额
+                directDiscount = selectedComboSku.directDiscountValue;
+                const targetPrice = priceAfterDirect + directDiscount;
+                return targetPrice * count; // 返回组合目标售价
+            }
+        }
+        
+        // 更新组合促销分析表
+        function updateComboTable(combos, singlePrice) {
+            const tbody = document.getElementById('comboTableBody');
+            tbody.innerHTML = '';
+            
+            combos.forEach(combo => {
+                const originalTotal = singlePrice * combo.count;
+                const finalTotal = originalTotal - combo.discount;
+                const unitPrice = finalTotal / combo.count;
+                const savePerUnit = singlePrice - unitPrice;
+                const discountRate = (combo.discount / originalTotal) * 100;
+                
+                // 计算利润
+                const cost = selectedComboSku.cost * combo.count;
+                const grossProfit = finalTotal - cost;
+                const grossMargin = finalTotal > 0 ? (grossProfit / finalTotal) * 100 : 0;
+                
+                // 计算组合SKU目标售价（根据单品折扣反推）
+                const comboTargetPrice = calculateComboTargetPrice(finalTotal, combo.count);
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><strong>${combo.count} 瓶</strong></td>
+                    <td>${combo.discount > 0 ? combo.discount.toFixed(2) : '-'}</td>
+                    <td><strong>${finalTotal.toFixed(2)}</strong></td>
+                    <td><strong class="${getComboPriceClass(unitPrice, singlePrice)}">${unitPrice.toFixed(2)}</strong></td>
+                    <td class="${getSaveClass(savePerUnit, singlePrice)}">${savePerUnit > 0 ? savePerUnit.toFixed(2) : '-'}</td>
+                    <td class="${getDiscountRateClass(discountRate)}">${discountRate > 0 ? discountRate.toFixed(1) + '%' : '-'}</td>
+                    <td class="${getProfitColor(grossProfit)}">
+                        毛利: ${grossProfit.toFixed(2)}<br>
+                        毛利率: ${grossMargin.toFixed(1)}%
+                    </td>
+                    <td>
+                        <div style="display: flex; flex-direction: column; gap: 4px;">
+                            <div style="font-weight: 600; color: var(--primary);">${finalTotal.toFixed(2)} 元</div>
+                            <div style="font-size: 11px; color: #64748b;">每瓶: ${unitPrice.toFixed(2)} 元</div>
+                        </div>
+                    </td>
+                    <td>
+                        <div style="display: flex; flex-direction: column; gap: 4px;">
+                            <div style="font-weight: 600; color: var(--dark);">${comboTargetPrice.toFixed(2)} 元</div>
+                            <div style="font-size: 11px; color: #64748b;">每瓶: ${(comboTargetPrice/combo.count).toFixed(2)} 元</div>
+                        </div>
+                    </td>
+                    <td>
+                        ${combo.count > 1 ? `
+                        <div class="combo-sku-actions">
+                            <button class="combo-sku-btn copy" data-count="${combo.count}" data-final="${finalTotal.toFixed(2)}" data-target="${comboTargetPrice.toFixed(2)}">
+                                复制售价
+                            </button>
+                            <button class="combo-sku-btn add" data-count="${combo.count}" data-final="${finalTotal.toFixed(2)}" data-target="${comboTargetPrice.toFixed(2)}">
+                                添加SKU
+                            </button>
+                        </div>
+                        ` : '-'}
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            // 绑定组合表格事件
+            bindComboTableEvents();
+            
+            // 显示"添加组合SKU"按钮
+            document.getElementById('addComboSKUs').style.display = 'inline-flex';
+        }
+        
+        // 绑定组合表格事件
+        function bindComboTableEvents() {
+            // 绑定复制售价按钮事件
+            document.querySelectorAll('.combo-sku-btn.copy').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const count = parseInt(this.getAttribute('data-count'));
+                    const finalPrice = this.getAttribute('data-final');
+                    const targetPrice = this.getAttribute('data-target');
+                    
+                    // 复制最终售价到剪贴板
+                    navigator.clipboard.writeText(finalPrice).then(() => {
+                        showNotification(`已复制${count}瓶装SKU最终售价：${finalPrice}元`, 'success');
+                    }).catch(err => {
+                        // 备用方案：使用临时textarea
+                        const textArea = document.createElement('textarea');
+                        textArea.value = finalPrice;
+                        document.body.appendChild(textArea);
+                        textArea.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(textArea);
+                        showNotification(`已复制${count}瓶装SKU最终售价：${finalPrice}元`, 'success');
+                    });
+                });
+            });
+            
+            // 绑定添加SKU按钮事件
+            document.querySelectorAll('.combo-sku-btn.add').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const count = parseInt(this.getAttribute('data-count'));
+                    const finalPrice = parseFloat(this.getAttribute('data-final'));
+                    const targetPrice = parseFloat(this.getAttribute('data-target'));
+                    addComboSKU(count, finalPrice, targetPrice);
+                });
+            });
+        }
+        
+        // 添加组合SKU到SKU管理
+        function addComboSKU(count, finalPrice, targetPrice) {
+            if (!selectedComboSku) {
+                showNotification('请先选择SKU进行分析', 'warning');
+                return;
+            }
+            
+            if (!finalPrice || finalPrice <= 0) {
+                showNotification('最终售价无效', 'error');
+                return;
+            }
+            
+            // 计算成本（单瓶成本×数量）
+            const cost = selectedComboSku.cost * count;
+            
+            // 生成新SKU
+            const newId = skuList.length > 0 ? Math.max(...skuList.map(sku => sku.id)) + 1 : 1;
+            const newSKU = {
+                id: newId,
+                name: `${selectedComboSku.name} ${count}瓶装`,
+                cost: cost,
+                targetPrice: targetPrice, // 使用反推的目标售价
+                directDiscountType: selectedComboSku.directDiscountType,
+                directDiscountValue: selectedComboSku.directDiscountValue,
+                couponDiscountType: selectedComboSku.couponDiscountType,
+                couponDiscountValue: selectedComboSku.couponDiscountValue,
+                directDiscount: 0,
+                couponAmount: 0,
+                finalPrice: finalPrice, // 组合SKU最终售价
+                grossProfit: finalPrice - cost,
+                grossMargin: finalPrice > 0 ? ((finalPrice - cost) / finalPrice) * 100 : 0,
+                costMargin: cost > 0 ? ((finalPrice - cost) / cost) * 100 : 0,
+                netProfit: 0,
+                netMargin: 0,
+                directDiscountPreview: 0,
+                couponDiscountPreview: 0,
+                priceAfterDirect: 0,
+                priceAfterAll: 0,
+                comboDiscounts: { two: 0, three: 0, four: 0 },
+                comboTargetPrices: { one: 0, two: 0, three: 0, four: 0 }
+            };
+            
+            // 计算折扣预览
+            updateDiscountPreview(newSKU);
+            
+            // 计算实际折扣金额
+            if (newSKU.targetPrice > 0) {
+                // 计算单品直降金额
+                if (newSKU.directDiscountType === 'percent') {
+                    newSKU.directDiscount = newSKU.targetPrice * (newSKU.directDiscountValue / 100);
+                } else {
+                    newSKU.directDiscount = newSKU.directDiscountValue;
+                }
+                
+                // 计算优惠券金额（基于单品直降后价格）
+                const priceAfterDirect = newSKU.targetPrice - newSKU.directDiscount;
+                if (newSKU.couponDiscountType === 'percent') {
+                    newSKU.couponAmount = priceAfterDirect * (newSKU.couponDiscountValue / 100);
+                } else {
+                    newSKU.couponAmount = newSKU.couponDiscountValue;
+                }
+            }
+            
+            // 计算净利润（如果有成本参数）
+            const platformFeePercent = parseFloat(document.getElementById('platformFee').value) / 100 || 0;
+            const kolFeePercent = parseFloat(document.getElementById('kolFee').value) / 100 || 0;
+            const returnRatePercent = parseFloat(document.getElementById('returnRate').value) / 100 || 0;
+            const otherCost = parseFloat(document.getElementById('otherCost').value) || 0;
+            
+            const platformFee = newSKU.finalPrice * platformFeePercent;
+            const kolFee = newSKU.finalPrice * kolFeePercent;
+            const returnLoss = newSKU.finalPrice * returnRatePercent;
+            const totalOtherCosts = platformFee + kolFee + returnLoss + otherCost;
+            
+            newSKU.netProfit = newSKU.grossProfit - totalOtherCosts;
+            newSKU.netMargin = newSKU.finalPrice > 0 ? (newSKU.netProfit / newSKU.finalPrice) * 100 : 0;
+            
+            skuList.push(newSKU);
+            updateSKUTable();
+            updateSkuSelector();
+            
+            showNotification(`已添加"${newSKU.name}"到SKU管理，最终售价：${finalPrice.toFixed(2)}元，目标售价：${targetPrice.toFixed(2)}元`, 'success');
+        }
+        
+        // 添加所有组合SKU到SKU管理
+        function addAllComboSKUsToManagement() {
+            if (!selectedComboSku) {
+                showNotification('请先选择SKU进行分析', 'warning');
+                return;
+            }
+            
+            // 获取2、3、4瓶组合的数据
+            const rows = document.querySelectorAll('#comboTableBody tr');
+            if (rows.length < 4) {
+                showNotification('请先计算组合定价', 'warning');
+                return;
+            }
+            
+            // 添加2瓶、3瓶、4瓶组合SKU
+            for (let i = 1; i <= 3; i++) {
+                const row = rows[i];
+                const count = i + 1; // 2, 3, 4
+                const finalPriceCell = row.cells[7];
+                const targetPriceCell = row.cells[8];
+                
+                if (finalPriceCell && targetPriceCell) {
+                    const finalPriceText = finalPriceCell.querySelector('div:first-child').textContent;
+                    const targetPriceText = targetPriceCell.querySelector('div:first-child').textContent;
+                    
+                    const finalPrice = parseFloat(finalPriceText.replace('元', '').trim());
+                    const targetPrice = parseFloat(targetPriceText.replace('元', '').trim());
+                    
+                    if (finalPrice && finalPrice > 0 && targetPrice && targetPrice > 0) {
+                        addComboSKU(count, finalPrice, targetPrice);
+                    }
+                }
+            }
+        }
+        
+        // 复制所有组合SKU到SKU管理
+        function copyAllComboSKUsToManagement() {
+            addAllComboSKUsToManagement();
+        }
+        
+        // 获取组合价格颜色类
+        function getComboPriceClass(unitPrice, singlePrice) {
+            const discount = ((singlePrice - unitPrice) / singlePrice) * 100;
+            if (discount > 20) return 'discount-high';
+            if (discount > 10) return 'discount-medium';
+            if (discount > 0) return 'discount-low';
+            return '';
+        }
+        
+        // 获取节省金额颜色类
+        function getSaveClass(saveAmount, singlePrice) {
+            const saveRate = (saveAmount / singlePrice) * 100;
+            if (saveRate > 15) return 'save-high';
+            if (saveRate > 8) return 'save-medium';
+            if (saveRate > 0) return 'save-low';
+            return '';
+        }
+        
+        // 获取折扣率颜色类
+        function getDiscountRateClass(discountRate) {
+            if (discountRate > 20) return 'discount-rate-high';
+            if (discountRate > 10) return 'discount-rate-medium';
+            if (discountRate > 0) return 'discount-rate-low';
+            return '';
+        }
+        
+        // 加载组合设置
+        function loadComboSettings(skuId) {
+            const sku = skuList.find(s => s.id === skuId);
+            if (!sku) return;
+            
+            // 加载组合优惠
+            if (sku.comboDiscounts) {
+                document.getElementById('twoComboDiscount').value = sku.comboDiscounts.two || 0;
+                document.getElementById('threeComboDiscount').value = sku.comboDiscounts.three || 0;
+                document.getElementById('fourComboDiscount').value = sku.comboDiscounts.four || 0;
+            }
+            
+            // 加载目标售价（如果有）
+            if (sku.comboTargetPrices) {
+                // 目标售价会在表格中显示，这里不需要单独设置
+            }
+        }
+        
+        // 重置组合设置
+        function resetComboSettings() {
+            document.getElementById('twoComboDiscount').value = '';
+            document.getElementById('threeComboDiscount').value = '';
+            document.getElementById('fourComboDiscount').value = '';
+            
+            // 重置目标售价
+            if (selectedComboSku) {
+                selectedComboSku.comboTargetPrices = {
+                    one: 0,
+                    two: 0,
+                    three: 0,
+                    four: 0
+                };
+            }
+        }
+        
+        // 清空组合设置
+        function clearComboSettings() {
+            if (confirm('确定要清空所有组合促销设置吗？')) {
+                resetComboSettings();
+                document.getElementById('comboSkuSelect').value = '';
+                selectedComboSku = null;
+                
+                // 重置显示
+                const combos = [1, 2, 3, 4];
+                combos.forEach(count => {
+                    const prefix = count === 1 ? 'single' : count === 2 ? 'two' : count === 3 ? 'three' : 'four';
+                    document.getElementById(`${prefix}Price`).textContent = '- 元';
+                    document.getElementById(`${prefix}UnitPrice`).textContent = '每瓶：- 元';
+                    if (count > 1) {
+                        document.getElementById(`${prefix}SavePerUnit`).textContent = '-';
+                        document.getElementById(`${prefix}SavePerUnit`).className = 'discount-value';
+                    } else {
+                        document.getElementById('singleDiscount').textContent = '-';
+                    }
+                });
+                
+                // 清空表格
+                document.getElementById('comboTableBody').innerHTML = `
+                    <tr>
+                        <td colspan="10" class="placeholder" style="text-align: center;">请选择SKU并设置组合优惠</td>
+                    </tr>
+                `;
+                
+                // 隐藏"添加组合SKU"按钮
+                document.getElementById('addComboSKUs').style.display = 'none';
+                
+                showNotification('组合促销设置已清空', 'success');
+            }
+        }
+        
+        // 保存组合方案
+        function saveComboScheme() {
+            if (!selectedComboSku) {
+                showNotification('请先选择并分析一个SKU', 'warning');
+                return;
+            }
+            
+            // 保存到comboData
+            comboData[selectedComboSku.id] = {
+                skuName: selectedComboSku.name,
+                singlePrice: selectedComboSku.finalPrice,
+                comboDiscounts: {
+                    two: parseFloat(document.getElementById('twoComboDiscount').value) || 0,
+                    three: parseFloat(document.getElementById('threeComboDiscount').value) || 0,
+                    four: parseFloat(document.getElementById('fourComboDiscount').value) || 0
+                },
+                comboTargetPrices: selectedComboSku.comboTargetPrices || {
+                    one: 0,
+                    two: 0,
+                    three: 0,
+                    four: 0
+                },
+                savedAt: new Date().toLocaleString()
+            };
+            
+            // 也保存到SKU对象中
+            selectedComboSku.comboDiscounts = comboData[selectedComboSku.id].comboDiscounts;
+            selectedComboSku.comboTargetPrices = comboData[selectedComboSku.id].comboTargetPrices;
+            
+            showNotification(`"${selectedComboSku.name}"的组合促销方案已保存`, 'success');
+        }
+        
+        // 导出组合分析
+        function exportComboAnalysis() {
+            if (!selectedComboSku) {
+                showNotification('请先选择并分析一个SKU', 'warning');
+                return;
+            }
+            
+            const exportData = {
+                导出时间: new Date().toLocaleString(),
+                SKU信息: {
+                    名称: selectedComboSku.name,
+                    成本价: selectedComboSku.cost.toFixed(2) + '元',
+                    单买价格: selectedComboSku.finalPrice.toFixed(2) + '元',
+                    单买毛利率: selectedComboSku.grossMargin.toFixed(1) + '%',
+                    单买成本毛利率: selectedComboSku.costMargin.toFixed(1) + '%'
+                },
+                组合促销设置: {
+                    两瓶组合优惠: document.getElementById('twoComboDiscount').value + '元',
+                    三瓶组合优惠: document.getElementById('threeComboDiscount').value + '元',
+                    四瓶组合优惠: document.getElementById('fourComboDiscount').value + '元'
+                },
+                组合促销分析: []
+            };
+            
+            // 计算各种组合
+            const combos = [
+                { count: 1, label: '单买', discount: 0 },
+                { count: 2, label: '2瓶组合', discount: parseFloat(document.getElementById('twoComboDiscount').value) || 0 },
+                { count: 3, label: '3瓶组合', discount: parseFloat(document.getElementById('threeComboDiscount').value) || 0 },
+                { count: 4, label: '4瓶组合', discount: parseFloat(document.getElementById('fourComboDiscount').value) || 0 }
+            ];
+            
+            combos.forEach(combo => {
+                const originalTotal = selectedComboSku.finalPrice * combo.count;
+                const finalTotal = originalTotal - combo.discount;
+                const unitPrice = finalTotal / combo.count;
+                const savePerUnit = selectedComboSku.finalPrice - unitPrice;
+                const discountRate = (combo.discount / originalTotal) * 100;
+                
+                // 计算利润
+                const cost = selectedComboSku.cost * combo.count;
+                const grossProfit = finalTotal - cost;
+                const grossMargin = finalTotal > 0 ? (grossProfit / finalTotal) * 100 : 0;
+                
+                // 计算组合SKU目标售价（根据单品折扣反推）
+                const comboTargetPrice = calculateComboTargetPrice(finalTotal, combo.count);
+                
+                exportData.组合促销分析.push({
+                    购买数量: `${combo.count}瓶`,
+                    组合优惠: combo.discount.toFixed(2) + '元',
+                    实付总价: finalTotal.toFixed(2) + '元',
+                    每瓶价格: unitPrice.toFixed(2) + '元',
+                    每瓶节省: savePerUnit > 0 ? savePerUnit.toFixed(2) + '元' : '0元',
+                    折扣幅度: discountRate > 0 ? discountRate.toFixed(1) + '%' : '0%',
+                    总毛利: grossProfit.toFixed(2) + '元',
+                    毛利率: grossMargin.toFixed(1) + '%',
+                    组合SKU最终售价: finalTotal.toFixed(2) + '元',
+                    组合SKU目标售价: comboTargetPrice.toFixed(2) + '元',
+                    组合SKU每瓶售价: (comboTargetPrice/combo.count).toFixed(2) + '元'
+                });
+            });
+            
+            const dataStr = JSON.stringify(exportData, null, 2);
+            const blob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `组合促销分析_${selectedComboSku.name}_${new Date().getTime()}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            
+            showNotification('组合促销分析数据已导出为JSON文件', 'success');
         }
         
         // 应用到所有SKU
@@ -1605,188 +2342,6 @@
                 document.getElementById('otherCost').value = '';
                 
                 showNotification('成本参数已重置', 'success');
-            }
-        }
-        
-        // 更新利润汇总
-        function updateProfitSummary() {
-            const validSKUs = skuList.filter(sku => sku.finalPrice > 0 && sku.cost > 0);
-            
-            if (validSKUs.length === 0) {
-                // 重置汇总数据
-                document.getElementById('totalRevenue').textContent = '0元';
-                document.getElementById('totalGrossProfit').textContent = '0元';
-                document.getElementById('avgGrossMargin').textContent = '0%';
-                document.getElementById('avgCostMargin').textContent = '0%';
-                document.getElementById('avgNetMargin').textContent = '0%';
-                document.getElementById('totalCost').textContent = '0元';
-                document.getElementById('costPlatform').textContent = '0元';
-                document.getElementById('costKol').textContent = '0元';
-                document.getElementById('costReturn').textContent = '0元';
-                document.getElementById('costOther').textContent = '0元';
-                document.getElementById('totalExpenses').textContent = '0元';
-                document.getElementById('costProfitRatio').textContent = '0%';
-                document.getElementById('roiRatio').textContent = '0%';
-                
-                // 重置利润分布
-                document.getElementById('maxMarginSKU').textContent = '-';
-                document.getElementById('maxMarginValue').textContent = '0%';
-                document.getElementById('minMarginSKU').textContent = '-';
-                document.getElementById('minMarginValue').textContent = '0%';
-                document.getElementById('optimizeSKU').textContent = '-';
-                
-                return;
-            }
-            
-            // 计算总额
-            const totalRevenue = validSKUs.reduce((sum, sku) => sum + sku.finalPrice, 0);
-            const totalCost = validSKUs.reduce((sum, sku) => sum + sku.cost, 0);
-            const totalGrossProfit = validSKUs.reduce((sum, sku) => sum + sku.grossProfit, 0);
-            const totalNetProfit = validSKUs.reduce((sum, sku) => sum + sku.netProfit, 0);
-            
-            // 计算平均利润率
-            const avgGrossMargin = validSKUs.reduce((sum, sku) => sum + sku.grossMargin, 0) / validSKUs.length;
-            const avgCostMargin = validSKUs.reduce((sum, sku) => sum + sku.costMargin, 0) / validSKUs.length;
-            const avgNetMargin = validSKUs.reduce((sum, sku) => sum + sku.netMargin, 0) / validSKUs.length;
-            
-            // 计算其他成本
-            const platformFeePercent = parseFloat(document.getElementById('platformFee').value) / 100 || 0;
-            const kolFeePercent = parseFloat(document.getElementById('kolFee').value) / 100 || 0;
-            const returnRatePercent = parseFloat(document.getElementById('returnRate').value) / 100 || 0;
-            const otherCost = parseFloat(document.getElementById('otherCost').value) || 0;
-            
-            const costPlatform = totalRevenue * platformFeePercent;
-            const costKol = totalRevenue * kolFeePercent;
-            const costReturn = totalRevenue * returnRatePercent;
-            const costOther = otherCost * validSKUs.length;
-            const totalExpenses = costPlatform + costKol + costReturn + costOther;
-            
-            // 计算成本利润率（总利润/总成本×100%）
-            const costProfitRatio = totalCost > 0 ? (totalGrossProfit / totalCost) * 100 : 0;
-            
-            // 计算投资回报率ROI（净利润/总成本×100%）
-            const roiRatio = totalCost > 0 ? (totalNetProfit / totalCost) * 100 : 0;
-            
-            // 更新汇总显示
-            document.getElementById('totalRevenue').textContent = totalRevenue.toFixed(2) + '元';
-            document.getElementById('totalGrossProfit').textContent = totalGrossProfit.toFixed(2) + '元';
-            document.getElementById('avgGrossMargin').textContent = avgGrossMargin.toFixed(1) + '%';
-            document.getElementById('avgCostMargin').textContent = avgCostMargin.toFixed(1) + '%';
-            document.getElementById('avgNetMargin').textContent = avgNetMargin.toFixed(1) + '%';
-            document.getElementById('totalCost').textContent = totalCost.toFixed(2) + '元';
-            document.getElementById('costPlatform').textContent = costPlatform.toFixed(2) + '元';
-            document.getElementById('costKol').textContent = costKol.toFixed(2) + '元';
-            document.getElementById('costReturn').textContent = costReturn.toFixed(2) + '元';
-            document.getElementById('costOther').textContent = costOther.toFixed(2) + '元';
-            document.getElementById('totalExpenses').textContent = totalExpenses.toFixed(2) + '元';
-            document.getElementById('costProfitRatio').textContent = costProfitRatio.toFixed(1) + '%';
-            document.getElementById('roiRatio').textContent = roiRatio.toFixed(1) + '%';
-            
-            // 更新利润显示颜色
-            updateProfitColor(avgGrossMargin, 'avgGrossMargin');
-            updateProfitColor(avgCostMargin, 'avgCostMargin');
-            updateProfitColor(avgNetMargin, 'avgNetMargin');
-            updateProfitColor(totalGrossProfit, 'totalGrossProfit');
-            
-            // 更新成本利润率颜色
-            updateCostMarginColor(avgCostMargin, 'avgCostMargin');
-            
-            // 更新成本利润率分析颜色
-            updateRatioColor(costProfitRatio, 'costProfitRatio');
-            updateRatioColor(roiRatio, 'roiRatio');
-            
-            // 计算利润分布
-            const margins = validSKUs.map(sku => sku.grossMargin);
-            const maxMargin = Math.max(...margins);
-            const minMargin = Math.min(...margins);
-            const maxMarginSKU = validSKUs.find(sku => sku.grossMargin === maxMargin);
-            const minMarginSKU = validSKUs.find(sku => sku.grossMargin === minMargin);
-            
-            // 建议优化SKU（毛利率最低的）
-            const optimizeSKU = minMarginSKU;
-            
-            // 更新利润分布显示
-            document.getElementById('maxMarginSKU').textContent = maxMarginSKU ? maxMarginSKU.name : '-';
-            document.getElementById('maxMarginValue').textContent = maxMargin.toFixed(1) + '%';
-            document.getElementById('minMarginSKU').textContent = minMarginSKU ? minMarginSKU.name : '-';
-            document.getElementById('minMarginValue').textContent = minMargin.toFixed(1) + '%';
-            document.getElementById('optimizeSKU').textContent = optimizeSKU ? optimizeSKU.name : '-';
-        }
-        
-        // 更新利润显示颜色
-        function updateProfitColor(value, elementId) {
-            const element = document.getElementById(elementId);
-            if (!element) return;
-            
-            element.classList.remove('success', 'warning', 'danger', 'info');
-            
-            if (typeof value === 'number') {
-                if (elementId.includes('GrossMargin') || elementId.includes('NetMargin')) {
-                    // 售价毛利率或净利率
-                    if (value > 30) {
-                        element.classList.add('success');
-                    } else if (value > 15) {
-                        element.classList.add('warning');
-                    } else if (value > 0) {
-                        element.classList.add('danger');
-                    } else {
-                        element.classList.add('danger');
-                    }
-                } else if (elementId.includes('CostMargin')) {
-                    // 成本毛利率用不同标准
-                    if (value > 80) {
-                        element.classList.add('success');
-                    } else if (value > 40) {
-                        element.classList.add('warning');
-                    } else if (value > 20) {
-                        element.classList.add('danger');
-                    } else {
-                        element.classList.add('danger');
-                    }
-                } else {
-                    // 利润金额
-                    if (value > 0) {
-                        element.classList.add('success');
-                    } else {
-                        element.classList.add('danger');
-                    }
-                }
-            }
-        }
-        
-        // 更新成本毛利率颜色
-        function updateCostMarginColor(value, elementId) {
-            const element = document.getElementById(elementId);
-            if (!element) return;
-            
-            element.classList.remove('success', 'warning', 'danger', 'info');
-            
-            if (value > 80) {
-                element.classList.add('info'); // 紫色表示高利润
-            } else if (value > 40) {
-                element.classList.add('success');
-            } else if (value > 20) {
-                element.classList.add('warning');
-            } else if (value > 0) {
-                element.classList.add('danger');
-            } else {
-                element.classList.add('danger');
-            }
-        }
-        
-        // 更新比率颜色
-        function updateRatioColor(value, elementId) {
-            const element = document.getElementById(elementId);
-            if (!element) return;
-            
-            element.classList.remove('high', 'medium', 'low');
-            
-            if (value > 100) {
-                element.classList.add('high');
-            } else if (value > 50) {
-                element.classList.add('medium');
-            } else if (value > 20) {
-                element.classList.add('low');
             }
         }
         
@@ -1829,17 +2384,19 @@
                     毛利率: sku.grossMargin.toFixed(1) + '%',
                     成本毛利率: sku.costMargin.toFixed(1) + '%',
                     净利: sku.netProfit.toFixed(2) + '元',
-                    净利率: sku.netMargin.toFixed(1) + '%'
-                })),
-                汇总信息: {
-                    总销售额: document.getElementById('totalRevenue').textContent,
-                    总毛利润: document.getElementById('totalGrossProfit').textContent,
-                    平均毛利率: document.getElementById('avgGrossMargin').textContent,
-                    平均成本毛利率: document.getElementById('avgCostMargin').textContent,
-                    平均净利率: document.getElementById('avgNetMargin').textContent,
-                    成本利润率: document.getElementById('costProfitRatio').textContent,
-                    投资回报率: document.getElementById('roiRatio').textContent
-                }
+                    净利率: sku.netMargin.toFixed(1) + '%',
+                    组合促销: sku.comboDiscounts ? {
+                        两瓶组合优惠: sku.comboDiscounts.two.toFixed(2) + '元',
+                        三瓶组合优惠: sku.comboDiscounts.three.toFixed(2) + '元',
+                        四瓶组合优惠: sku.comboDiscounts.four.toFixed(2) + '元'
+                    } : '未设置',
+                    组合目标售价: sku.comboTargetPrices ? {
+                        单买目标售价: sku.comboTargetPrices.one.toFixed(2) + '元',
+                        两瓶目标售价: sku.comboTargetPrices.two.toFixed(2) + '元',
+                        三瓶目标售价: sku.comboTargetPrices.three.toFixed(2) + '元',
+                        四瓶目标售价: sku.comboTargetPrices.four.toFixed(2) + '元'
+                    } : '未设置'
+                }))
             };
             
             const dataStr = JSON.stringify(exportData, null, 2);
@@ -1996,17 +2553,67 @@
             font-weight: 600;
         }
         
-        /* 比率颜色 */
-        .ratio-value.high {
-            color: #8b5cf6;
+        /* 组合促销表格颜色 */
+        .discount-high {
+            color: var(--danger);
+            font-weight: 600;
         }
         
-        .ratio-value.medium {
+        .discount-medium {
+            color: var(--warning);
+            font-weight: 600;
+        }
+        
+        .discount-low {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .save-high {
+            color: var(--danger);
+            font-weight: 600;
+        }
+        
+        .save-medium {
+            color: var(--warning);
+            font-weight: 600;
+        }
+        
+        .save-low {
+            color: var(--success);
+            font-weight: 600;
+        }
+        
+        .discount-rate-high {
+            color: var(--danger);
+            font-weight: 600;
+        }
+        
+        .discount-rate-medium {
+            color: var(--warning);
+            font-weight: 600;
+        }
+        
+        .discount-rate-low {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        /* 组合促销卡片利润颜色 */
+        .discount-value.danger {
+            color: var(--danger);
+        }
+        
+        .discount-value.warning {
+            color: var(--warning);
+        }
+        
+        .discount-value.success {
             color: var(--success);
         }
         
-        .ratio-value.low {
-            color: var(--warning);
+        .discount-value.primary {
+            color: var(--primary);
         }
     </style>
 </body>
