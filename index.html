@@ -331,6 +331,76 @@
             color: var(--dark);
         }
         
+        /* 新增：反向计算面板 */
+        .reverse-calculation-panel {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--border);
+            margin-bottom: 24px;
+        }
+        
+        .reverse-calc-form {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        @media (max-width: 1200px) {
+            .reverse-calc-form {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .reverse-calc-form {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .reverse-result {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px solid var(--primary);
+            margin-top: 20px;
+        }
+        
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .result-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .result-label {
+            font-size: 14px;
+            color: #64748b;
+        }
+        
+        .result-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .result-note {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 8px;
+            font-style: italic;
+        }
+        
         /* 组合促销面板 - 新增 */
         .combo-pricing-panel {
             background: white;
@@ -839,6 +909,103 @@
             </div>
         </div>
         
+        <!-- 新增：反向计算面板（根据最终售价反推目标售价） -->
+        <div class="reverse-calculation-panel fade-in">
+            <div class="section-title">🔄 反向计算：根据最终售价反推目标售价</div>
+            <p style="color: #64748b; font-size: 14px; margin-bottom: 16px;">选择一个SKU，输入您期望的最终售价，系统将根据该SKU的单品直降和优惠券设置，反推出需要的目标售价</p>
+            
+            <div class="reverse-calc-form">
+                <div class="input-group">
+                    <label class="input-label">选择SKU</label>
+                    <select id="reverseSkuSelect" class="combo-sku-select">
+                        <option value="">请选择SKU</option>
+                    </select>
+                    <div class="input-tip">选择要反向计算的SKU</div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">期望最终售价</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="reverseFinalPrice" min="0" step="0.01" placeholder="输入期望的最终售价">
+                        <span class="currency">元</span>
+                    </div>
+                    <div class="input-tip">您希望商品最终销售的价格</div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">单品直降设置</label>
+                    <div class="input-wrapper" style="margin-bottom: 8px;">
+                        <div class="discount-type" id="reverseDirectDiscountType">
+                            <button class="type-btn active" data-type="percent">百分比(%)</button>
+                            <button class="type-btn" data-type="amount">固定金额(元)</button>
+                        </div>
+                    </div>
+                    <div class="input-wrapper">
+                        <input type="number" id="reverseDirectDiscountValue" min="0" step="0.01" placeholder="输入单品直降值">
+                        <span class="currency" id="reverseDirectCurrency">%</span>
+                    </div>
+                    <div class="input-tip">与原SKU的单品直降设置保持一致</div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">优惠券设置</label>
+                    <div class="input-wrapper" style="margin-bottom: 8px;">
+                        <div class="discount-type" id="reverseCouponDiscountType">
+                            <button class="type-btn active" data-type="percent">百分比(%)</button>
+                            <button class="type-btn" data-type="amount">固定金额(元)</button>
+                        </div>
+                    </div>
+                    <div class="input-wrapper">
+                        <input type="number" id="reverseCouponDiscountValue" min="0" step="0.01" placeholder="输入优惠券值">
+                        <span class="currency" id="reverseCouponCurrency">%</span>
+                    </div>
+                    <div class="input-tip">与原SKU的优惠券设置保持一致</div>
+                </div>
+            </div>
+            
+            <div class="button-group">
+                <button class="btn btn-primary" id="reverseCalculate">
+                    🔍 开始反向计算
+                </button>
+                <button class="btn btn-secondary" id="copyToSKU">
+                    📋 复制到SKU管理
+                </button>
+                <button class="btn btn-warning" id="resetReverseCalc">
+                    🔄 重置设置
+                </button>
+            </div>
+            
+            <!-- 计算结果区域 -->
+            <div id="reverseResult" class="reverse-result" style="display: none;">
+                <h4 style="color: var(--dark); font-size: 16px; margin-bottom: 16px;">反向计算结果</h4>
+                
+                <div class="result-row">
+                    <div class="result-label">需要的目标售价：</div>
+                    <div class="result-value" id="reverseTargetPriceResult">0.00 元</div>
+                </div>
+                
+                <div class="result-row">
+                    <div class="result-label">单品直降金额：</div>
+                    <div class="result-value" id="reverseDirectDiscountAmount">0.00 元</div>
+                </div>
+                
+                <div class="result-row">
+                    <div class="result-label">优惠券金额：</div>
+                    <div class="result-value" id="reverseCouponAmount">0.00 元</div>
+                </div>
+                
+                <div class="result-row">
+                    <div class="result-label">验证计算：</div>
+                    <div class="result-value" id="reverseVerification">0.00 元</div>
+                </div>
+                
+                <div class="result-note">
+                    计算公式：目标售价 - 单品直降 - 优惠券 = 最终售价<br>
+                    验证：<span id="reverseTargetPriceText">0.00</span> - <span id="reverseDirectText">0.00</span> - <span id="reverseCouponText">0.00</span> = <span id="reverseFinalText">0.00</span>
+                </div>
+            </div>
+        </div>
+        
         <!-- 组合促销定价分析 -->
         <div class="combo-pricing-panel fade-in">
             <div class="section-title">🎯 组合促销定价分析</div>
@@ -976,13 +1143,52 @@
         let inputTimeout = null; // 防抖计时器
         let selectedComboSku = null; // 选中的组合促销SKU
         let comboData = {}; // 存储组合促销数据
+        let reverseCalcSku = null; // 反向计算选中的SKU
+        let reverseDirectDiscountType = 'percent'; // 反向计算单品直降类型
+        let reverseCouponDiscountType = 'percent'; // 反向计算优惠券类型
         
         // 初始化页面
         document.addEventListener('DOMContentLoaded', function() {
             setupEventListeners();
             // 添加一个空的SKU，让用户可以立即开始填写
             addEmptySKU();
+            
+            // 初始化反向计算折扣类型切换
+            initReverseDiscountType();
         });
+        
+        // 初始化反向计算折扣类型切换
+        function initReverseDiscountType() {
+            // 单品直降类型切换
+            document.querySelectorAll('#reverseDirectDiscountType .type-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const type = this.getAttribute('data-type');
+                    reverseDirectDiscountType = type;
+                    
+                    // 更新按钮状态
+                    document.querySelectorAll('#reverseDirectDiscountType .type-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // 更新货币符号
+                    document.getElementById('reverseDirectCurrency').textContent = type === 'percent' ? '%' : '元';
+                });
+            });
+            
+            // 优惠券类型切换
+            document.querySelectorAll('#reverseCouponDiscountType .type-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const type = this.getAttribute('data-type');
+                    reverseCouponDiscountType = type;
+                    
+                    // 更新按钮状态
+                    document.querySelectorAll('#reverseCouponDiscountType .type-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // 更新货币符号
+                    document.getElementById('reverseCouponCurrency').textContent = type === 'percent' ? '%' : '元';
+                });
+            });
+        }
         
         // 设置事件监听器
         function setupEventListeners() {
@@ -1024,6 +1230,11 @@
             document.getElementById('exportCombo').addEventListener('click', exportComboAnalysis);
             document.getElementById('copyAllToSKU').addEventListener('click', copyAllComboSKUsToManagement);
             
+            // 反向计算相关按钮
+            document.getElementById('reverseCalculate').addEventListener('click', calculateReversePrice);
+            document.getElementById('copyToSKU').addEventListener('click', copyReverseResultToSKU);
+            document.getElementById('resetReverseCalc').addEventListener('click', resetReverseCalculation);
+            
             // SKU选择器变化事件
             document.getElementById('comboSkuSelect').addEventListener('change', function() {
                 const skuId = parseInt(this.value);
@@ -1041,6 +1252,52 @@
                     }
                 }
             });
+            
+            // 反向计算SKU选择器变化事件
+            document.getElementById('reverseSkuSelect').addEventListener('change', function() {
+                const skuId = parseInt(this.value);
+                if (skuId) {
+                    reverseCalcSku = skuList.find(sku => sku.id === skuId);
+                    if (reverseCalcSku) {
+                        // 自动填充折扣设置
+                        loadReverseDiscountSettings();
+                    }
+                }
+            });
+        }
+        
+        // 加载反向计算折扣设置
+        function loadReverseDiscountSettings() {
+            if (!reverseCalcSku) return;
+            
+            // 设置单品直降
+            reverseDirectDiscountType = reverseCalcSku.directDiscountType;
+            document.querySelectorAll('#reverseDirectDiscountType .type-btn').forEach(btn => {
+                if (btn.getAttribute('data-type') === reverseDirectDiscountType) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            document.getElementById('reverseDirectDiscountValue').value = reverseCalcSku.directDiscountValue || 0;
+            document.getElementById('reverseDirectCurrency').textContent = reverseDirectDiscountType === 'percent' ? '%' : '元';
+            
+            // 设置优惠券
+            reverseCouponDiscountType = reverseCalcSku.couponDiscountType;
+            document.querySelectorAll('#reverseCouponDiscountType .type-btn').forEach(btn => {
+                if (btn.getAttribute('data-type') === reverseCouponDiscountType) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            document.getElementById('reverseCouponDiscountValue').value = reverseCalcSku.couponDiscountValue || 0;
+            document.getElementById('reverseCouponCurrency').textContent = reverseCouponDiscountType === 'percent' ? '%' : '元';
+            
+            // 如果SKU有最终售价，自动填充
+            if (reverseCalcSku.finalPrice > 0) {
+                document.getElementById('reverseFinalPrice').value = reverseCalcSku.finalPrice;
+            }
         }
         
         // 防抖函数
@@ -1095,11 +1352,12 @@
             
             updateSKUTable();
             updateSkuSelector();
+            updateReverseSkuSelector();
             // 隐藏空状态提示
             document.getElementById('emptyState').style.display = 'none';
         }
         
-        // 更新SKU选择器
+        // 更新SKU选择器（组合促销）
         function updateSkuSelector() {
             const select = document.getElementById('comboSkuSelect');
             select.innerHTML = '<option value="">请选择SKU</option>';
@@ -1108,6 +1366,19 @@
                 const option = document.createElement('option');
                 option.value = sku.id;
                 option.textContent = `${sku.name} (成本: ¥${sku.cost.toFixed(2)}, 售价: ¥${sku.finalPrice > 0 ? sku.finalPrice.toFixed(2) : '未计算'})`;
+                select.appendChild(option);
+            });
+        }
+        
+        // 更新反向计算SKU选择器
+        function updateReverseSkuSelector() {
+            const select = document.getElementById('reverseSkuSelect');
+            select.innerHTML = '<option value="">请选择SKU</option>';
+            
+            skuList.forEach(sku => {
+                const option = document.createElement('option');
+                option.value = sku.id;
+                option.textContent = `${sku.name} (成本: ¥${sku.cost.toFixed(2)}, 最终售价: ¥${sku.finalPrice > 0 ? sku.finalPrice.toFixed(2) : '未计算'})`;
                 select.appendChild(option);
             });
         }
@@ -1169,6 +1440,7 @@
             
             updateSKUTable();
             updateSkuSelector();
+            updateReverseSkuSelector();
             // 隐藏空状态提示
             document.getElementById('emptyState').style.display = 'none';
             showNotification('已添加3个示例SKU数据，请点击"批量计算"按钮进行计算', 'success');
@@ -1216,6 +1488,7 @@
             
             updateSKUTable();
             updateSkuSelector();
+            updateReverseSkuSelector();
             // 隐藏空状态提示
             document.getElementById('emptyState').style.display = 'none';
         }
@@ -1225,6 +1498,7 @@
             skuList = skuList.filter(sku => sku.id !== id);
             updateSKUTable();
             updateSkuSelector();
+            updateReverseSkuSelector();
             
             // 如果没有SKU了，显示空状态提示
             if (skuList.length === 0) {
@@ -1470,6 +1744,7 @@
                     const sku = skuList.find(s => s.id === id);
                     if (sku) sku.name = this.value;
                     updateSkuSelector();
+                    updateReverseSkuSelector();
                 });
                 
                 // 添加回车键事件
@@ -1714,6 +1989,7 @@
             // 更新表格显示
             updateSKUTable();
             updateSkuSelector();
+            updateReverseSkuSelector();
             
             // 显示成功消息
             if (sku.finalPrice > 0 && sku.cost > 0) {
@@ -1748,9 +2024,139 @@
                 
                 // 更新SKU选择器
                 updateSkuSelector();
+                updateReverseSkuSelector();
             } else {
                 showNotification('请先填写SKU的成本价和目标售价', 'warning');
             }
+        }
+        
+        // 反向计算：根据最终售价反推目标售价
+        function calculateReversePrice() {
+            const skuId = parseInt(document.getElementById('reverseSkuSelect').value);
+            if (!skuId) {
+                showNotification('请先选择一个SKU进行反向计算', 'warning');
+                return;
+            }
+            
+            const finalPrice = parseFloat(document.getElementById('reverseFinalPrice').value);
+            if (!finalPrice || finalPrice <= 0) {
+                showNotification('请输入有效的最终售价', 'warning');
+                return;
+            }
+            
+            const directDiscountValue = parseFloat(document.getElementById('reverseDirectDiscountValue').value) || 0;
+            const couponDiscountValue = parseFloat(document.getElementById('reverseCouponDiscountValue').value) || 0;
+            
+            // 根据折扣类型计算目标售价
+            let targetPrice = 0;
+            let directDiscountAmount = 0;
+            let couponAmount = 0;
+            
+            // 计算公式推导：
+            // 情况1：单品直降为百分比，优惠券为百分比
+            if (reverseDirectDiscountType === 'percent' && reverseCouponDiscountType === 'percent') {
+                // 最终售价 = 目标售价 × (1 - 单品直降比例) × (1 - 优惠券比例)
+                // 所以：目标售价 = 最终售价 / ((1 - 单品直降比例) × (1 - 优惠券比例))
+                targetPrice = finalPrice / ((1 - directDiscountValue/100) * (1 - couponDiscountValue/100));
+                directDiscountAmount = targetPrice * (directDiscountValue/100);
+                couponAmount = (targetPrice - directDiscountAmount) * (couponDiscountValue/100);
+            }
+            // 情况2：单品直降为百分比，优惠券为固定金额
+            else if (reverseDirectDiscountType === 'percent' && reverseCouponDiscountType === 'amount') {
+                // 最终售价 = 目标售价 × (1 - 单品直降比例) - 优惠券金额
+                // 所以：目标售价 = (最终售价 + 优惠券金额) / (1 - 单品直降比例)
+                targetPrice = (finalPrice + couponDiscountValue) / (1 - directDiscountValue/100);
+                directDiscountAmount = targetPrice * (directDiscountValue/100);
+                couponAmount = couponDiscountValue;
+            }
+            // 情况3：单品直降为固定金额，优惠券为百分比
+            else if (reverseDirectDiscountType === 'amount' && reverseCouponDiscountType === 'percent') {
+                // 最终售价 = (目标售价 - 单品直降金额) × (1 - 优惠券比例)
+                // 所以：目标售价 = 最终售价 / (1 - 优惠券比例) + 单品直降金额
+                targetPrice = finalPrice / (1 - couponDiscountValue/100) + directDiscountValue;
+                directDiscountAmount = directDiscountValue;
+                couponAmount = (targetPrice - directDiscountAmount) * (couponDiscountValue/100);
+            }
+            // 情况4：单品直降为固定金额，优惠券为固定金额
+            else if (reverseDirectDiscountType === 'amount' && reverseCouponDiscountType === 'amount') {
+                // 最终售价 = 目标售价 - 单品直降金额 - 优惠券金额
+                // 所以：目标售价 = 最终售价 + 单品直降金额 + 优惠券金额
+                targetPrice = finalPrice + directDiscountValue + couponDiscountValue;
+                directDiscountAmount = directDiscountValue;
+                couponAmount = couponDiscountValue;
+            }
+            
+            // 验证计算
+            const verification = targetPrice - directDiscountAmount - couponAmount;
+            
+            // 显示结果
+            document.getElementById('reverseTargetPriceResult').textContent = targetPrice.toFixed(2) + ' 元';
+            document.getElementById('reverseDirectDiscountAmount').textContent = directDiscountAmount.toFixed(2) + ' 元';
+            document.getElementById('reverseCouponAmount').textContent = couponAmount.toFixed(2) + ' 元';
+            document.getElementById('reverseVerification').textContent = verification.toFixed(2) + ' 元';
+            
+            // 更新计算公式文本
+            document.getElementById('reverseTargetPriceText').textContent = targetPrice.toFixed(2);
+            document.getElementById('reverseDirectText').textContent = directDiscountAmount.toFixed(2);
+            document.getElementById('reverseCouponText').textContent = couponAmount.toFixed(2);
+            document.getElementById('reverseFinalText').textContent = verification.toFixed(2);
+            
+            // 显示结果区域
+            document.getElementById('reverseResult').style.display = 'block';
+            
+            // 保存反向计算结果
+            reverseCalcSku = skuList.find(sku => sku.id === skuId);
+            if (reverseCalcSku) {
+                reverseCalcSku.reverseCalcResult = {
+                    targetPrice: targetPrice,
+                    finalPrice: finalPrice,
+                    directDiscountAmount: directDiscountAmount,
+                    couponAmount: couponAmount,
+                    directDiscountType: reverseDirectDiscountType,
+                    directDiscountValue: directDiscountValue,
+                    couponDiscountType: reverseCouponDiscountType,
+                    couponDiscountValue: couponDiscountValue
+                };
+            }
+            
+            showNotification(`反向计算完成！目标售价应为：¥${targetPrice.toFixed(2)}`, 'success');
+        }
+        
+        // 复制反向计算结果到SKU管理
+        function copyReverseResultToSKU() {
+            if (!reverseCalcSku || !reverseCalcSku.reverseCalcResult) {
+                showNotification('请先进行反向计算', 'warning');
+                return;
+            }
+            
+            const result = reverseCalcSku.reverseCalcResult;
+            
+            // 更新SKU数据
+            reverseCalcSku.targetPrice = result.targetPrice;
+            reverseCalcSku.directDiscountType = result.directDiscountType;
+            reverseCalcSku.directDiscountValue = result.directDiscountValue;
+            reverseCalcSku.couponDiscountType = result.couponDiscountType;
+            reverseCalcSku.couponDiscountValue = result.couponDiscountValue;
+            
+            // 更新SKU表格
+            updateSKUTable();
+            
+            // 重新计算该SKU
+            updateSingleSKU(reverseCalcSku.id);
+            
+            showNotification(`已将反向计算结果应用到 ${reverseCalcSku.name}`, 'success');
+        }
+        
+        // 重置反向计算
+        function resetReverseCalculation() {
+            document.getElementById('reverseFinalPrice').value = '';
+            document.getElementById('reverseDirectDiscountValue').value = '';
+            document.getElementById('reverseCouponDiscountValue').value = '';
+            document.getElementById('reverseResult').style.display = 'none';
+            document.getElementById('reverseSkuSelect').value = '';
+            reverseCalcSku = null;
+            
+            showNotification('反向计算设置已重置', 'success');
         }
         
         // 分析组合定价
@@ -2079,6 +2485,7 @@
             skuList.push(newSKU);
             updateSKUTable();
             updateSkuSelector();
+            updateReverseSkuSelector();
             
             showNotification(`已添加"${newSKU.name}"到SKU管理，最终售价：${finalPrice.toFixed(2)}元，目标售价：${targetPrice.toFixed(2)}元`, 'success');
         }
