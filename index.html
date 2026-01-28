@@ -67,95 +67,7 @@
             font-size: 14px;
         }
         
-        /* 成本参数面板 */
-        .cost-panel {
-            background: white;
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            border: 1px solid var(--border);
-            margin-bottom: 24px;
-        }
-        
-        .section-title {
-            color: var(--dark);
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 16px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .input-group {
-            margin-bottom: 20px;
-        }
-        
-        .input-label {
-            display: block;
-            color: #475569;
-            font-weight: 500;
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
-        
-        .input-wrapper {
-            position: relative;
-        }
-        
-        .input-wrapper input {
-            width: 100%;
-            padding: 10px 36px 10px 12px;
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            font-size: 14px;
-            transition: all 0.2s;
-            background: white;
-        }
-        
-        .input-wrapper input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
-        
-        .currency {
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #94a3b8;
-            font-weight: 500;
-        }
-        
-        .input-tip {
-            color: #94a3b8;
-            font-size: 12px;
-            margin-top: 6px;
-        }
-        
-        /* 参数网格 */
-        .params-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-        }
-        
-        @media (max-width: 1200px) {
-            .params-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .params-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        /* SKU管理 */
+        /* SKU管理 - 现在放在第一位 */
         .sku-management {
             background: white;
             border-radius: 16px;
@@ -331,7 +243,188 @@
             color: var(--dark);
         }
         
-        /* 新增：反向计算面板 */
+        /* 成本参数面板 - 现在放在第二位 */
+        .cost-panel {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--border);
+            margin-bottom: 24px;
+        }
+        
+        .section-title {
+            color: var(--dark);
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        .input-label {
+            display: block;
+            color: #475569;
+            font-weight: 500;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .input-wrapper {
+            position: relative;
+        }
+        
+        .input-wrapper input {
+            width: 100%;
+            padding: 10px 36px 10px 12px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.2s;
+            background: white;
+        }
+        
+        .input-wrapper input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        
+        .currency {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-weight: 500;
+        }
+        
+        .input-tip {
+            color: #94a3b8;
+            font-size: 12px;
+            margin-top: 6px;
+        }
+        
+        /* 成本参数金额预览 */
+        .cost-preview {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid var(--border);
+            margin-top: 20px;
+        }
+        
+        .cost-preview-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .cost-preview-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        
+        @media (max-width: 768px) {
+            .cost-preview-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .cost-preview-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+        
+        .cost-preview-label {
+            font-size: 14px;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .cost-preview-value {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .cost-preview-value.platform {
+            color: #3b82f6;
+        }
+        
+        .cost-preview-value.kol {
+            color: #8b5cf6;
+        }
+        
+        .cost-preview-value.return {
+            color: #f59e0b;
+        }
+        
+        .cost-preview-value.other {
+            color: #10b981;
+        }
+        
+        .cost-preview-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            margin-top: 12px;
+            background: #f1f5f9;
+            border-radius: 8px;
+            border: 2px solid var(--primary);
+        }
+        
+        .cost-preview-total-label {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+        
+        .cost-preview-total-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        /* 参数网格 */
+        .params-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+        
+        @media (max-width: 1200px) {
+            .params-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .params-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* 新增：反向计算面板（根据最终售价反推目标售价） */
         .reverse-calculation-panel {
             background: white;
             border-radius: 16px;
@@ -401,7 +494,7 @@
             font-style: italic;
         }
         
-        /* 组合促销面板 - 新增 */
+        /* 组合促销面板 */
         .combo-pricing-panel {
             background: white;
             border-radius: 16px;
@@ -772,6 +865,37 @@
         .combo-sku-btn.add:hover {
             background: #34d399;
         }
+        
+        /* 成本预览图标 */
+        .cost-icon {
+            font-size: 16px;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+        }
+        
+        .platform-icon {
+            background: #dbeafe;
+            color: #3b82f6;
+        }
+        
+        .kol-icon {
+            background: #ede9fe;
+            color: #8b5cf6;
+        }
+        
+        .return-icon {
+            background: #fef3c7;
+            color: #f59e0b;
+        }
+        
+        .other-icon {
+            background: #d1fae5;
+            color: #10b981;
+        }
     </style>
 </head>
 <body>
@@ -787,67 +911,7 @@
             </div>
         </div>
         
-        <!-- 成本参数面板 -->
-        <div class="cost-panel">
-            <div class="section-title">📊 成本参数配置（可选）</div>
-            
-            <div class="params-grid">
-                <div class="input-group">
-                    <label class="input-label">
-                        平台佣金比例
-                    </label>
-                    <div class="input-wrapper">
-                        <input type="number" id="platformFee" value="" min="0" max="50" step="0.1" placeholder="例如：5">
-                        <span class="currency">%</span>
-                    </div>
-                    <div class="input-tip">通常5-10%</div>
-                </div>
-                
-                <div class="input-group">
-                    <label class="input-label">
-                        达人佣金比例
-                    </label>
-                    <div class="input-wrapper">
-                        <input type="number" id="kolFee" value="" min="0" max="50" step="0.1" placeholder="例如：20">
-                        <span class="currency">%</span>
-                    </div>
-                    <div class="input-tip">达人带货佣金</div>
-                </div>
-                
-                <div class="input-group">
-                    <label class="input-label">
-                        退货率预估
-                    </label>
-                    <div class="input-wrapper">
-                        <input type="number" id="returnRate" value="" min="0" max="50" step="0.1" placeholder="例如：5">
-                        <span class="currency">%</span>
-                    </div>
-                    <div class="input-tip">行业平均5-15%</div>
-                </div>
-                
-                <div class="input-group">
-                    <label class="input-label">
-                        其他成本
-                    </label>
-                    <div class="input-wrapper">
-                        <input type="number" id="otherCost" value="" min="0" step="0.01" placeholder="包装、运费等">
-                        <span class="currency">元</span>
-                    </div>
-                    <div class="input-tip">每件商品额外成本</div>
-                </div>
-            </div>
-            
-            <div class="button-group">
-                <button class="btn btn-primary" id="applyToAll">
-                    🔄 应用到所有SKU
-                </button>
-                <button class="btn btn-secondary" id="resetConfig">
-                    🔄 重置配置
-                </button>
-            </div>
-        </div>
-        
-        <!-- SKU管理 -->
+        <!-- SKU管理 - 现在放在第一位 -->
         <div class="sku-management fade-in">
             <div class="sku-header">
                 <div class="section-title">📦 SKU定价管理</div>
@@ -906,6 +970,121 @@
                         📋 添加组合SKU
                     </button>
                 </div>
+            </div>
+        </div>
+        
+        <!-- 成本参数面板 - 现在放在第二位 -->
+        <div class="cost-panel fade-in">
+            <div class="section-title">📊 成本参数配置</div>
+            <p style="color: #64748b; font-size: 14px; margin-bottom: 16px;">设置平台佣金、达人佣金、退货率和其他成本，系统将自动计算各项成本的具体金额</p>
+            
+            <div class="params-grid">
+                <div class="input-group">
+                    <label class="input-label">
+                        平台佣金比例
+                    </label>
+                    <div class="input-wrapper">
+                        <input type="number" id="platformFee" value="5" min="0" max="50" step="0.1" placeholder="例如：5">
+                        <span class="currency">%</span>
+                    </div>
+                    <div class="input-tip">通常5-10%</div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">
+                        达人佣金比例
+                    </label>
+                    <div class="input-wrapper">
+                        <input type="number" id="kolFee" value="20" min="0" max="50" step="0.1" placeholder="例如：20">
+                        <span class="currency">%</span>
+                    </div>
+                    <div class="input-tip">达人带货佣金</div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">
+                        退货率预估
+                    </label>
+                    <div class="input-wrapper">
+                        <input type="number" id="returnRate" value="5" min="0" max="50" step="0.1" placeholder="例如：5">
+                        <span class="currency">%</span>
+                    </div>
+                    <div class="input-tip">行业平均5-15%</div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">
+                        其他成本
+                    </label>
+                    <div class="input-wrapper">
+                        <input type="number" id="otherCost" value="5" min="0" step="0.01" placeholder="包装、运费等">
+                        <span class="currency">元</span>
+                    </div>
+                    <div class="input-tip">每件商品额外成本</div>
+                </div>
+            </div>
+            
+            <!-- 成本金额预览 -->
+            <div class="cost-preview" id="costPreview">
+                <div class="cost-preview-title">
+                    <span>📋 成本明细（基于参考售价）</span>
+                </div>
+                
+                <div class="cost-preview-grid">
+                    <div class="cost-preview-item">
+                        <div class="cost-preview-label">
+                            <div class="cost-icon platform-icon">🏢</div>
+                            <span>平台佣金</span>
+                        </div>
+                        <div class="cost-preview-value platform" id="platformCost">0.00 元</div>
+                    </div>
+                    
+                    <div class="cost-preview-item">
+                        <div class="cost-preview-label">
+                            <div class="cost-icon kol-icon">🌟</div>
+                            <span>达人佣金</span>
+                        </div>
+                        <div class="cost-preview-value kol" id="kolCost">0.00 元</div>
+                    </div>
+                    
+                    <div class="cost-preview-item">
+                        <div class="cost-preview-label">
+                            <div class="cost-icon return-icon">📦</div>
+                            <span>退货损耗</span>
+                        </div>
+                        <div class="cost-preview-value return" id="returnCost">0.00 元</div>
+                    </div>
+                    
+                    <div class="cost-preview-item">
+                        <div class="cost-preview-label">
+                            <div class="cost-icon other-icon">📦</div>
+                            <span>其他成本</span>
+                        </div>
+                        <div class="cost-preview-value other" id="otherCostAmount">0.00 元</div>
+                    </div>
+                </div>
+                
+                <div class="cost-preview-total">
+                    <div class="cost-preview-total-label">每件商品总额外成本</div>
+                    <div class="cost-preview-total-value" id="totalAdditionalCost">0.00 元</div>
+                </div>
+                
+                <div style="margin-top: 12px; font-size: 12px; color: #94a3b8;">
+                    <div>参考售价：<span id="referencePrice" style="font-weight: 600; color: var(--primary);">0.00 元</span></div>
+                    <div>说明：成本明细基于参考售价计算，参考售价为已计算SKU的平均最终售价</div>
+                </div>
+            </div>
+            
+            <div class="button-group">
+                <button class="btn btn-primary" id="applyToAll">
+                    🔄 应用到所有SKU
+                </button>
+                <button class="btn btn-secondary" id="resetConfig">
+                    🔄 重置配置
+                </button>
+                <button class="btn btn-warning" id="updateCostPreview">
+                    🔍 更新成本预览
+                </button>
             </div>
         </div>
         
@@ -1146,6 +1325,7 @@
         let reverseCalcSku = null; // 反向计算选中的SKU
         let reverseDirectDiscountType = 'percent'; // 反向计算单品直降类型
         let reverseCouponDiscountType = 'percent'; // 反向计算优惠券类型
+        let referencePrice = 0; // 参考售价，用于成本预览
         
         // 初始化页面
         document.addEventListener('DOMContentLoaded', function() {
@@ -1155,6 +1335,9 @@
             
             // 初始化反向计算折扣类型切换
             initReverseDiscountType();
+            
+            // 初始化成本参数预览
+            updateCostPreview();
         });
         
         // 初始化反向计算折扣类型切换
@@ -1197,7 +1380,7 @@
             costInputIds.forEach(id => {
                 const element = document.getElementById(id);
                 if (element) {
-                    element.addEventListener('input', debounce(updateAllCalculations, 1000));
+                    element.addEventListener('input', debounce(updateCostPreview, 500));
                 }
             });
             
@@ -1217,6 +1400,7 @@
             // 按钮事件
             document.getElementById('applyToAll').addEventListener('click', applyToAllSKUs);
             document.getElementById('resetConfig').addEventListener('click', resetConfig);
+            document.getElementById('updateCostPreview').addEventListener('click', updateCostPreview);
             document.getElementById('addSKU').addEventListener('click', addSKU);
             document.getElementById('addSampleSKUs').addEventListener('click', addSampleSKUs);
             document.getElementById('calculateAll').addEventListener('click', calculateAllSKUs);
@@ -1308,6 +1492,55 @@
                 const args = arguments;
                 inputTimeout = setTimeout(() => func.apply(context, args), delay);
             };
+        }
+        
+        // 更新成本预览
+        function updateCostPreview() {
+            // 获取成本参数
+            const platformFeePercent = parseFloat(document.getElementById('platformFee').value) / 100 || 0;
+            const kolFeePercent = parseFloat(document.getElementById('kolFee').value) / 100 || 0;
+            const returnRatePercent = parseFloat(document.getElementById('returnRate').value) / 100 || 0;
+            const otherCost = parseFloat(document.getElementById('otherCost').value) || 0;
+            
+            // 计算参考售价（使用已计算SKU的平均最终售价）
+            let totalFinalPrice = 0;
+            let calculatedSKUCount = 0;
+            
+            skuList.forEach(sku => {
+                if (sku.finalPrice > 0) {
+                    totalFinalPrice += sku.finalPrice;
+                    calculatedSKUCount++;
+                }
+            });
+            
+            if (calculatedSKUCount > 0) {
+                referencePrice = totalFinalPrice / calculatedSKUCount;
+            } else {
+                // 如果没有已计算的SKU，使用默认参考售价
+                referencePrice = 100; // 默认100元作为参考
+            }
+            
+            // 更新参考售价显示
+            document.getElementById('referencePrice').textContent = referencePrice.toFixed(2) + ' 元';
+            
+            // 计算各项成本金额
+            const platformCost = referencePrice * platformFeePercent;
+            const kolCost = referencePrice * kolFeePercent;
+            const returnCost = referencePrice * returnRatePercent;
+            const otherCostAmount = otherCost;
+            const totalAdditionalCost = platformCost + kolCost + returnCost + otherCostAmount;
+            
+            // 更新成本金额显示
+            document.getElementById('platformCost').textContent = platformCost.toFixed(2) + ' 元';
+            document.getElementById('kolCost').textContent = kolCost.toFixed(2) + ' 元';
+            document.getElementById('returnCost').textContent = returnCost.toFixed(2) + ' 元';
+            document.getElementById('otherCostAmount').textContent = otherCostAmount.toFixed(2) + ' 元';
+            document.getElementById('totalAdditionalCost').textContent = totalAdditionalCost.toFixed(2) + ' 元';
+            
+            // 更新所有SKU的计算（如果成本参数变化）
+            if (calculatedSKUCount > 0) {
+                calculateAllSKUs();
+            }
         }
         
         // 添加一个空的SKU
@@ -1444,6 +1677,9 @@
             // 隐藏空状态提示
             document.getElementById('emptyState').style.display = 'none';
             showNotification('已添加3个示例SKU数据，请点击"批量计算"按钮进行计算', 'success');
+            
+            // 更新成本预览（因为参考售价可能变化）
+            updateCostPreview();
         }
         
         // 添加SKU
@@ -1504,6 +1740,9 @@
             if (skuList.length === 0) {
                 document.getElementById('emptyState').style.display = 'block';
             }
+            
+            // 更新成本预览
+            updateCostPreview();
         }
         
         // 更新SKU表格
@@ -1991,6 +2230,9 @@
             updateSkuSelector();
             updateReverseSkuSelector();
             
+            // 更新成本预览（因为参考售价可能变化）
+            updateCostPreview();
+            
             // 显示成功消息
             if (sku.finalPrice > 0 && sku.cost > 0) {
                 showNotification(`${sku.name} 计算完成！最终售价：¥${sku.finalPrice.toFixed(2)}，售价毛利率：${sku.grossMargin.toFixed(1)}%，成本毛利率：${sku.costMargin.toFixed(1)}%`, 'success');
@@ -2025,6 +2267,9 @@
                 // 更新SKU选择器
                 updateSkuSelector();
                 updateReverseSkuSelector();
+                
+                // 更新成本预览
+                updateCostPreview();
             } else {
                 showNotification('请先填写SKU的成本价和目标售价', 'warning');
             }
@@ -2736,19 +2981,22 @@
         
         // 应用到所有SKU
         function applyToAllSKUs() {
-            showNotification('成本参数已保存', 'success');
+            showNotification('成本参数已应用到所有SKU的计算中', 'success');
         }
         
         // 重置配置
         function resetConfig() {
             if (confirm('确定要重置所有成本参数吗？')) {
-                // 重置成本参数（清空）
-                document.getElementById('platformFee').value = '';
-                document.getElementById('kolFee').value = '';
-                document.getElementById('returnRate').value = '';
-                document.getElementById('otherCost').value = '';
+                // 重置成本参数为默认值
+                document.getElementById('platformFee').value = 5;
+                document.getElementById('kolFee').value = 20;
+                document.getElementById('returnRate').value = 5;
+                document.getElementById('otherCost').value = 5;
                 
-                showNotification('成本参数已重置', 'success');
+                // 更新成本预览
+                updateCostPreview();
+                
+                showNotification('成本参数已重置为默认值', 'success');
             }
         }
         
